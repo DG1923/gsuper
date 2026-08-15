@@ -1,0 +1,138 @@
+---
+description: Python objects — fn vs dataclass vs class vs Protocol. Stop first rung that holds.
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Python objects
+
+Not Java SOLID. Know behavior first. Climb. **Stop first rung that holds.**
+Repo pattern already there -> use it.
+
+```text
+1. fn / module fn?                 no lasting state
+2. dataclass? (Pydantic if untrusted/env)
+3. fns + dataclass deps?           light behavior
+4. one class, deps in __init__?    state + behavior travel together
+5. small Protocol for injected thing?
+6. 2nd adapter (fake/real)         seam now real
+7. ABC / subclass                  only own hierarchy
+                                   or bend type you no control
+```
+
+`__init__` + one method -> wanted fn. (Diederich)
+
+## 1 — fn
+
+```python
+def parse_queue_name(raw: str) -> str:
+    if not raw:
+        raise ValueError("queue name empty")
+    return raw
+```
+
+No `class QueueNameParser` only `__init__` + `parse`.
+
+## 2 — data carrier = `@dataclass`
+
+Main job = hold data (record, config, internal DTO) -> `@dataclass`.
+Gets `__init__` / `__repr__` / `__eq__`. No `self.x = x` loop.
+
+`frozen=True` if immutable. Light logic after assign -> `__post_init__`, not a hand-rolled `__init__`.
+
+```python
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class EnqueueResult:
+    accepted: bool
+    job_id: str
+```
+
+```python
+@dataclass
+class BufferPoolSpec:
+    count: int
+    shape: tuple[int, ...]
+
+    def __post_init__(self) -> None:
+        if self.count < 1:
+            raise ValueError("count must be >= 1")
+```
+
+**Not dataclass:** HTTP / webhook / env -> Pydantic / project Settings.
+**Not dataclass:** DB row -> project ORM. Dataclass ≠ table.
+
+## 3–4 — traditional `class` + `__init__`
+
+Use when job ≠ data carrier:
+
+- Init logic heavy: branch, transform input, raise, side effect before `self`
+- Service / controller / worker: do work, I/O, orchestrate — not store a record
+- Need explicit ctor control, or shape not a flat field list
+- Deep inherit you actually need (rare — see #7)
+
+No lasting deps -> fns (rung 1/3).
+State + collaborators travel together -> one class, inject `__init__`:
+
+```python
+class QueueService:
+    def __init__(self, broker: BrokerPort, ids: IdStore) -> None:
+        self._broker = broker
+        self._ids = ids
+
+    async def enqueue(self, job: Job, *, idempotency_key: str) -> EnqueueResult:
+        ...
+```
+
+Controller thin: parse -> service -> schema.
+No `@dataclass` on fat service. `__init__` that only assigns fields -> wanted dataclass.
+
+## 5–6 — name duck, then 2nd adapter
+
+DIP = small `Protocol` (methods match, no inherit).
+ABC only when you own all impls + want `TypeError` on init.
+
+```python
+from typing import Protocol
+
+class BrokerPort(Protocol):
+    async def publish(self, queue: str, body: bytes) -> None: ...
+    async def consume(self, queue: str) -> bytes: ...
+```
+
+Protocol = methods callers use. 12 methods = fat.
+Fake in tests / 2nd real adapter -> seam real.
+No `redis.Redis()` / open AMQP inside domain.
+
+New adapter > `if backend == "redis"` in service unless spec say one-off.
+
+## 7 — subclass last
+
+No subclass to share helpers (`self.x` hide, MRO, mixin soup).
+Reuse = import / compose / fn.
+
+Subclass only: specialize type you no control, or ABC you own.
+Subclass -> honor parent contract. No ignore most of base.
+
+## Annotate
+
+Public fn + `__init__` args: hints.
+New module: `from __future__ import annotations`.
+`list[str]`, `X | None` if file already that style.
+
+## Errors
+
+No bare `except:`. Specific types. Wrap -> `raise ... from err`.
+Reuse project domain/HTTP exceptions. No parallel hierarchy.
+
+## Read
+
+Guard + early `return` / `raise`. Happy path left.
+No mix I/O + domain + retry in one public fn.
+Retry on IO adapter (or installed helper = Ponytail rung 5).
+
+## SOLID one line
+
+Letter that still pay = one job / one seam (SRP).
+O/I/D = rungs 5–6. L rare if you rarely subclass.

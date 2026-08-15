@@ -1,0 +1,59 @@
+name: Phase / sub-issue
+description: Child slice under a parent — includes Impacted range and Blocked by #id
+title: "[Phase] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Sub-issue body (5 sections). Nest under the parent on GitHub. **Blocked by** must be `#<issue_id>`.
+
+  - type: input
+    id: parent
+    attributes:
+      label: Parent
+      description: Parent issue number, e.g. 15
+      placeholder: "15"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-to-build
+    attributes:
+      label: What to build
+      description: End-to-end slice. Include Do / Do not / Out of scope briefly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impacted-range
+    attributes:
+      label: Impacted range
+      description: Touches vs does not touch (blast radius).
+      placeholder: |
+        Touches:
+        - …
+        Does not touch:
+        - …
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Checkbox list.
+      placeholder: |
+        - [ ] …
+    validations:
+      required: true
+
+  - type: textarea
+    id: blocked-by
+    attributes:
+      label: Blocked by
+      description: Use GitHub issue references only, e.g. #39 — or None
+      placeholder: "#39"
+    validations:
+      required: true

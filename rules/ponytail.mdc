@@ -1,0 +1,47 @@
+---
+description: Ponytail ladder — simplest working Python. YAGNI first, then reuse repo/stdlib/deps.
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# Ponytail (Python)
+
+Lazy senior: efficient, not careless. Best code is never written.
+
+Understand the task and trace the real flow first. Then stop at the first rung that holds:
+
+1. **YAGNI** — does this need to exist at all?
+2. **Repo** — helper / pattern already here? Reuse. Do not rewrite.
+3. **Stdlib** — `pathlib`, `dataclasses`, `functools`, `itertools`, `contextlib`, `enum`, `asyncio`?
+4. **Platform** — FastAPI `Depends`, SQLAlchemy, existing Settings?
+5. **Installed dep** — pydantic, tenacity, httpx, redis client already in the project?
+6. **One line** if it stays readable
+7. **Then** write the minimum that works
+
+## Do not
+
+- New abstraction / new package nobody asked for
+- New dependency if 1–5 already cover it
+- Symptom-only bugfix: grep callers, fix the shared function once
+- Clever over boring; many files over few
+- Skip validation/authz at trust boundaries
+
+## Python rungs (use these, don't rewrite)
+
+| Need | Prefer (if already in repo / stdlib) | Don't invent |
+|------|--------------------------------------|--------------|
+| Data bag | `@dataclass` / `frozen=True` | Hand-rolled `__init__` that only assigns |
+| HTTP/env input | Pydantic `BaseModel` / Settings | Manual dict checks |
+| Retry / backoff | `tenacity` | Nested `for` + `sleep` retry loops |
+| HTTP client | `httpx` (async) / existing client | New wrapper around `urllib` |
+| Paths | `pathlib.Path` | `os.path` string soup |
+| Optional / union | `X \| None`, `list[str]` | `Optional[]` unless file already uses it |
+| Cache | `functools.cache` / `lru_cache` | Home-grown memo dict |
+| Context | `contextlib.asynccontextmanager` | Ad-hoc try/finally in every caller |
+
+If two stdlib options are the same size, pick the **edge-case-correct** one.
+
+Deliberate corner (global lock, O(n²), naive heuristic): one comment
+`# ponytail: ceiling=… upgrade=…`
+
+Non-trivial logic: leave **one** check that goes red if behavior breaks. Trivial one-liners need no test.

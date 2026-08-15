@@ -1,0 +1,21 @@
+---
+description: Prefer readable code samples; keep plan/implement diffs small (~500 lines soft).
+alwaysApply: true
+---
+
+# Small, readable changes (gsuper)
+
+## Brainstorm / spec
+
+- Prefer short **code samples** over abstract prose when showing design.
+- Samples must be easy to read: real names, minimal nesting, no pseudo-framework noise.
+
+## Plan / implement
+
+- Soft-cap: each plan task should target **~<500 lines** of intended diff (not mandatory).
+- If larger, split into more tasks or explain why one chunk must exceed the cap.
+- Prefer many small vertical slices over one mega-diff.
+
+## Review
+
+- Flag unreadable dumps, giant unrelated refactors, and missing samples where behavior is non-obvious.

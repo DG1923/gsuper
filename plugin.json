@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "gsuper",
+  "description": "Portable gsuper workflow skills (brainstorm → spec → plan → implement → review). Cursor-specific rules/commands live under .cursor-plugin/.",
+  "version": "0.2.9",
+  "author": {
+    "name": "odpai"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,54 @@
+# Changelog
+
+## 0.2.9 — 2026-08-15
+
+- **DISTRIBUTE.md** + `scripts/install.{sh,ps1}` + root `plugin.json` (Agent Plugins) for CLI/server/other agents
+
+## 0.2.8 — 2026-08-15
+
+- **symptom-gate**: if user hallucinates / chưa hiểu vấn đề / chỉ sửa ngọn → pause, remind, brainstorm before implement
+
+## 0.2.7 — 2026-08-15
+
+- **brainstorm** entry hardened: MUST grill/clarify on new feature requests; workflow routes “làm chức năng” → brainstorm before code
+
+## 0.2.6 — 2026-08-15
+
+- Timing lock: **learn-plan** at spec/plan before implement; **learn-self** only after plan done (post-implement)
+
+## 0.2.5 — 2026-08-15
+
+- **learn-self** side track: personal concept cards after plan (separate from learn-plan + phase /learn); `/workflow-learn-self`; `learning/` dir
+
+## 0.2.4 — 2026-08-15
+
+- **write-plan** hardened vs SP `writing-plans` + Matt `to-tickets` (vertical/Blocked-by); plan-shape.md; no SP subagent runtime
+
+## 0.2.3 — 2026-08-15
+
+- **brainstorm** ≈ clarify: vendored grilling frontier + intent.md + SP approaches/hard-gate; maps workflow phases to clarify/specify/build/review
+
+## 0.2.2 — 2026-08-15
+
+- **implement** locked: test → RED → frame → fill → GREEN; vendored Matt tdd/mock + Superpowers verify-RED + evidence-before-done
+
+## 0.2.1 — 2026-08-15
+
+- **write-spec** skill now matches locked template (Seams, Sec/Perf line)
+- **implement** vendored Matt TDD + Superpowers execute-plan + phase build (no runtime skill deps)
+
+## 0.2.0 — 2026-08-15
+
+- **review** packaged: 3 axes (GitHub Defect verbatim, Spec Done when, Standards gsuper rules). Read-only. Drop Fowler baseline.
+- Rules: `ponytail`, `python-objects`, `testing-seams`
+- **workflow** review gate matches 3 axes
+
+## 0.1.1 — 2026-08-15
+
+- Expand **review**: two-axis Spec + Standards (parallel sub-agents), fixed-point diff, smell baseline reference, gsuper path discovery
+- Expand **brainstorm**: full checklist from collaborative design practice, hard gate, code-sample-first, isolation/YAGNI
+- **workflow**: explicit review gate after implement; optional mid-task review
+
+## 0.1.0 — 2026-08-15
+
+- Initial gsuper plugin: workflow skills, PEP 8 + small-diffs rules, commands, `.agent-workflow` templates, GitHub parent/sub/PR templates, learn-plan + diagram-design reference

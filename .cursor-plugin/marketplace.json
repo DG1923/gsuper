@@ -1,0 +1,11 @@
+{
+  "name": "gsuper",
+  "owner": "DG1923",
+  "plugins": [
+    {
+      "name": "gsuper",
+      "source": ".",
+      "description": "Code workflow: brainstorm → spec → plan → implement → review"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+name: Feature / parent
+description: Parent PRD-style issue (what/why before child slices)
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Parent ticket for a feature. After approval, open **sub-issues** with the phase-sub-issue template and nest them under this issue.
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: Pain from the user’s perspective.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution
+      description: What will change for users.
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+      description: "1. As a …, I want …, so that …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-decisions
+    attributes:
+      label: Implementation Decisions
+      description: Key technical decisions. Avoid fragile file paths.
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing-decisions
+    attributes:
+      label: Testing Decisions
+      description: What to test and how (external behavior).
+    validations:
+      required: true
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of Scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: further-notes
+    attributes:
+      label: Further Notes
+      description: Optional — links, open questions, related issues.

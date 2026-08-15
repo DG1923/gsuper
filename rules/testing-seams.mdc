@@ -1,0 +1,30 @@
+---
+description: Tests verify external behavior at agreed seams only — no implementation coupling.
+globs: "**/*test*.py,**/*_test.py,**/tests/**/*.py,**/test_*.py"
+alwaysApply: false
+---
+
+# Testing at seams
+
+## Seam
+
+A seam is the public boundary under test (port, service API, HTTP handler, CLI).
+Tests cross that boundary only. Confirm seams with the spec (or user) before adding tests.
+
+## Do
+
+- Assert observable behavior and return values / visible side effects through the seam
+- Expected values from an independent source (literal, example, Done when) — not re-implemented production logic
+- Vertical slices: one failing test → minimal code → repeat
+- Prefer fakes/adapters at seams over mocking private collaborators
+
+## Do not
+
+- Test private methods or internal key layouts unless the spec says that layout is the contract
+- Tautological asserts (`expect(f(x)).toBe(sameFormulaAsProduction(x))`)
+- Write the entire suite first (horizontal slicing), then all implementation
+- Treat refactoring as part of red→green — keep green, refactor after or in review
+
+## If no seam in spec
+
+For pure infra/config tickets: skip heavy tests or smoke at the only real boundary (e.g. healthcheck). Do not invent seams for decoration.

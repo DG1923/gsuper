@@ -1,0 +1,25 @@
+{
+  "name": "gsuper",
+  "displayName": "gsuper",
+  "description": "Code workflow plugin: brainstorm → spec → plan → implement → review, with GitHub templates, .agent-workflow storage, PEP 8, and optional diagram learning after plans.",
+  "version": "0.2.9",
+  "author": {
+    "name": "odpai"
+  },
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "brainstorm",
+    "spec",
+    "plan",
+    "implement",
+    "review",
+    "github",
+    "pep8",
+    "learning",
+    "learn-self"
+  ],
+  "skills": "./skills/",
+  "rules": "./rules/",
+  "commands": "./commands/"
+}

@@ -1,0 +1,26 @@
+---
+description: Enforce PEP 8 for Python — naming, spacing, imports, line length, readability.
+globs: "**/*.py"
+alwaysApply: false
+---
+
+# PEP 8 (Python)
+
+Follow [PEP 8](https://peps.python.org/pep-0008/) for all Python in this session.
+
+## Must
+
+- 4-space indent; no tabs
+- `snake_case` functions/vars; `CapWords` classes; `UPPER_SNAKE` constants
+- Imports grouped: stdlib → third-party → local; one package per line preferred
+- Spaces around operators and after commas; no trailing whitespace
+- Prefer names that reveal intent; avoid 1-letter names except loop indices
+
+## Soft
+
+- Aim for ≤79 chars for pure style; ≤88–100 OK if project formatter (ruff/black) says so — match the repo tool if present
+- Blank lines: 2 between top-level defs/classes; 1 between methods
+
+## Do not
+
+- Invent a conflicting house style when the repo has ruff/black/isort config — defer to project tooling, still keep PEP 8 naming/readability
