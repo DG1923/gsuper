@@ -1,6 +1,6 @@
 ---
-name: github-templates
-description: Install gsuper GitHub parent issue, sub-issue, and PR templates into a project. Use on /workflow-init (optional) or when the user wants GitHub templates.
+name: gsuper-github-templates
+description: Install gsuper GitHub parent issue, sub-issue, and PR templates into a project. Use on /gsuper-workflow-init (optional) or when the user wants GitHub templates.
 ---
 
 # GitHub templates (gsuper)

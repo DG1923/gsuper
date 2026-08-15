@@ -5,7 +5,7 @@
     {
       "name": "gsuper",
       "source": ".",
-      "description": "Code workflow: brainstorm → spec → plan → implement → review"
+      "description": "Code workflow: gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review"
     }
   ]
 }

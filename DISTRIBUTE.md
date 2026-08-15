@@ -88,7 +88,7 @@ Same skill folders; only the **destination** changes:
 
 ```bash
 ./scripts/install.sh --target flat-skills --dest /opt/agent-skills/gsuper
-# result: /opt/agent-skills/gsuper/brainstorm/SKILL.md, …
+# result: /opt/agent-skills/gsuper/gsuper-brainstorm/SKILL.md, …
 ```
 
 Optional portable **Agent Plugin** manifest (skills only — no Cursor rules/commands): keep a root `plugin.json` with `$schema` from [agent-plugins.org](https://agent-plugins.org) for clients that load that format.
@@ -123,7 +123,7 @@ your-app/
   .cursor/
     skills/          # copied/symlinked from gsuper/skills/*
     rules/           # optional: gsuper/rules/*
-  AGENTS.md          # one line: follow gsuper workflow (brainstorm → …)
+  AGENTS.md          # one line: follow gsuper workflow (gsuper-brainstorm → …)
 ```
 
 Do **not** rely only on `~/.cursor/plugins/local` if teammates use CLI/CI.

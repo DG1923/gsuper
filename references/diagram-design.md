@@ -1,4 +1,4 @@
-# diagram-design (for gsuper learn-plan)
+# diagram-design (for gsuper-learn-plan)
 
 Upstream: [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design)
 

@@ -1,5 +1,5 @@
 ---
-name: review
+name: gsuper-review
 description: >
   Three-axis review — Defect (GitHub Copilot bar, verbatim), Spec (Done when),
   Standards (gsuper rules). Read-only. Use after implement, before merge, or /review.
@@ -82,7 +82,7 @@ P1: Standards / user accept?
 
 Call next:
 
-- P0 open -> implement (or write-spec if AC itself wrong)
+- P0 open -> implement (or gsuper-write-spec if AC itself wrong)
 - else -> learn / done
 
 Do not apply P0 yourself in this skill.

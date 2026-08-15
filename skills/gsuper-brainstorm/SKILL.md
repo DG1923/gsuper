@@ -1,16 +1,16 @@
 ---
-name: brainstorm
+name: gsuper-brainstorm
 description: >
   MUST use when the user wants a new feature, capability, behavior change, unclear
   product idea, or a symptom-only / confused “just fix it” ask — lock intent by grilling
-  before write-spec or any code. Maps to phase clarify.
+  before gsuper-write-spec or any code. Maps to phase clarify.
 ---
 
 # Brainstorm (gsuper) ≈ clarify
 
 Lock **what the user wants** and the **chosen direction**. No product implementation.
 
-**Entry (always):** User asks to build / add / change a product feature (or the goal is fuzzy) → run this skill first. Do **not** jump to write-plan, implement, or code. Only skip when user explicitly says intent is already locked and points at an existing approved intent/spec.
+**Entry (always):** User asks to build / add / change a product feature (or the goal is fuzzy) → run this skill first. Do **not** jump to gsuper-write-plan, implement, or code. Only skip when user explicitly says intent is already locked and points at an existing approved intent/spec.
 
 **Also enter when:** prompt is **sửa ngọn** (symptom patch), user seems to **misunderstand the problem**, or chat/assumptions look **hallucinated** vs repo facts → [references/symptom-gate.md](references/symptom-gate.md). Remind + clarify; do not ship the patch yet.
 
@@ -44,18 +44,18 @@ If the ask is only a surface fix or the problem isn’t understood → follow [s
 
 ## Hard gate
 
-Do not implement, scaffold production code, or call **implement** until design is approved (short design OK for tiny work — skip approval is not).
+Do not implement, scaffold production code, or call **gsuper-implement** until design is approved (short design OK for tiny work — skip approval is not).
 
 ## Checklist
 
 1. **Context** — enough repo/docs/commits to ask well (facts = you look up).
-2. **Scope** — multiple independent subsystems → decompose first; brainstorm one slice.
+2. **Scope** — multiple independent subsystems → decompose first; gsuper-brainstorm one slice.
 3. **Grill** — [grilling.md](references/grilling.md): frontier rounds until tree empty. **Wait for answers** each round — do not invent decisions.
 4. **Strategic gates** — multiple viable directions, YAGNI cuts, large trade-offs → stop; put options + recommendation; do not pick silently.
 5. **2–3 approaches** — trade-offs; recommend one with reasons; user picks / confirms.
 6. **Present design** — scale to complexity; prefer **short code samples** for seams/APIs; approve section-by-section if large.
 7. **Intent artifact** — write `.agent-workflow/scratch/<ticket>/intent.md` from [intent-template.md](references/intent-template.md) (ask ticket id once if missing). Tiny work: intent can be 5 lines.
-8. **Hand off** — on **user** approval → **write-spec** (not plan, not implement).
+8. **Hand off** — on **user** approval → **gsuper-write-spec** (not plan, not implement).
 
 Optional visual: only when a Q is clearer shown than told; own message; decline → don’t re-offer.
 
@@ -89,5 +89,5 @@ Follow local patterns. Refactors only if they serve this goal.
 
 ## After approval
 
-→ **write-spec** → `.agent-workflow/specs/…`  
+→ **gsuper-write-spec** → `.agent-workflow/specs/…`  
 Do **not** jump to implement. Plan only after the written spec is approved.

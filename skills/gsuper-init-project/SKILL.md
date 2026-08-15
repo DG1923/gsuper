@@ -1,6 +1,6 @@
 ---
-name: init-project
-description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use on /workflow-init or when artifact paths are missing.
+name: gsuper-init-project
+description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use on /gsuper-workflow-init or when artifact paths are missing.
 ---
 
 # Init project (gsuper)
@@ -31,7 +31,7 @@ Tell the user they can delete that ignore line to version artifacts.
 
 ## Optional
 
-Ask whether to also install GitHub templates via **github-templates**.
+Ask whether to also install GitHub templates via **gsuper-github-templates**.
 
 ## Idempotent
 

@@ -1,24 +1,24 @@
 ---
-name: learn-self
+name: gsuper-learn-self
 description: >
   Personal skill upgrade AFTER a plan is fully done (implemented + verified). Concept
-  cards for YOU. Not diagrams (learn-plan). Use after implement done or /workflow-learn-self.
+  cards for YOU. Not diagrams (gsuper-learn-plan). Use after implement done or /gsuper-workflow-learn-self.
 ---
 
 # Learn self (gsuper) — personal skill track
 
-**Not** in the ship chain. **Not** `learn-plan` (pre-implement diagrams). **Not** phase `/learn` (repo outcomes).
+**Not** in the ship chain. **Not** `gsuper-learn-plan` (pre-implement diagrams). **Not** phase `/learn` (repo outcomes).
 
 Purpose: after a **plan is done** (all tasks implemented + evidence), extract concepts so **you** level up from what you just shipped.
 
 ## When
 
-- After **implement** claims the plan/ticket done (evidence in hand) — offer; user may decline
+- After **gsuper-implement** claims the plan/ticket done (evidence in hand) — offer; user may decline
 - Optionally after **review** if they deferred
-- Or `/workflow-learn-self` with a completed plan
+- Or `/gsuper-workflow-learn-self` with a completed plan
 - Input: plan path (+ what actually landed), or latest under `.agent-workflow/plans/`
 
-**Do not** offer this right after `write-plan` — that stage is for **learn-plan** diagrams only.
+**Do not** offer this right after `gsuper-write-plan` — that stage is for **gsuper-learn-plan** diagrams only.
 
 Do **not** start more product work here. Do **not** edit repo standards unless user promotes a note to ADR.
 
@@ -37,7 +37,7 @@ Do **not** start more product work here. Do **not** edit repo standards unless u
 ```
 
 5. Teach lightly: one card (or pick-one); **explain-back** each.
-6. Stop when done. Next ticket → brainstorm / clarify as usual.
+6. Stop when done. Next ticket → gsuper-brainstorm / clarify as usual.
 
 ## Rules
 
@@ -49,6 +49,6 @@ Do **not** start more product work here. Do **not** edit repo standards unless u
 
 | Skill | Stage | For |
 |-------|--------|-----|
-| `learn-plan` | Spec / plan **before** implement | Understand to ship (diagrams) |
-| `learn-self` | **After** plan done | Upgrade **you** (concept cards) |
+| `gsuper-learn-plan` | Spec / plan **before** implement | Understand to ship (diagrams) |
+| `gsuper-learn-self` | **After** plan done | Upgrade **you** (concept cards) |
 | phase `/learn` | Ticket close | Repo Outcome / ADR |

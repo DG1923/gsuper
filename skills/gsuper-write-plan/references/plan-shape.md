@@ -2,7 +2,7 @@
 
 **From Superpowers `writing-plans`:** bite-sized TDD steps, exact paths/commands, Interfaces consume/produce, no placeholders, self-review.  
 **From Matt `to-tickets`:** vertical tracer slices; blocking edges; expand–contract for wide refactors.  
-**gsuper:** soft ~500 LOC/task; path `.agent-workflow/plans/`; after save → ask learn; handoff → **implement** (not SP subagents).
+**gsuper:** soft ~500 LOC/task; path `.agent-workflow/plans/`; after save → ask learn; handoff → **gsuper-implement** (not SP subagents).
 
 ---
 
@@ -11,7 +11,7 @@
 ```markdown
 # <Feature> Implementation Plan
 
-> For agentic workers: execute task-by-task via gsuper **implement**. Steps use `- [ ]`.
+> For agentic workers: execute task-by-task via gsuper **gsuper-implement**. Steps use `- [ ]`.
 
 **Goal:** …
 **Architecture:** …
@@ -102,6 +102,6 @@ Infra-only tasks: smoke command at real boundary instead of red-green.
 
 ## After save
 
-1. Offer diagram → **learn-plan** (spec/plan stage, **before** implement)
-2. Offer execution: inline (**implement**) vs later — no SP `subagent-driven` / `executing-plans` required
-3. Do **not** offer **learn-self** until the plan work is done
+1. Offer diagram → **gsuper-learn-plan** (spec/plan stage, **before** implement)
+2. Offer execution: inline (**gsuper-implement**) vs later — no SP `subagent-driven` / `executing-plans` required
+3. Do **not** offer **gsuper-learn-self** until the plan work is done

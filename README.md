@@ -3,10 +3,10 @@
 Portable **code workflow** skills for Cursor, Claude Code, Codex, Pi, and other agents:
 
 ```text
-brainstorm → write-spec → write-plan → implement → review
+gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review
 ```
 
-Side tracks: **learn-plan** (diagrams before implement) · **learn-self** (personal skill cards after plan done).
+Side tracks: **gsuper-learn-plan** (diagrams before implement) · **gsuper-learn-self** (personal skill cards after plan done).
 
 MIT · self-contained (no runtime Matt / Superpowers deps).
 
@@ -61,16 +61,16 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 
 | Skill | Role |
 |-------|------|
-| `brainstorm` | Clarify intent (grilling + symptom-gate) before any code |
-| `write-spec` | Locked Done when / seams / Sec+Perf |
-| `write-plan` | Bite-size TDD tasks (~500 LOC soft) |
-| `implement` | test → RED → frame → fill → GREEN |
-| `review` | Defect + Spec + Standards (read-only) |
-| `learn-plan` | Diagrams at spec/plan (before implement) |
-| `learn-self` | Personal concept cards after plan done |
-| `workflow` | Orchestrator |
-| `init-project` | `.agent-workflow/` + gitignore |
-| `github-templates` | Parent / sub-issue / PR templates |
+| `gsuper-brainstorm` | Clarify intent (grilling + symptom-gate) before any code |
+| `gsuper-write-spec` | Locked Done when / seams / Sec+Perf |
+| `gsuper-write-plan` | Bite-size TDD tasks (~500 LOC soft) |
+| `gsuper-implement` | test → RED → frame → fill → GREEN |
+| `gsuper-review` | Defect + Spec + Standards (read-only) |
+| `gsuper-learn-plan` | Diagrams at spec/plan (before implement) |
+| `gsuper-learn-self` | Personal concept cards after plan done |
+| `gsuper-workflow` | Orchestrator |
+| `gsuper-init-project` | `.agent-workflow/` + gitignore |
+| `gsuper-github-templates` | Parent / sub-issue / PR templates |
 
 Rules (Cursor): Ponytail, Python objects, testing seams, PEP 8, small diffs.
 
@@ -78,8 +78,8 @@ Rules (Cursor): Ponytail, Python objects, testing seams, PEP 8, small diffs.
 
 ## After install
 
-In the agent, ask for `/workflow` or “run gsuper brainstorm” on a new feature.  
-Artifact root: `.agent-workflow/` (created by `init-project`).
+In the agent, ask for `/gsuper-workflow` or “run gsuper-brainstorm” on a new feature.  
+Artifact root: `.agent-workflow/` (created by `gsuper-init-project`).
 
 ---
 

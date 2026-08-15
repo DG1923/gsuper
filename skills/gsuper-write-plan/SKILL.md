@@ -1,16 +1,16 @@
 ---
-name: write-plan
+name: gsuper-write-plan
 description: >
   Bite-sized implementation plan under .agent-workflow/plans/ after approved spec.
   Vendors Superpowers writing-plans + Matt vertical slices. Soft ~500 LOC/task;
-  after save: offer learn-plan diagrams only (pre-implement). learn-self is after plan done.
+  after save: offer gsuper-learn-plan diagrams only (pre-implement). gsuper-learn-self is after plan done.
 ---
 
 # Write plan (gsuper)
 
 Self-contained. **No** runtime Superpowers `writing-plans` or Matt `to-tickets`.
 
-Gate: approved spec with `Done when:` (`.agent-workflow/specs/` or fallback `.scratch/`). Missing → **write-spec**.
+Gate: approved spec with `Done when:` (`.agent-workflow/specs/` or fallback `.scratch/`). Missing → **gsuper-write-spec**.
 
 ## Vendored cores
 
@@ -18,7 +18,7 @@ Gate: approved spec with `Done when:` (`.agent-workflow/specs/` or fallback `.sc
 |--------|------|
 | SP `writing-plans` | Header; file map; bite-size TDD steps; Interfaces; no placeholders; self-review; exact cmds |
 | Matt `to-tickets` | Vertical slices; Blocked by; expand–contract for wide refactors; quiz granularity if unclear |
-| gsuper | `.agent-workflow/plans/`; soft 500 LOC; offer **learn-plan** only; handoff **implement**; commits optional |
+| gsuper | `.agent-workflow/plans/`; soft 500 LOC; offer **gsuper-learn-plan** only; handoff **gsuper-implement**; commits optional |
 
 Dropped: worktrees; REQUIRED SP subagent skills; “announce skill name”; forced commit every task.
 
@@ -30,7 +30,7 @@ Detail: [references/plan-shape.md](references/plan-shape.md)
 .agent-workflow/plans/YYYY-MM-DD-<feature>.md
 ```
 
-Missing dir → **init-project**.
+Missing dir → **gsuper-init-project**.
 
 ## Process
 
@@ -42,11 +42,11 @@ Missing dir → **init-project**.
 6. Save file.
 7. **After save — diagram only (pre-implement):**
 
-   > Diagram walkthrough of this plan? → **learn-plan**
+   > Diagram walkthrough of this plan? → **gsuper-learn-plan**
 
-   Do **not** offer **learn-self** here (that is after the plan is **done**).
+   Do **not** offer **gsuper-learn-self** here (that is after the plan is **done**).
 
-8. Exit → user runs **implement** when ready.
+8. Exit → user runs **gsuper-implement** when ready.
 
 ## Rules while writing
 

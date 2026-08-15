@@ -1,8 +1,8 @@
 ---
-name: implement
+name: gsuper-implement
 description: >
   Implement against approved spec/plan — TDD at seams (test→RED→frame→fill→GREEN),
-  Ponytail, Python objects. Use after write-plan or /workflow implement.
+  Ponytail, Python objects. Use after gsuper-write-plan or /gsuper-workflow implement.
 ---
 
 # Implement (gsuper)
@@ -26,11 +26,11 @@ Detail: [references/tdd-loop.md](references/tdd-loop.md)
 ## 0. Gate
 
 Spec with `Done when:` (`.agent-workflow/specs/` or `.scratch/<ticket>/`).  
-No spec → **write-spec**. Fuzzy → **brainstorm**.
+No spec → **gsuper-write-spec**. Fuzzy → **gsuper-brainstorm**.
 
 Plan present → read; gaps → ask. Do not guess.
 
-**Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **brainstorm** ([symptom-gate](../brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/spec.
+**Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **gsuper-brainstorm** ([symptom-gate](../gsuper-brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/spec.
 
 ## 1. While coding
 
@@ -73,12 +73,12 @@ Before claiming task/ticket done:
 3. Claim only with that output (exit 0 / pass count)
 
 Every `Done when` has evidence.  
-Call next: **review** (read-only). Fix P0 later back in this skill.
+Call next: **gsuper-review** (read-only). Fix P0 later back in this skill.
 
 **After plan done** (all plan tasks verified): offer side track
 
-> Personal skill concepts from this completed plan? → **learn-self**
+> Personal skill concepts from this completed plan? → **gsuper-learn-self**
 
-(Diagrams already belonged at spec/plan — do not re-offer **learn-plan** unless they ask.)
+(Diagrams already belonged at spec/plan — do not re-offer **gsuper-learn-plan** unless they ask.)
 
 No commit unless user asked.

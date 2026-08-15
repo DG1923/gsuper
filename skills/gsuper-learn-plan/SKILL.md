@@ -1,16 +1,16 @@
 ---
-name: learn-plan
+name: gsuper-learn-plan
 description: >
-  Diagram walkthrough of a gsuper spec or plan BEFORE implement. Use after write-spec
-  or write-plan offer, or /workflow-learn. Not for personal skill cards (learn-self).
+  Diagram walkthrough of a gsuper spec or plan BEFORE implement. Use after gsuper-write-spec
+  or gsuper-write-plan offer, or /gsuper-workflow-learn. Not for personal skill cards (gsuper-learn-self).
 ---
 
 # Learn plan (gsuper) — pre-implement diagrams
 
-**Stage:** spec and/or plan — **before** `implement`.  
-**Not** `learn-self` (that runs after the plan work is done).
+**Stage:** spec and/or plan — **before** `gsuper-implement`.  
+**Not** `gsuper-learn-self` (that runs after the plan work is done).
 
-Only when the user asks (offer after spec/plan, or `/workflow-learn`).
+Only when the user asks (offer after spec/plan, or `/gsuper-workflow-learn`).
 
 ## Goal
 
@@ -20,7 +20,7 @@ Understand design/plan visually before coding: seams, data flow, task order — 
 
 - Spec: `.agent-workflow/specs/…` (architecture / seams)
 - and/or Plan: `.agent-workflow/plans/…` (tasks / sequence)  
-Prefer plan if both exist and user just finished `write-plan`. Prefer spec if still pre-plan.
+Prefer plan if both exist and user just finished `gsuper-write-plan`. Prefer spec if still pre-plan.
 
 ## How
 
@@ -32,7 +32,7 @@ Prefer plan if both exist and user just finished `write-plan`. Prefer spec if st
 
 ## Do not
 
-- Start **implement** during this skill
-- Run **learn-self** here (wrong stage)
+- Start **gsuper-implement** during this skill
+- Run **gsuper-learn-self** here (wrong stage)
 - Regenerate the whole plan/spec unless asked
 - Spam diagram types — pick 1–2
