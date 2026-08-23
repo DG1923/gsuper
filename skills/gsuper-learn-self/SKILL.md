@@ -18,7 +18,7 @@ Purpose: after a **plan is done** (all tasks implemented + evidence), extract co
 - Or `/gsuper-workflow-learn-self` with a completed plan
 - Input: plan path (+ what actually landed), or latest under `.agent-workflow/plans/`
 
-**Do not** offer this right after `gsuper-write-plan` — that stage is for **gsuper-learn-plan** diagrams only.
+**Do not** offer this right after `gsuper-write-plan` — that stage is for **gsuper-learn-plan** overview HTML only.
 
 Do **not** start more product work here. Do **not** edit repo standards unless user promotes a note to ADR.
 
@@ -49,6 +49,6 @@ Do **not** start more product work here. Do **not** edit repo standards unless u
 
 | Skill | Stage | For |
 |-------|--------|-----|
-| `gsuper-learn-plan` | Spec / plan **before** implement | Understand to ship (diagrams) |
+| `gsuper-learn-plan` | Spec / plan **before** implement | Understand to ship (human overview HTML) |
 | `gsuper-learn-self` | **After** plan done | Upgrade **you** (concept cards) |
 | phase `/learn` | Ticket close | Repo Outcome / ADR |

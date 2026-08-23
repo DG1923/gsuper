@@ -34,7 +34,7 @@ Placeholders, contradictions, two-way ambiguity -> fix before ask user.
 
 User reviews file. Approved → optional ask:
 
-> Diagram walkthrough of this spec? → **gsuper-learn-plan** (before plan/implement)
+> Mentor overview of this spec (HTML for you, not for implement)? → **gsuper-learn-plan** (before plan/implement)
 
 Then → **gsuper-write-plan**.  
 Do **not** offer **gsuper-learn-self** here.

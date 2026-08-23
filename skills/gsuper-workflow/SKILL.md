@@ -32,7 +32,7 @@ Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brain
 ## Side tracks (timing locked)
 
 ```text
-spec / plan (before implement)  →  gsuper-learn-plan   # diagrams — understand to ship
+spec / plan (before implement)  →  gsuper-learn-plan   # human overview HTML — mentor, mermaid, lecture
 plan done (after implement)     →  gsuper-learn-self   # personal skill cards
 ```
 
@@ -61,7 +61,7 @@ Missing -> **gsuper-init-project**.
 
 | Side track | When | Skill |
 |------------|------|-------|
-| Diagram | Spec or plan, **before** implement | `gsuper-learn-plan` |
+| Human overview | Spec or plan, **before** implement | `gsuper-learn-plan` |
 | Personal skill | **After** plan done | `gsuper-learn-self` |
 | Repo closure | Ticket end | phase `/learn` (optional later) |
 
@@ -69,7 +69,7 @@ Missing -> **gsuper-init-project**.
 
 After **gsuper-write-spec** / **gsuper-write-plan**:
 
-> Diagram walkthrough? → `gsuper-learn-plan`
+> Mentor overview (mermaid + lecture)? → `gsuper-learn-plan`
 
 After **gsuper-implement** (plan done):
 
@@ -89,5 +89,5 @@ Commands: `/gsuper-workflow-learn`, `/gsuper-workflow-learn-self`.
 
 Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`.
 Review refs: `skills/gsuper-review/references/github-defect.md`, `standards-bar.md`.
-Diagrams: `references/diagram-design.md`.
+Overview HTML: `skills/gsuper-learn-plan/` (mermaid; see `references/diagram-design.md` for the pointer).
 Personal cards: `skills/gsuper-learn-self/`.

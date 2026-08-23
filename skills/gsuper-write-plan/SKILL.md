@@ -3,7 +3,7 @@ name: gsuper-write-plan
 description: >
   Bite-sized implementation plan under .agent-workflow/plans/ after approved spec.
   Vendors Superpowers writing-plans + Matt vertical slices. Soft ~500 LOC/task;
-  after save: offer gsuper-learn-plan diagrams only (pre-implement). gsuper-learn-self is after plan done.
+  after save: offer gsuper-learn-plan overview HTML only (pre-implement). gsuper-learn-self is after plan done.
 ---
 
 # Write plan (gsuper)
@@ -40,9 +40,9 @@ Missing dir → **gsuper-init-project**.
 4. Write full plan — real code in steps, not outlines.
 5. Self-review (coverage / placeholders / types).
 6. Save file.
-7. **After save — diagram only (pre-implement):**
+7. **After save — overview HTML only (pre-implement):**
 
-   > Diagram walkthrough of this plan? → **gsuper-learn-plan**
+   > Mentor overview of this plan? → **gsuper-learn-plan**
 
    Do **not** offer **gsuper-learn-self** here (that is after the plan is **done**).
 
