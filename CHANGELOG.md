@@ -1,4 +1,8 @@
-## 0.3.0 — 2026-08-15
+## 0.4.0 - 2026-08-25
+
+- **gsuper-learn-plan**: copy HTML templates; agent writes `quiz-data.js` / `overview-data.js` only. Path `.agent-workflow/learn/`. Quiz then `gaps.json` hard gate then adaptive overview. Init empty `invariants.json`.
+
+## 0.3.0 - 2026-08-15
 
 - Skill/command IDs prefixed `gsuper-<name>` for discoverability across agents
 

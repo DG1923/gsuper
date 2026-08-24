@@ -10,3 +10,5 @@ Thumbs.db
 .agent-workflow/
 .env
 .env.*
+__pycache__/
+*.pyc

@@ -40,7 +40,7 @@ Missing dir → **gsuper-init-project**.
 4. Write full plan — real code in steps, not outlines.
 5. Self-review (coverage / placeholders / types).
 6. Save file.
-7. **After save — overview HTML only (pre-implement):**
+7. **After save — quiz + overview HTML only (pre-implement), under `.agent-workflow/learn/`:**
 
    > Mentor overview of this plan? → **gsuper-learn-plan**
 

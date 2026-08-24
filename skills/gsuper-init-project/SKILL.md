@@ -14,9 +14,16 @@ description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use o
   plans/
   scratch/
   learning/
+  learn/
+    invariants.json
+    .gitignore
 ```
 
-Copy text from plugin `templates/agent-workflow/` when present.
+Copy text from plugin `templates/agent-workflow/` when present, including `learn/`.
+
+Each invariants rule (appended later, after a spec is approved) is `{ "id", "must", "must_not", "spec" }`. Init leaves `"rules": []`. Do not overwrite a non-empty `invariants.json`.
+
+Do not scan the repo.
 
 ## Gitignore
 

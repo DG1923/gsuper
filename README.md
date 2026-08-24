@@ -6,7 +6,7 @@ Portable **code workflow** skills for Cursor, Claude Code, Codex, Pi, and other 
 gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review
 ```
 
-Side tracks: **gsuper-learn-plan** (mentor overview HTML before implement) · **gsuper-learn-self** (personal skill cards after plan done).
+Side tracks: **gsuper-learn-plan** (quiz + overview HTML under `.agent-workflow/learn/` before implement) · **gsuper-learn-self** (personal skill cards after plan done).
 
 MIT · self-contained (no runtime Matt / Superpowers deps).
 
@@ -66,7 +66,7 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-write-plan` | Bite-size TDD tasks (~500 LOC soft) |
 | `gsuper-implement` | test → RED → frame → fill → GREEN |
 | `gsuper-review` | Defect + Spec + Standards (read-only) |
-| `gsuper-learn-plan` | Mentor overview HTML at spec/plan (before implement) |
+| `gsuper-learn-plan` | Quiz + overview HTML at spec/plan (before implement), under `.agent-workflow/learn/` |
 | `gsuper-learn-self` | Personal concept cards after plan done |
 | `gsuper-workflow` | Orchestrator |
 | `gsuper-init-project` | `.agent-workflow/` + gitignore |

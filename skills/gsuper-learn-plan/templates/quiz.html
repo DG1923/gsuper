@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz</title>
+<style>
+  :root {
+    --paper: #f6f3ee; --ink: #1c1917; --muted: #57534e; --soft: #78716c;
+    --rule: rgba(28,25,23,0.12); --accent: #ea580c; --blue: #2563eb;
+    --teal: #0f766e; --green: #15803d; --rose: #be123c; --violet: #6d28d9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: system-ui, "Segoe UI", sans-serif;
+    padding: 48px 32px 88px; max-width: 720px; margin: 0 auto;
+    font-size: 16px; line-height: 1.5;
+  }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  h1 { font-size: 24px; font-weight: 700; line-height: 1.25; margin-bottom: 12px; }
+  .roles { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .roles strong { color: var(--ink); }
+  .bar { font-size: 13px; font-weight: 700; color: var(--soft); margin-bottom: 16px; }
+  .prompt { font-size: 18px; font-weight: 650; margin-bottom: 16px; }
+  .prompt code, .line code { font-family: ui-monospace, Consolas, monospace; font-size: 0.95em; color: var(--teal); }
+  .choice {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 15px;
+    padding: 12px 14px; margin: 0 0 8px; border: 1px solid var(--rule);
+    background: #fff; border-radius: 8px; cursor: pointer; color: var(--ink);
+  }
+  .choice:hover { border-color: var(--ink); }
+  .choice.on { border-color: var(--blue); background: #dbeafe; }
+  .line {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 14px;
+    padding: 10px 12px; margin: 0 0 8px; border: 1px solid var(--rule);
+    background: #fff; border-radius: 8px; color: var(--ink);
+  }
+  .line.good { border-color: #86efac; background: #dcfce7; }
+  .line.bad { border-color: #fecaca; background: #ffe4e6; }
+  .why { font-size: 13px; color: var(--muted); margin: 4px 0 12px 2px; }
+  .why strong { color: var(--ink); }
+  .review { margin: 28px 0 8px; }
+  .card {
+    background: #fff; border: 1px solid var(--rule); border-radius: 8px;
+    padding: 16px; margin: 0 0 14px;
+  }
+  .card h3 { font-size: 15px; font-weight: 650; margin: 0 0 12px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .tag.ok { color: var(--green); }
+  .tag.no { color: var(--rose); }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  button.nav {
+    font: inherit; font-size: 14px; padding: 8px 14px; border: 1px solid var(--rule);
+    background: #fff; border-radius: 6px; cursor: pointer;
+  }
+  button.nav.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+  button.nav:disabled { opacity: 0.4; cursor: not-allowed; }
+  .err { color: var(--rose); }
+  .result h2 { font-size: 20px; margin: 0 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .chip { font-size: 13px; font-weight: 700; padding: 6px 10px; border-radius: 8px; }
+  .chip.strong { background: #dcfce7; color: var(--green); }
+  .chip.weak { background: #ffedd5; color: var(--accent); }
+  .miss { font-size: 14px; color: var(--muted); margin: 8px 0; }
+  .miss strong { color: var(--ink); }
+  pre {
+    background: #1c1917; color: #fef3c7; font-family: ui-monospace, Consolas, monospace;
+    font-size: 12px; padding: 14px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; margin: 12px 0;
+  }
+  .hint { font-size: 13px; color: var(--soft); margin-top: 8px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="quiz-data.js"></script>
+<script>
+(function () {
+  const Q = window.QUIZ_DATA;
+  const root = document.getElementById("root");
+  if (!Q || !Q.questions || !Q.questions.length) {
+    root.innerHTML = "<p class='err'>Missing quiz-data.js (<code>window.QUIZ_DATA</code>). Copy the HTML template and write data only.</p>";
+    return;
+  }
+
+  function buildGaps(ticket, questions, chosen) {
+    const byTopic = {};
+    questions.forEach((q) => {
+      if (!byTopic[q.topic]) byTopic[q.topic] = [];
+      byTopic[q.topic].push(q);
+    });
+    let correct = 0;
+    const strong = [];
+    const weak = [];
+    const not_understood = [];
+    Object.keys(byTopic).forEach((topic) => {
+      const qs = byTopic[topic];
+      let allOk = true;
+      qs.forEach((q) => {
+        const pick = chosen[q.id];
+        const ok = pick === q.answer;
+        if (ok) correct += 1;
+        else {
+          allOk = false;
+          not_understood.push({ id: topic, miss: q.miss_if_wrong || "" });
+        }
+      });
+      if (allOk) strong.push(topic);
+      else weak.push(topic);
+    });
+    return {
+      ticket: ticket,
+      score: { correct: correct, total: questions.length },
+      strong: strong,
+      weak: weak,
+      not_understood: not_understood
+    };
+  }
+
+  const questions = Q.questions;
+  const chosen = {};
+  const locked = {};
+  let i = 0;
+  let done = false;
+
+  function explainChoice(q, idx) {
+    if (idx === q.answer && q.why_right) {
+      return "<p class='why'><strong>Vì sao đúng.</strong> " + q.why_right + "</p>";
+    }
+    if (idx !== q.answer && q.why_wrong && q.why_wrong[idx]) {
+      return "<p class='why'><strong>Vì sao sai.</strong> " + q.why_wrong[idx] + "</p>";
+    }
+    return "";
+  }
+
+  function render() {
+    if (done) return renderResult();
+    const q = questions[i];
+    const pick = chosen[q.id];
+    const isLocked = !!locked[q.id];
+    let html = "";
+    html += "<p class='eyebrow'>" + (Q.eyebrow || "quiz") + "</p>";
+    html += "<h1>" + (Q.title || "Quiz") + "</h1>";
+    html += "<p class='roles'>" + (Q.roles || "") + "</p>";
+    html += "<p class='bar'>" + (i + 1) + " / " + questions.length + " · topic <code>" + q.topic + "</code></p>";
+    html += "<p class='prompt'>" + q.prompt + "</p>";
+    if (!isLocked) {
+      q.choices.forEach((c, idx) => {
+        html += "<button type='button' class='choice" + (pick === idx ? " on" : "") + "' data-i='" + idx + "'>" + c + "</button>";
+      });
+    } else {
+      q.choices.forEach((c, idx) => {
+        let cls = "line";
+        if (idx === q.answer) cls += " good";
+        else if (idx === pick) cls += " bad";
+        const mark = idx === q.answer ? "đáp án · " : (idx === pick ? "bạn chọn · " : "");
+        html += "<div class='" + cls + "'>" + mark + c + "</div>";
+        html += explainChoice(q, idx);
+      });
+    }
+    html += "<div class='row'>";
+    html += "<button type='button' class='nav' id='back'" + (i === 0 ? " disabled" : "") + ">Back</button>";
+    if (i < questions.length - 1) {
+      html += "<button type='button' class='nav primary' id='next'" + (!isLocked ? " disabled" : "") + ">Next</button>";
+    } else {
+      html += "<button type='button' class='nav primary' id='submit'" + (!isLocked ? " disabled" : "") + ">Nộp bài → gaps.json</button>";
+    }
+    html += "</div>";
+    html += "<p class='hint'>" + (isLocked ? "Đọc xong thì Next. Overview sẽ dày chỗ còn yếu." : "Chọn một lần — khóa câu, đọc vì sao đúng/sai, rồi Next.") + "</p>";
+    root.innerHTML = html;
+    root.querySelectorAll(".choice").forEach((b) => {
+      b.onclick = () => {
+        if (locked[q.id]) return;
+        chosen[q.id] = Number(b.getAttribute("data-i"));
+        locked[q.id] = true;
+        render();
+      };
+    });
+    const back = document.getElementById("back");
+    if (back) back.onclick = () => { i -= 1; render(); };
+    const next = document.getElementById("next");
+    if (next) next.onclick = () => { i += 1; render(); };
+    const submit = document.getElementById("submit");
+    if (submit) submit.onclick = () => { done = true; render(); };
+  }
+
+    function renderResult() {
+    const gaps = buildGaps(Q.ticket || "", questions, chosen);
+    const blob = JSON.stringify(gaps, null, 2);
+    let html = "";
+    html += "<p class='eyebrow'>" + (Q.eyebrow || "quiz") + "</p>";
+    html += "<div class='result'><h2>" + gaps.score.correct + " / " + gaps.score.total + "</h2>";
+    html += "<p class='roles'>Đặt file vào <code>.agent-workflow/learn/&lt;ticket&gt;/gaps.json</code>. Agent <strong>Read + check</strong> file đó — không nhớ điểm từ chat.</p>";
+    html += "<p class='bar'>Mạnh</p><div class='chips'>";
+    (gaps.strong.length ? gaps.strong : ["—"]).forEach((t) => { html += "<span class='chip strong'>" + t + "</span>"; });
+    html += "</div><p class='bar'>Yếu</p><div class='chips'>";
+    (gaps.weak.length ? gaps.weak : ["—"]).forEach((t) => { html += "<span class='chip weak'>" + t + "</span>"; });
+    html += "</div>";
+    html += "<div class='review'><p class='bar'>Từng câu — lựa chọn của bạn vs đáp án, và vì sao distractor sai</p>";
+    questions.forEach((q, n) => {
+      const pick = chosen[q.id];
+      const ok = pick === q.answer;
+      html += "<article class='card'><p class='tag " + (ok ? "ok" : "no") + "'>" + (ok ? "đúng" : "sai") + " · " + (n + 1) + "/" + questions.length + " · " + q.topic + "</p>";
+      html += "<h3>" + q.prompt + "</h3>";
+      q.choices.forEach((c, idx) => {
+        let cls = "line";
+        if (idx === q.answer) cls += " good";
+        else if (idx === pick) cls += " bad";
+        const mark = idx === q.answer ? "đáp án · " : (idx === pick ? "bạn chọn · " : "");
+        html += "<div class='" + cls + "'>" + mark + c + "</div>";
+        if (idx === q.answer && q.why_right) {
+          html += "<p class='why'><strong>Vì sao đúng.</strong> " + q.why_right + "</p>";
+        } else if (idx !== q.answer && q.why_wrong && q.why_wrong[idx]) {
+          html += "<p class='why'><strong>Vì sao sai.</strong> " + q.why_wrong[idx] + "</p>";
+        }
+      });
+      if (!ok && q.miss_if_wrong) {
+        html += "<p class='miss'><strong>Misconception ghi vào gaps:</strong> " + q.miss_if_wrong + "</p>";
+      }
+      html += "</article>";
+    });
+    html += "</div>";
+    html += "<p class='bar'>gaps.json</p>";
+    html += "<pre id='gaps'>" + blob.replace(/</g, "&lt;") + "</pre>";
+    html += "<div class='row'><button type='button' class='nav primary' id='copy'>Copy gaps.json</button>";
+    html += "<button type='button' class='nav' id='dl'>Tải gaps.json</button>";
+    html += "<button type='button' class='nav' id='retry'>Làm lại</button></div>";
+    html += "<p class='hint'>Thiếu file trên disk thì không viết overview.</p></div>";
+    root.innerHTML = html;
+    document.getElementById("copy").onclick = async () => {
+      await navigator.clipboard.writeText(blob);
+      document.getElementById("copy").textContent = "Copied";
+    };
+    document.getElementById("dl").onclick = () => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([blob], { type: "application/json" }));
+      a.download = "gaps.json";
+      a.click();
+    };
+    document.getElementById("retry").onclick = () => {
+      done = false; i = 0;
+      Object.keys(chosen).forEach((k) => { delete chosen[k]; });
+      Object.keys(locked).forEach((k) => { delete locked[k]; });
+      render();
+    };
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

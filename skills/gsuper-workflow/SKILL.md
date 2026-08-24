@@ -32,7 +32,7 @@ Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brain
 ## Side tracks (timing locked)
 
 ```text
-spec / plan (before implement)  →  gsuper-learn-plan   # human overview HTML — mentor, mermaid, lecture
+spec / plan (before implement)  →  gsuper-learn-plan   # quiz then overview HTML under .agent-workflow/learn/
 plan done (after implement)     →  gsuper-learn-self   # personal skill cards
 ```
 
@@ -45,6 +45,7 @@ Neither blocks the next ship step if declined.
 .agent-workflow/plans/
 .agent-workflow/scratch/<ticket>/
 .agent-workflow/learning/          # gsuper-learn-self only
+.agent-workflow/learn/             # quiz / overview HTML + invariants.json
 ```
 
 Missing -> **gsuper-init-project**.

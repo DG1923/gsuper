@@ -28,6 +28,8 @@ Detail: [references/tdd-loop.md](references/tdd-loop.md)
 Spec with `Done when:` (`.agent-workflow/specs/` or `.scratch/<ticket>/`).  
 No spec → **gsuper-write-spec**. Fuzzy → **gsuper-brainstorm**.
 
+If `.agent-workflow/learn/invariants.json` exists, **Read it** before coding.
+
 Plan present → read; gaps → ask. Do not guess.
 
 **Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **gsuper-brainstorm** ([symptom-gate](../gsuper-brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/spec.

@@ -36,5 +36,7 @@ User reviews file. Approved → optional ask:
 
 > Mentor overview of this spec (HTML for you, not for implement)? → **gsuper-learn-plan** (before plan/implement)
 
+After the user **approves** the spec: if `.agent-workflow/learn/invariants.json` exists, append must / must-not rules pointing at that spec path. Do not scan the repo.
+
 Then → **gsuper-write-plan**.  
 Do **not** offer **gsuper-learn-self** here.
