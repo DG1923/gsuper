@@ -2,12 +2,12 @@
 name: gsuper-learn-self
 description: >
   Personal skill upgrade AFTER a plan is fully done (implemented + verified). Concept
-  cards for YOU. Not diagrams (gsuper-learn-plan). Use after implement done or /gsuper-workflow-learn-self.
+  cards for YOU. Not the learn pack (gsuper-learn-plan). Use after implement done or /gsuper-workflow-learn-self.
 ---
 
 # Learn self (gsuper) — personal skill track
 
-**Not** in the ship chain. **Not** `gsuper-learn-plan` (pre-implement diagrams). **Not** phase `/learn` (repo outcomes).
+**Not** in the ship chain. **Not** `gsuper-learn-plan` (Markdown pack). **Not** phase `/learn` (repo outcomes).
 
 Purpose: after a **plan is done** (all tasks implemented + evidence), extract concepts so **you** level up from what you just shipped.
 
@@ -18,7 +18,7 @@ Purpose: after a **plan is done** (all tasks implemented + evidence), extract co
 - Or `/gsuper-workflow-learn-self` with a completed plan
 - Input: plan path (+ what actually landed), or latest under `.agent-workflow/plans/`
 
-**Do not** offer this right after `gsuper-write-plan` — that stage is for **gsuper-learn-plan** overview HTML only.
+**Do not** offer this right after `gsuper-write-plan` — that stage is for **gsuper-learn-plan** pack Markdown.
 
 Do **not** start more product work here. Do **not** edit repo standards unless user promotes a note to ADR.
 

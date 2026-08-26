@@ -1,3 +1,7 @@
+## 0.5.0 - 2026-08-26
+
+- **gsuper-learn-plan**: unique `gsuper-pack-<repo>-<ticket>.md` (brainstorm/spec/implement) for read + ChatGPT/Claude upload; short `need-to-know` after implement; self-report known/unknown (no MCQ). Drop quiz/overview HTML.
+
 ## 0.4.0 - 2026-08-25
 
 - **gsuper-learn-plan**: copy HTML templates; agent writes `quiz-data.js` / `overview-data.js` only. Path `.agent-workflow/learn/`. Quiz then `gaps.json` hard gate then adaptive overview. Init empty `invariants.json`.

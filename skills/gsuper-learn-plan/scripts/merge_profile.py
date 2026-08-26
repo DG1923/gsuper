@@ -1,45 +1,24 @@
-"""Merge a quiz gaps object into learn/profile.json."""
+"""Merge self-report into learn/profile.json. Unknown stays until known."""
 
 from __future__ import annotations
 
 from typing import Any
 
 
-def merge_profile(profile: dict[str, Any], gaps: dict[str, Any]) -> dict[str, Any]:
+def merge_profile(
+    profile: dict[str, Any],
+    report: dict[str, dict[str, str]],
+) -> dict[str, Any]:
     topics: dict[str, dict[str, str]] = {
         key: dict(value) for key, value in (profile.get("topics") or {}).items()
     }
-    strong = list(gaps.get("strong") or [])
-    weak = list(gaps.get("weak") or [])
-    misses = {
-        item["id"]: item.get("miss") or ""
-        for item in gaps.get("not_understood") or []
-    }
-
-    for topic_id in strong:
-        topics[topic_id] = {"status": "strong"}
-
-    for topic_id in weak:
+    for topic_id, entry in report.items():
+        status = entry.get("status") or "unknown"
+        how = entry.get("how") or ""
         current = topics.get(topic_id) or {}
-        if topic_id in strong:
+        if status == "known":
+            topics[topic_id] = {"status": "known", "how": how}
             continue
-        if current.get("status") == "not_understood":
-            if topic_id in misses:
-                topics[topic_id] = {
-                    "status": "not_understood",
-                    "miss": misses[topic_id],
-                }
-            continue
-        if topic_id in misses:
-            topics[topic_id] = {
-                "status": "not_understood",
-                "miss": misses[topic_id],
-            }
-        else:
-            topics[topic_id] = {"status": "weak"}
-
-    for topic_id, miss in misses.items():
-        if topic_id not in strong:
-            topics[topic_id] = {"status": "not_understood", "miss": miss}
-
+        if current.get("status") == "unknown" or topic_id not in topics:
+            topics[topic_id] = {"status": "unknown", "how": how or current.get("how") or ""}
     return {"topics": topics}

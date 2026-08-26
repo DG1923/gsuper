@@ -91,3 +91,5 @@ Follow local patterns. Refactors only if they serve this goal.
 
 → **gsuper-write-spec** → `.agent-workflow/specs/…`  
 Do **not** jump to implement. Plan only after the written spec is approved.
+
+Optional: uniquely named learn **pack** Markdown (read + upload ChatGPT/Claude)? → **gsuper-learn-plan** (stage `after-brainstorm`).

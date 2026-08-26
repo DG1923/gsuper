@@ -34,7 +34,7 @@ Placeholders, contradictions, two-way ambiguity -> fix before ask user.
 
 User reviews file. Approved → optional ask:
 
-> Mentor overview of this spec (HTML for you, not for implement)? → **gsuper-learn-plan** (before plan/implement)
+> Unique learn pack Markdown (read + upload ChatGPT/Claude)? → **gsuper-learn-plan** (stage `after-spec`)
 
 After the user **approves** the spec: if `.agent-workflow/learn/invariants.json` exists, append must / must-not rules pointing at that spec path. Do not scan the repo.
 

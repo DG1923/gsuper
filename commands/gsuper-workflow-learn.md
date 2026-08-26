@@ -1,6 +1,6 @@
 ---
 name: gsuper-workflow-learn
-description: Mentor overview HTML of a gsuper spec or plan BEFORE implement
+description: Unique learn pack Markdown (read + ChatGPT/Claude upload) after brainstorm, spec, or implement
 ---
 
-Run the **gsuper-learn-plan** skill (pre-implement human quiz + overview under `.agent-workflow/learn/`). Prefer the plan if given; else latest `.agent-workflow/plans/`, or latest spec if no plan yet. Agent reads those Markdown files only; HTML is for the user. Overview is not written until `gaps.json` is on disk and Read+checked.
+Run the **gsuper-learn-plan** skill. Write `gsuper-pack-<repo>-<ticket-id>.md` under `.agent-workflow/learn/` (never `pack.md`). Stage: after-brainstorm, after-spec, or after-implement. After implement also write need-to-know + self-report stub. Not AC. Not quiz HTML.

@@ -77,10 +77,10 @@ Before claiming task/ticket done:
 Every `Done when` has evidence.  
 Call next: **gsuper-review** (read-only). Fix P0 later back in this skill.
 
-**After plan done** (all plan tasks verified): offer side track
+**After plan done** (all plan tasks verified):
 
-> Personal skill concepts from this completed plan? → **gsuper-learn-self**
+> Learn pack + need-to-know Markdown? → **gsuper-learn-plan** (stage `after-implement`)
 
-(Diagrams already belonged at spec/plan — do not re-offer **gsuper-learn-plan** unless they ask.)
+> Personal skill concepts? → **gsuper-learn-self**
 
 No commit unless user asked.
