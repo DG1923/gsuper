@@ -17,7 +17,8 @@
     "github",
     "pep8",
     "learning",
-    "gsuper-learn-self"
+    "gsuper-learn-pack",
+    "gsuper-learn-material"
   ],
   "skills": "./skills/",
   "rules": "./rules/",

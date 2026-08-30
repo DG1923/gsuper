@@ -1,15 +1,16 @@
 ---
-name: gsuper-learn-plan
+name: gsuper-learn-pack
 description: >
   Human learn pack (Markdown) after brainstorm, spec, or implement. Unique
   gsuper-pack-<repo>-<ticket>.md for reading and ChatGPT/Claude upload.
   Overview then per-unit flows (both required). Open quiz in the pack, no answer key.
-  Path .agent-workflow/learn/. Not gsuper-learn-self. Not implement AC.
+  Path .agent-workflow/learn/. Not gsuper-learn-material. Not implement AC.
+  Formerly gsuper-learn-plan.
 ---
 
 # Learn pack (gsuper)
 
-**Not** implement. **Not** `gsuper-learn-self` (concept cards).
+**Not** implement. **Not** `gsuper-learn-material` (one-concept lesson + sample).
 
 Pack is for the **human** (read + upload). Implement uses spec `Done when` only.
 
@@ -26,7 +27,7 @@ Repo slug = git toplevel directory name (or remote repo name). Ticket id = scrat
 - After **gsuper-implement** (regenerate pack at stage `after-implement`)
 - Repo / spec is unreadable or the user has no project context — write the pack from **code** first
 
-Offer; user may decline. `/gsuper-workflow-learn` runs this skill.
+Offer; user may decline. `/gsuper-workflow-learn` or `/gsuper-workflow-learn-pack` runs this skill.
 
 ## Who reads what
 
@@ -63,4 +64,6 @@ Pack is compiled from **spec + live code**, not from memory.
 
 ## Guardrails
 
-Pack = the only learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Spec `Done when` is unchanged.
+Pack = the only full-ticket learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Spec `Done when` is unchanged.
+
+One-concept ôn + runnable sample → **gsuper-learn-material** (after implement).

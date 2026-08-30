@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills/gsuper-learn-plan/scripts"))
+sys.path.insert(0, str(ROOT / "skills/gsuper-learn-pack/scripts"))
 
 from merge_profile import merge_profile
 from self_report import parse_self_report, render_need_to_know, self_report_template

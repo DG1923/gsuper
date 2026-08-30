@@ -5,15 +5,27 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "skills/gsuper-learn-plan/scripts"))
+sys.path.insert(0, str(ROOT / "skills/gsuper-learn-pack/scripts"))
 
-from names import need_to_know_filename, pack_filename, self_report_filename, slug
+from names import (
+    material_filename,
+    need_to_know_filename,
+    pack_filename,
+    self_report_filename,
+    slug,
+)
 
 
 class TestNames(unittest.TestCase):
     def test_pack_filename_unique_shape(self) -> None:
         name = pack_filename("x-project", "61 reusable")
         self.assertEqual(name, "gsuper-pack-x-project-61-reusable.md")
+
+    def test_material_filename_includes_concept(self) -> None:
+        name = material_filename("x-project", "pickleball-highlight", "ball-accel")
+        self.assertEqual(
+            name, "gsuper-material-x-project-pickleball-highlight-ball-accel.md"
+        )
 
     def test_need_to_know_and_self_report(self) -> None:
         self.assertEqual(

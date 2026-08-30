@@ -15,6 +15,10 @@ def pack_filename(repo: str, ticket_id: str) -> str:
     return f"gsuper-pack-{slug(repo)}-{slug(ticket_id)}.md"
 
 
+def material_filename(repo: str, ticket_id: str, concept: str) -> str:
+    return f"gsuper-material-{slug(repo)}-{slug(ticket_id)}-{slug(concept)}.md"
+
+
 def need_to_know_filename(repo: str, ticket_id: str) -> str:
     return f"need-to-know-{slug(repo)}-{slug(ticket_id)}.md"
 

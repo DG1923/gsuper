@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class TestLearnPackSkill(unittest.TestCase):
     def test_skill_pack_not_quiz_html(self) -> None:
-        skill = (ROOT / "skills/gsuper-learn-plan/SKILL.md").read_text(encoding="utf-8")
+        skill = (ROOT / "skills/gsuper-learn-pack/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("gsuper-pack-", skill)
         self.assertIn("mermaid flow", skill)
         self.assertIn("Overview first", skill)
@@ -16,13 +16,15 @@ class TestLearnPackSkill(unittest.TestCase):
         self.assertIn("verbatim", skill.lower())
         self.assertIn("Quiz", skill)
         self.assertIn(".agent-workflow/learn/", skill)
+        self.assertIn("gsuper-learn-material", skill)
         self.assertNotIn("quiz-data.js", skill)
         self.assertNotIn("overview-data.js", skill)
         self.assertNotIn("need-to-know.md + self-report", skill)
+        self.assertNotIn("gsuper-learn-self", skill)
 
     def test_pack_shape_unique_name(self) -> None:
         shape = (
-            ROOT / "skills/gsuper-learn-plan/references/pack-shape.md"
+            ROOT / "skills/gsuper-learn-pack/references/pack-shape.md"
         ).read_text(encoding="utf-8")
         self.assertIn("gsuper-pack-<repo>-<ticket-id>.md", shape)
         self.assertIn("after-brainstorm", shape)

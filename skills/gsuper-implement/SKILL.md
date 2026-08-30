@@ -79,8 +79,8 @@ Call next: **gsuper-review** (read-only). Fix P0 later back in this skill.
 
 **After plan done** (all plan tasks verified):
 
-> Learn pack + quiz Markdown? → **gsuper-learn-plan** (stage `after-implement`)
+> Learn pack + quiz Markdown? → **gsuper-learn-pack** (stage `after-implement`)
 
-> Personal skill concepts? → **gsuper-learn-self**
+> Lesson + runnable sample from shipped behavior? → **gsuper-learn-material** (does not block review)
 
 No commit unless user asked.

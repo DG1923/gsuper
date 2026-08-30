@@ -102,6 +102,6 @@ Infra-only tasks: smoke command at real boundary instead of red-green.
 
 ## After save
 
-1. Offer learn pack Markdown → **gsuper-learn-plan** (spec/plan stage)
+1. Offer learn pack Markdown → **gsuper-learn-pack** (spec/plan stage)
 2. Offer execution: inline (**gsuper-implement**) vs later — no SP `subagent-driven` / `executing-plans` required
-3. Do **not** offer **gsuper-learn-self** until the plan work is done
+3. Do **not** offer **gsuper-learn-material** until the plan work is done

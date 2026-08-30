@@ -3,7 +3,7 @@ name: gsuper-write-plan
 description: >
   Bite-sized implementation plan under .agent-workflow/plans/ after approved spec.
   Vendors Superpowers writing-plans + Matt vertical slices. Soft ~500 LOC/task;
-  after save: offer gsuper-learn-plan pack Markdown. gsuper-learn-self is after plan done.
+  after save: offer gsuper-learn-pack Markdown. gsuper-learn-material is after plan done.
 ---
 
 # Write plan (gsuper)
@@ -18,7 +18,7 @@ Gate: approved spec with `Done when:` (`.agent-workflow/specs/` or fallback `.sc
 |--------|------|
 | SP `writing-plans` | Header; file map; bite-size TDD steps; Interfaces; no placeholders; self-review; exact cmds |
 | Matt `to-tickets` | Vertical slices; Blocked by; expand–contract for wide refactors; quiz granularity if unclear |
-| gsuper | `.agent-workflow/plans/`; soft 500 LOC; offer **gsuper-learn-plan** only; handoff **gsuper-implement**; commits optional |
+| gsuper | `.agent-workflow/plans/`; soft 500 LOC; offer **gsuper-learn-pack** only; handoff **gsuper-implement**; commits optional |
 
 Dropped: worktrees; REQUIRED SP subagent skills; “announce skill name”; forced commit every task.
 
@@ -42,9 +42,9 @@ Missing dir → **gsuper-init-project**.
 6. Save file.
 7. **After save — learn pack Markdown** (stage `after-spec`), under `.agent-workflow/learn/`:
 
-   > Unique learn pack (read + upload)? → **gsuper-learn-plan**
+   > Unique learn pack (read + upload)? → **gsuper-learn-pack**
 
-   Do **not** offer **gsuper-learn-self** here (that is after the plan is **done**).
+   Do **not** offer **gsuper-learn-material** here (that is after the plan is **done**).
 
 8. Exit → user runs **gsuper-implement** when ready.
 
