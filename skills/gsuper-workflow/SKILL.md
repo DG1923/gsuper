@@ -1,6 +1,6 @@
 ---
 name: gsuper-workflow
-description: Orchestrate gsuper phases gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review. gsuper-learn-plan at brainstorm/spec/plan/implement (pack Markdown); gsuper-learn-self after plan done. Use when /gsuper-workflow, gsuper, or full code workflow.
+description: Orchestrate gsuper phases gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review. gsuper-learn-plan at brainstorm/spec/plan/implement (pack + quiz, per-unit flows); gsuper-learn-self after plan done. Use when /gsuper-workflow, gsuper, or full code workflow.
 ---
 
 # gsuper workflow
@@ -32,7 +32,7 @@ Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brain
 ## Side tracks (timing locked)
 
 ```text
-spec / plan / after brainstorm     →  gsuper-learn-plan   # unique pack.md (and need-to-know after implement)
+spec / plan / after brainstorm     →  gsuper-learn-plan   # unique pack + quiz; per-unit flows
 plan done (after implement)        →  gsuper-learn-self   # personal skill cards
 ```
 
@@ -45,7 +45,7 @@ Neither blocks the next ship step if declined.
 .agent-workflow/plans/
 .agent-workflow/scratch/<ticket>/
 .agent-workflow/learning/          # gsuper-learn-self only
-.agent-workflow/learn/             # pack + need-to-know Markdown + invariants.json
+.agent-workflow/learn/             # pack Markdown + invariants.json
 ```
 
 Missing -> **gsuper-init-project**.
@@ -74,7 +74,7 @@ After **gsuper-write-spec** / **gsuper-write-plan** (and after brainstorm intent
 
 After **gsuper-implement** (plan done):
 
-> Pack + need-to-know? → `gsuper-learn-plan` (after-implement). Personal skill concepts? → `gsuper-learn-self`
+> Pack + quiz? → `gsuper-learn-plan` (after-implement). Personal skill concepts? → `gsuper-learn-self`
 
 Commands: `/gsuper-workflow-learn`, `/gsuper-workflow-learn-self`.
 
@@ -90,5 +90,5 @@ Commands: `/gsuper-workflow-learn`, `/gsuper-workflow-learn-self`.
 
 Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`.
 Review refs: `skills/gsuper-review/references/github-defect.md`, `standards-bar.md`.
-Overview HTML: `skills/gsuper-learn-plan/` (mermaid; see `references/diagram-design.md` for the pointer).
+Learn pack: `skills/gsuper-learn-plan/` (mermaid; see `references/diagram-design.md`).
 Personal cards: `skills/gsuper-learn-self/`.

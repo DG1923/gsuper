@@ -49,6 +49,6 @@ Do **not** start more product work here. Do **not** edit repo standards unless u
 
 | Skill | Stage | For |
 |-------|--------|-----|
-| `gsuper-learn-plan` | Spec / plan **before** implement | Understand to ship (human overview HTML) |
+| `gsuper-learn-plan` | After brainstorm / spec / implement | Pack Markdown (overview + detail + quiz) |
 | `gsuper-learn-self` | **After** plan done | Upgrade **you** (concept cards) |
 | phase `/learn` | Ticket close | Repo Outcome / ADR |

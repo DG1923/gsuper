@@ -1,3 +1,7 @@
+## 0.6.0 - 2026-08-30
+
+- **gsuper-learn-plan**: pack = spec + live-code excerpts (overview then detail). Mermaid required. Open quiz, no answer key. No need-to-know / self-report. No whole-file concat. Drift vs spec must be stated.
+
 ## 0.5.0 - 2026-08-26
 
 - **gsuper-learn-plan**: unique `gsuper-pack-<repo>-<ticket>.md` (brainstorm/spec/implement) for read + ChatGPT/Claude upload; short `need-to-know` after implement; self-report known/unknown (no MCQ). Drop quiz/overview HTML.

@@ -3,7 +3,7 @@ name: gsuper-learn-plan
 description: >
   Human learn pack (Markdown) after brainstorm, spec, or implement. Unique
   gsuper-pack-<repo>-<ticket>.md for reading and ChatGPT/Claude upload.
-  After implement: short need-to-know.md + self-report (known/unknown, no quiz).
+  Overview then per-unit flows (both required). Open quiz in the pack, no answer key.
   Path .agent-workflow/learn/. Not gsuper-learn-self. Not implement AC.
 ---
 
@@ -11,11 +11,11 @@ description: >
 
 **Not** implement. **Not** `gsuper-learn-self` (concept cards).
 
-Pack and need-to-know are for the **human**. Implement uses spec `Done when` only.
+Pack is for the **human** (read + upload). Implement uses spec `Done when` only.
 
 Shape: [references/pack-shape.md](references/pack-shape.md).
 
-Filenames (do not use `pack.md`): [scripts/names.py](scripts/names.py) — `pack_filename`, `need_to_know_filename`, `self_report_filename`.
+Filename (do not use `pack.md`): [scripts/names.py](scripts/names.py) — `pack_filename`.
 
 Repo slug = git toplevel directory name (or remote repo name). Ticket id = scratch folder / issue slug.
 
@@ -23,7 +23,8 @@ Repo slug = git toplevel directory name (or remote repo name). Ticket id = scrat
 
 - After **gsuper-brainstorm** (intent locked; spec may not exist yet)
 - After **gsuper-write-spec** / **gsuper-write-plan**
-- After **gsuper-implement** (regenerate pack at stage `after-implement` + need-to-know + self-report stub)
+- After **gsuper-implement** (regenerate pack at stage `after-implement`)
+- Repo / spec is unreadable or the user has no project context — write the pack from **code** first
 
 Offer; user may decline. `/gsuper-workflow-learn` runs this skill.
 
@@ -31,25 +32,35 @@ Offer; user may decline. `/gsuper-workflow-learn` runs this skill.
 
 | Reader | Artifact |
 |--------|----------|
-| Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) and `learn/need-to-know-<repo>-<ticket>.md` (short, after implement) |
-| Agent | spec/plan/intent MD, `learn/invariants.json`, `learn/self-report-<ticket>.md` if present |
+| Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
+| Agent | spec/plan/intent MD, `learn/invariants.json` |
 | Implement | spec `Done when` only |
 
-Do **not** copy quiz.html or overview.html. Do **not** write `gaps.json` from a scored quiz.
+Do **not** write `need-to-know-*.md` or `self-report-*.md`. Do **not** copy quiz.html or overview.html. Do **not** write `gaps.json`.
+
+## Sources (required)
+
+Pack is compiled from **spec + live code**, not from memory.
+
+| Input | How it enters the pack |
+|-------|------------------------|
+| Spec / intent / plan | Read. Quote `Done when` / must-must-not that still match code. |
+| Live code | **Verbatim excerpt** (path + fence, ~5–20 lines). Copy the function, do not paraphrase the algorithm. |
+| Doc that contradicts code | One **drift** row: spec said X, file:line does Y. |
+
+**Do not** `cat` / concat whole spec files or whole `.py` modules into the pack. That is a dump: stale SRS + 2k-line detectors, no map, no drift, ChatGPT hits context. Concat is allowed **only** for the short excerpts you chose.
 
 ## Pack steps (any stage)
 
-1. Read intent if present. Read spec/plan if they exist. Read `invariants.json` if present. Verify now-claims against the repo or tag Unverified.
-2. Cite code with **path + excerpt** (codegraph for symbols). Do not dump whole files.
-3. Write **one** file: `gsuper-pack-<repo>-<ticket-id>.md` (overwrite same name). Header: repo, ticket, **stage** (`after-brainstorm` | `after-spec` | `after-implement`), date. Body: purpose, seams, must/must-not, excerpts. Mid/senior voice. Self-contained — someone with no repo can ask ChatGPT/Claude from this file alone.
-4. Hand the **full filename** to the user.
-
-## After implement (extra)
-
-5. Write `need-to-know-<repo>-<ticket-id>.md` from spec seams: each topic has `full` and `recap` in your notes. If `self-report-*.md` exists, **Read** it and run [scripts/self_report.py](scripts/self_report.py) `render_need_to_know` (known → recap, unknown/missing → full). If no self-report yet, all full (short file still — not a pack dump).
-6. Write stub `self-report-<ticket-id>.md` via `self_report_template` if missing (topics, `status: unknown`, empty `how:`). Tell the user to fill it. Gitignored. Merge into `learn/profile.json` with [scripts/merge_profile.py](scripts/merge_profile.py) after they fill — unknown stays until known.
-7. **Never** shrink the pack from self-report. **Never** treat these files as AC.
+1. List source paths in the header (`sources:`). Read them. **Verify every spec claim against code.** User or doc wrong → drift table, not silence.
+2. Write **one** file: `gsuper-pack-<repo>-<ticket-id>.md` (overwrite same name). Header: repo, ticket, **stage**, date, sources.
+3. Body is **two layers in one file**:
+   - **Overview first** — purpose, **one mermaid E2E**, name table, must/must-not, jump links.
+   - **Then per-unit detail** — each live detector / stage / service: **mermaid flow** (`detect()` / queues), I/O, numbers, verbatim excerpt, failures.
+   - Overview-only = too thin. Detail-only = too thick. ASCII-only diagrams = rewrite as mermaid (you read the pack too).
+4. **Quiz** at the end: open questions, **no answer key**.
+5. Mid/senior voice. Self-contained. Hand the **full filename**.
 
 ## Guardrails
 
-Pack = full upload. Need-to-know = short read. Self-report = biết / không + như nào. Invariants JSON = Cursor agent one-pager.
+Pack = the only learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Spec `Done when` is unchanged.

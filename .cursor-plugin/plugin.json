@@ -2,7 +2,7 @@
   "name": "gsuper",
   "displayName": "gsuper",
   "description": "Code workflow plugin: gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review, with GitHub templates, .agent-workflow storage, PEP 8, and optional diagram learning after plans.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": {
     "name": "odpai"
   },

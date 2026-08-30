@@ -79,7 +79,7 @@ Call next: **gsuper-review** (read-only). Fix P0 later back in this skill.
 
 **After plan done** (all plan tasks verified):
 
-> Learn pack + need-to-know Markdown? → **gsuper-learn-plan** (stage `after-implement`)
+> Learn pack + quiz Markdown? → **gsuper-learn-plan** (stage `after-implement`)
 
 > Personal skill concepts? → **gsuper-learn-self**
 

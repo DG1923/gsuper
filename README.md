@@ -66,7 +66,7 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-write-plan` | Bite-size TDD tasks (~500 LOC soft) |
 | `gsuper-implement` | test → RED → frame → fill → GREEN |
 | `gsuper-review` | Defect + Spec + Standards (read-only) |
-| `gsuper-learn-plan` | Unique pack Markdown after brainstorm/spec/implement; need-to-know after implement |
+| `gsuper-learn-plan` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz |
 | `gsuper-learn-self` | Personal concept cards after plan done |
 | `gsuper-workflow` | Orchestrator |
 | `gsuper-init-project` | `.agent-workflow/` + gitignore |
