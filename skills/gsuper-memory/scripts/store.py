@@ -375,6 +375,16 @@ def upsert_seam(
     return seam_id
 
 
+def live_spec_id(conn: sqlite3.Connection, ticket: str) -> int | None:
+    row = conn.execute(
+        "SELECT id FROM artifact WHERE kind = 'spec' AND ticket = ? AND status = 'live'",
+        (ticket,),
+    ).fetchone()
+    if row is None:
+        return None
+    return int(row["id"])
+
+
 def upsert_spec_lock(
     conn: sqlite3.Connection,
     *,

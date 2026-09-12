@@ -1,4 +1,4 @@
-"""CLI: find / around / note / seed-xproject."""
+"""CLI: init / node / lock / find / around / note. No project-specific seed."""
 
 from __future__ import annotations
 
@@ -6,7 +6,16 @@ import argparse
 import sys
 from pathlib import Path
 
-from store import around, connect, find, init_schema, upsert_note
+from store import (
+    around,
+    connect,
+    find,
+    init_schema,
+    live_spec_id,
+    upsert_node,
+    upsert_note,
+    upsert_spec_lock,
+)
 
 
 def _default_db() -> Path:
@@ -20,6 +29,21 @@ def _cli_text(s: str) -> str:
 
 def _print_line(s: str) -> None:
     print(_cli_text(s))
+
+
+def _lock_decisions(musts: list[str], must_nots: list[str]) -> list[dict[str, str]]:
+    n = max(len(musts), len(must_nots))
+    if n == 0:
+        raise ValueError("lock needs at least one --must or --must-not")
+    rows: list[dict[str, str]] = []
+    for i in range(n):
+        rows.append(
+            {
+                "must": musts[i] if i < len(musts) else "",
+                "must_not": must_nots[i] if i < len(must_nots) else "",
+            }
+        )
+    return rows
 
 
 def _print_rows(rows: list[dict]) -> None:
@@ -36,6 +60,23 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="memory.py")
     parser.add_argument("--db", type=Path, default=_default_db())
     sub = parser.add_subparsers(dest="cmd", required=True)
+
+    sub.add_parser("init")
+
+    p_node = sub.add_parser("node")
+    p_node.add_argument("--slug", required=True)
+    p_node.add_argument("--kind", required=True)
+    p_node.add_argument("--title", required=True)
+    p_node.add_argument("--blurb", default="")
+
+    p_lock = sub.add_parser("lock")
+    p_lock.add_argument("--ticket", required=True)
+    p_lock.add_argument("--node", required=True)
+    p_lock.add_argument("--path", required=True)
+    p_lock.add_argument("--summary", required=True)
+    p_lock.add_argument("--must", action="append", default=[])
+    p_lock.add_argument("--must-not", action="append", default=[])
+    p_lock.add_argument("--supersede", type=int, default=None)
 
     p_find = sub.add_parser("find")
     p_find.add_argument("--kind")
@@ -54,13 +95,43 @@ def main(argv: list[str] | None = None) -> int:
     p_note.add_argument("--path", default="")
     p_note.add_argument("--evidence", default="spec")
 
-    sub.add_parser("seed-xproject")
-
     args = parser.parse_args(argv)
+    existed = args.db.exists()
     conn = connect(args.db)
     init_schema(conn)
 
     try:
+        if args.cmd == "init":
+            _print_line("ok" if existed else "created")
+            return 0
+
+        if args.cmd == "node":
+            upsert_node(
+                conn,
+                slug=args.slug,
+                kind=args.kind,
+                title=args.title,
+                blurb=args.blurb,
+            )
+            print("ok")
+            return 0
+
+        if args.cmd == "lock":
+            sid = args.supersede
+            if sid is None:
+                sid = live_spec_id(conn, args.ticket)
+            artifact_id = upsert_spec_lock(
+                conn,
+                ticket=args.ticket,
+                node=args.node,
+                path=args.path,
+                summary=args.summary,
+                decisions=_lock_decisions(args.must, args.must_not),
+                supersede_id=sid,
+            )
+            _print_line(f"ok\t{artifact_id}")
+            return 0
+
         if args.cmd == "find":
             rows = find(
                 conn,
@@ -92,13 +163,6 @@ def main(argv: list[str] | None = None) -> int:
                 evidence=args.evidence,
             )
             print("ok")
-            return 0
-
-        if args.cmd == "seed-xproject":
-            from seed_xproject import seed
-
-            seed(conn)
-            print("seeded")
             return 0
     except ValueError as exc:
         _print_line(str(exc))

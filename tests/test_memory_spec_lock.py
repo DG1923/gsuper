@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "skills/gsuper-memory/scripts"))
 
-from store import connect, find, init_schema, upsert_node, upsert_spec_lock
+from store import connect, find, init_schema, live_spec_id, upsert_node, upsert_spec_lock
 
 
 def _db() -> sqlite3.Connection:
@@ -54,6 +54,7 @@ class TestSpecLock(unittest.TestCase):
         self.assertEqual(find(self.conn, q="Redis"), [])
         self.assertTrue(find(self.conn, q="Redis", old=True))
         self.assertTrue(find(self.conn, kind="decision", q="delete"))
+        self.assertIsNotNone(live_spec_id(self.conn, "61"))
 
 
 if __name__ == "__main__":

@@ -35,7 +35,15 @@ Append if missing:
 .agent-workflow/memory.sqlite
 ```
 
-`memory.sqlite` stays gitignored even if the rest of `.agent-workflow/` is committed. First `memory.py find` creates the schema. Optional trial: `memory.py seed-xproject`.
+`memory.sqlite` stays gitignored even if the rest of `.agent-workflow/` is committed.
+
+After creating dirs, run (creates the sqlite + schema if missing; `ok` if already there):
+
+```text
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite init
+```
+
+Do not seed project-specific nodes. The project adds its own map with `memory.py node`.
 
 Tell the user they can delete the `.agent-workflow/` ignore line to version artifacts (never commit `memory.sqlite`).
 

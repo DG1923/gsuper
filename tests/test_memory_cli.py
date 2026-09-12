@@ -127,6 +127,184 @@ class TestCli(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertEqual(buf.getvalue().count("Worker.handle"), 1)
 
+    def test_cli_init_creates_schema_when_missing(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "sub" / "memory.sqlite"
+        self.assertFalse(tmp.exists())
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(tmp), "init"])
+        self.assertEqual(rc, 0)
+        self.assertTrue(tmp.exists())
+        self.assertIn("created", buf.getvalue())
+        conn = connect(tmp)
+        names = {
+            r[0]
+            for r in conn.execute(
+                "SELECT name FROM sqlite_master WHERE type IN ('table', 'virtual')"
+            )
+        }
+        self.assertIn("node", names)
+        conn.close()
+        buf2 = io.StringIO()
+        with redirect_stdout(buf2):
+            rc2 = main(["--db", str(tmp), "init"])
+        self.assertEqual(rc2, 0)
+        self.assertIn("ok", buf2.getvalue())
+
+    def test_cli_node_then_note(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        self.assertEqual(main(["--db", str(tmp), "init"]), 0)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(
+                [
+                    "--db",
+                    str(tmp),
+                    "node",
+                    "--slug",
+                    "worker",
+                    "--kind",
+                    "part",
+                    "--title",
+                    "Worker",
+                ]
+            )
+        self.assertEqual(rc, 0)
+        self.assertIn("ok", buf.getvalue())
+        rc = main(
+            [
+                "--db",
+                str(tmp),
+                "note",
+                "--kind",
+                "decision",
+                "--node",
+                "worker",
+                "--body",
+                "must: ack after handle.",
+            ]
+        )
+        self.assertEqual(rc, 0)
+
+    def test_cli_rejects_seed_xproject(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        with self.assertRaises(SystemExit):
+            main(["--db", str(tmp), "seed-xproject"])
+
+    def test_cli_lock_then_supersede(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        self.assertEqual(main(["--db", str(tmp), "init"]), 0)
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "node",
+                    "--slug",
+                    "worker",
+                    "--kind",
+                    "part",
+                    "--title",
+                    "Worker",
+                ]
+            ),
+            0,
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(
+                [
+                    "--db",
+                    str(tmp),
+                    "lock",
+                    "--ticket",
+                    "61",
+                    "--node",
+                    "worker",
+                    "--path",
+                    "specs/old.md",
+                    "--summary",
+                    "Redis era",
+                    "--must",
+                    "Redis lease",
+                    "--must-not",
+                    "ignore lease",
+                ]
+            )
+        self.assertEqual(rc, 0)
+        self.assertRegex(buf.getvalue(), r"ok\t\d+")
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "lock",
+                    "--ticket",
+                    "61",
+                    "--node",
+                    "worker",
+                    "--path",
+                    "specs/new.md",
+                    "--summary",
+                    "PGMQ",
+                    "--must",
+                    "send/read/delete",
+                    "--must-not",
+                    "fail()",
+                ]
+            ),
+            0,
+        )
+        live = io.StringIO()
+        with redirect_stdout(live):
+            main(["--db", str(tmp), "find", "--kind", "spec", "--ticket", "61"])
+        self.assertIn("new.md", live.getvalue())
+        self.assertNotIn("old.md", live.getvalue())
+        hidden = io.StringIO()
+        with redirect_stdout(hidden):
+            main(["--db", str(tmp), "find", "--q", "Redis"])
+        self.assertEqual(hidden.getvalue().strip(), "")
+        old = io.StringIO()
+        with redirect_stdout(old):
+            main(["--db", str(tmp), "find", "--q", "Redis", "--old"])
+        self.assertIn("Redis", old.getvalue())
+
+    def test_cli_lock_needs_decision(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        main(["--db", str(tmp), "init"])
+        main(
+            [
+                "--db",
+                str(tmp),
+                "node",
+                "--slug",
+                "worker",
+                "--kind",
+                "part",
+                "--title",
+                "Worker",
+            ]
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(
+                [
+                    "--db",
+                    str(tmp),
+                    "lock",
+                    "--ticket",
+                    "61",
+                    "--node",
+                    "worker",
+                    "--path",
+                    "specs/a.md",
+                    "--summary",
+                    "empty",
+                ]
+            )
+        self.assertEqual(rc, 2)
+        self.assertIn("must", buf.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()
