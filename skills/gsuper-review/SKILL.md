@@ -1,21 +1,24 @@
 ---
 name: gsuper-review
 description: >
-  Three-axis review — Defect (GitHub Copilot bar, verbatim), Spec (Done when),
-  Standards (gsuper rules). Read-only. Use after implement, before merge, or /review.
+  One-pass review — Bug (verified), Performance leaks (Now/Better/Bound),
+  Spec (Done when), Standards (gsuper rules). Read-only. After implement / before merge.
 ---
 
 # Review (gsuper)
 
-Read-only. No edit, no commit, no fix. Three axes. Do not merge ranks.
+Read-only. No edit, no commit, no fix. One pass, one `review.md`. Do not merge ranks.
 
-| Axis | Bar | Source in plugin |
-|------|-----|------------------|
-| **Defect** | High-confidence bugs only | [references/github-defect.md](references/github-defect.md) — copy Copilot YAML, do not paraphrase |
-| **Spec** | Each `Done when` + OOS / Impacted | Spec file |
-| **Standards** | gsuper rules, sure + in-diff | [references/standards-bar.md](references/standards-bar.md) |
+Do not offer a mode menu. Do not start a second review pass.
 
-Unsure on Defect or Standards -> do not mention.
+| Axis | Bar |
+|------|-----|
+| **Bug** | [references/bug-bar.md](references/bug-bar.md) — hunt + evidence |
+| **Performance** | [references/performance-bar.md](references/performance-bar.md) — leak + Bound |
+| **Spec** | Each `Done when` + OOS / Impacted |
+| **Standards** | [references/standards-bar.md](references/standards-bar.md) — sure + in-diff |
+
+Style nits: still forbidden ([github-defect.md](references/github-defect.md) “NEVER Comment On”). Unsure on Bug or Standards → omit.
 
 ## 0. Diff
 
@@ -23,7 +26,7 @@ Unsure on Defect or Standards -> do not mention.
 git --no-pager status
 # staged -> git --no-pager diff --staged
 # unstaged -> git --no-pager diff
-# clean tree -> git --no-pager diff main...HEAD   # or user base
+# clean tree -> git --no-pager diff main...HEAD
 git --no-pager log --oneline -10
 ```
 
@@ -35,27 +38,31 @@ Order: user path -> `.agent-workflow/specs/` + `scratch/<ticket>/` -> `.scratch/
 
 None + user says none -> Spec = `no spec available`. Do not invent AC.
 
-Diff no map to spec -> **drift**. Stop. Ask which phase. Do not continue axes as if on-spec.
+Diff no map to spec -> **drift**. Stop. Ask which phase.
 
-## 2. Defect
+## 2. Bug
 
-Follow **github-defect.md** verbatim. Absolute paths. Verify when possible. Never modify.
+Follow **bug-bar.md**. Walk all six boxes. Verify this turn. Absolute paths. Never modify.
+
+## 2b. Performance
+
+Follow **performance-bar.md**. No Bound → omit.
 
 ## 3. Spec axis
 
-Each `Done when` line -> exactly one: **evidenced** | **missing** | **partial** | **unverified**.
+Each `Done when` line -> **evidenced** | **missing** | **partial** | **unverified**.
 
-Also: scope creep vs Out of scope / Impacted range. Implemented-but-wrong -> quote the line.
+Scope creep vs Out of scope / Impacted. Implemented-but-wrong -> quote the line.
 
-No PEP8 / Ponytail / objects on this axis.
+No PEP8 / Ponytail on this axis.
 
 ## 4. Standards
 
-Follow **standards-bar.md**. Cite rule + rung. No Fowler dump.
+Follow **standards-bar.md**. Cite rule + rung.
 
 ## 5. Ask user
 
-Defect vs Spec conflict (ship vs fix). Defect Critical/High security may block merge.
+Bug vs Spec conflict (ship vs fix). Bug Critical/High security may block merge.
 
 ## 6. Write
 
@@ -65,8 +72,11 @@ Prefer `.agent-workflow/scratch/<ticket>/review.md`, else `.scratch/<ticket>/rev
 # Review — <ticket>
 Diff: <staged | unstaged | main...HEAD>
 
-## Defect
-(Copilot Issue blocks, or: No significant issues found in the reviewed changes.)
+## Bug
+(Issue blocks, or: No significant issues found in the reviewed changes.)
+
+## Performance
+(Perf blocks, or: No performance leaks found in the diff.)
 
 ## Spec
 - [ ] <Done when> — evidenced | missing | partial | unverified
@@ -76,8 +86,8 @@ Diff: <staged | unstaged | main...HEAD>
 (Standard blocks, or: No significant standards findings.)
 
 ## Decisions
-P0: Defect Critical/High or Spec missing/wrong
-P1: Standards / user accept?
+P0: Bug Critical/High or Spec missing/wrong
+P1: Performance leak with Bound / Standards / user accept?
 ```
 
 Call next:

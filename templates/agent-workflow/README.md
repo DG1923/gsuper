@@ -9,5 +9,6 @@ Project-local storage for the gsuper plugin workflow.
 | `scratch/<ticket>/` | Intent, AC, state while working a ticket |
 | `learning/` | Unused. Do not write new files here. |
 | `learn/` | `gsuper-pack-*.md`, `gsuper-material-*.md`, `samples/`, `invariants.json`. Gitignore leftover `self-report*.md` / `profile.json` / `gaps.json` |
+| `memory.sqlite` | Local find index (nodes, seams, decisions). **Never commit.** `memory.py init` if missing; `find` before dumping specs. |
 
-By default this directory is **gitignored**. Remove `.agent-workflow/` from `.gitignore` if you want to commit artifacts. Projects that version `.agent-workflow/` still ignore personal learn JSON via `learn/.gitignore`.
+By default this directory is **gitignored**. Remove `.agent-workflow/` from `.gitignore` if you want to commit artifacts. Always keep `memory.sqlite` ignored. Projects that version `.agent-workflow/` still ignore personal learn JSON via `learn/.gitignore`.

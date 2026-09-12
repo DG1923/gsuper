@@ -38,5 +38,11 @@ User reviews file. Approved → optional ask:
 
 After the user **approves** the spec: if `.agent-workflow/learn/invariants.json` exists, append must / must-not rules pointing at that spec path. Do not scan the repo.
 
+If `skills/gsuper-memory/scripts/memory.py` exists, lock the approved spec (path + summary + must/must-not only — do **not** ingest the markdown body). Same ticket a second time supersedes the live artifact:
+
+```text
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite lock --ticket <id> --node <node> --path .agent-workflow/specs/<file>.md --summary "..." --must "..." --must-not "..."
+```
+
 Then → **gsuper-write-plan**.  
 Do **not** offer **gsuper-learn-material** here.

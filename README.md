@@ -65,9 +65,10 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-write-spec` | Locked Done when / seams / Sec+Perf |
 | `gsuper-write-plan` | Bite-size TDD tasks (~500 LOC soft) |
 | `gsuper-implement` | test → RED → frame → fill → GREEN |
-| `gsuper-review` | Defect + Spec + Standards (read-only) |
+| `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |
 | `gsuper-learn-material` | One-concept lesson + runnable sample after implement |
+| `gsuper-memory` | `memory.py init|node|lock|find|around|note` on gitignored `memory.sqlite` — before dumping specs |
 | `gsuper-workflow` | Orchestrator |
 | `gsuper-init-project` | `.agent-workflow/` + gitignore |
 | `gsuper-github-templates` | Parent / sub-issue / PR templates |

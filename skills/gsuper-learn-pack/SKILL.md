@@ -34,7 +34,7 @@ Offer; user may decline. `/gsuper-workflow-learn` or `/gsuper-workflow-learn-pac
 | Reader | Artifact |
 |--------|----------|
 | Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
-| Agent | spec/plan/intent MD, `learn/invariants.json` |
+| Agent | spec/plan/intent MD, `learn/invariants.json`, `memory.py find` |
 | Implement | spec `Done when` only |
 
 Do **not** write `need-to-know-*.md` or `self-report-*.md`. Do **not** copy quiz.html or overview.html. Do **not** write `gaps.json`.
@@ -67,3 +67,9 @@ Pack is compiled from **spec + live code**, not from memory.
 Pack = the only full-ticket learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Spec `Done when` is unchanged.
 
 One-concept ôn + runnable sample → **gsuper-learn-material** (after implement).
+
+After writing the pack file, if `memory.py` exists, record **path only** (no mermaid/body ingest):
+
+```text
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite note --kind verify --node <node> --body "pack pointer" --path .agent-workflow/learn/<pack-filename>
+```
