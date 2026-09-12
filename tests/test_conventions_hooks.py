@@ -17,8 +17,11 @@ class TestConventionsHooks(unittest.TestCase):
             "skills/gsuper-init-project/SKILL.md",
         ):
             text = (ROOT / rel).read_text(encoding="utf-8")
-            self.assertNotIn("invariants.json", text)
             self.assertIn("conventions.md", text)
+            if rel.endswith("gsuper-init-project/SKILL.md"):
+                self.assertIn("migrat", text.lower())
+                continue
+            self.assertNotIn("invariants.json", text)
         self.assertTrue((ROOT / "templates/agent-workflow/conventions.md").is_file())
         self.assertFalse(
             (ROOT / "templates/agent-workflow/learn/invariants.json").exists()

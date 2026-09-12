@@ -6,6 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
+from conventions import upgrade_workflow
 from store import (
     around,
     connect,
@@ -103,6 +104,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.cmd == "init":
             _print_line("ok" if existed else "created")
+            status = upgrade_workflow(args.db.parent)
+            _print_line(f"conventions\t{status}")
             return 0
 
         if args.cmd == "node":
