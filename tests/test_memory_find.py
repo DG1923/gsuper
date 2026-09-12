@@ -66,6 +66,12 @@ class TestFind(unittest.TestCase):
         self.assertIn("ack after handle", rows[0]["body"])
         self.assertEqual(rows[0]["status"], "live")
 
+    def test_find_q_and_does_not_raise(self) -> None:
+        rows = find(self.conn, q="AND")
+        self.assertEqual(rows, [])
+        rows = find(self.conn, q="ack AND lease")
+        self.assertIsInstance(rows, list)
+
 
 if __name__ == "__main__":
     unittest.main()

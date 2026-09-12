@@ -60,45 +60,49 @@ def main(argv: list[str] | None = None) -> int:
     conn = connect(args.db)
     init_schema(conn)
 
-    if args.cmd == "find":
-        rows = find(
-            conn,
-            kind=args.kind,
-            node=args.node,
-            ticket=args.ticket,
-            q=args.q,
-            old=args.old,
-        )
-        _print_rows(rows)
-        return 0
+    try:
+        if args.cmd == "find":
+            rows = find(
+                conn,
+                kind=args.kind,
+                node=args.node,
+                ticket=args.ticket,
+                q=args.q,
+                old=args.old,
+            )
+            _print_rows(rows)
+            return 0
 
-    if args.cmd == "around":
-        out = around(conn, args.node)
-        for n in out["neighbors"]:
-            _print_line(f"neighbor\t{n['rel']}\t\t\t{n['slug']}\t")
-        _print_rows(out["seams"])
-        _print_rows(out["notes"])
-        _print_rows(out["artifacts"])
-        return 0
+        if args.cmd == "around":
+            out = around(conn, args.node)
+            for n in out["neighbors"]:
+                _print_line(f"neighbor\t{n['rel']}\t\t\t{n['slug']}\t")
+            _print_rows(out["seams"])
+            _print_rows(out["notes"])
+            _print_rows(out["artifacts"])
+            return 0
 
-    if args.cmd == "note":
-        upsert_note(
-            conn,
-            kind=args.kind,
-            node=args.node,
-            body=args.body,
-            path=args.path,
-            evidence=args.evidence,
-        )
-        print("ok")
-        return 0
+        if args.cmd == "note":
+            upsert_note(
+                conn,
+                kind=args.kind,
+                node=args.node,
+                body=args.body,
+                path=args.path,
+                evidence=args.evidence,
+            )
+            print("ok")
+            return 0
 
-    if args.cmd == "seed-xproject":
-        from seed_xproject import seed
+        if args.cmd == "seed-xproject":
+            from seed_xproject import seed
 
-        seed(conn)
-        print("seeded")
-        return 0
+            seed(conn)
+            print("seeded")
+            return 0
+    except ValueError as exc:
+        _print_line(str(exc))
+        return 2
 
     return 2
 

@@ -149,14 +149,26 @@ def _live_clause(old: bool) -> str:
     return "r.status = 'live' AND r.evidence != 'doc'"
 
 
+def _fts_query(q: str) -> str:
+    tokens = q.split()
+    if not tokens:
+        return '""'
+    quoted = ['"' + token.replace('"', '""') + '"' for token in tokens]
+    return " AND ".join(quoted)
+
+
 def _match_ids(conn: sqlite3.Connection, q: str) -> tuple[set[int], set[int], set[int]]:
     notes: set[int] = set()
     artifacts: set[int] = set()
     seams: set[int] = set()
-    for row in conn.execute(
-        "SELECT source_kind, source_id FROM memory_fts WHERE memory_fts MATCH ?",
-        (q,),
-    ):
+    try:
+        matched = conn.execute(
+            "SELECT source_kind, source_id FROM memory_fts WHERE memory_fts MATCH ?",
+            (_fts_query(q),),
+        )
+    except sqlite3.OperationalError:
+        return notes, artifacts, seams
+    for row in matched:
         if row["source_kind"] == "note":
             notes.add(int(row["source_id"]))
         elif row["source_kind"] == "artifact":
@@ -430,9 +442,10 @@ def around(conn: sqlite3.Connection, node_slug: str) -> dict[str, Any]:
             continue
         seen.add(key)
         neighbors.append({"slug": r["slug"], "rel": r["rel"]})
+    rows = find(conn, node=node_slug)
     return {
         "neighbors": neighbors,
-        "seams": find(conn, node=node_slug, kind="seam"),
-        "notes": find(conn, node=node_slug),
-        "artifacts": find(conn, node=node_slug, kind="spec"),
+        "seams": [r for r in rows if r["row_kind"] == "seam"],
+        "notes": [r for r in rows if r["row_kind"] in ("decision", "note")],
+        "artifacts": [r for r in rows if r["row_kind"] == "spec"],
     }

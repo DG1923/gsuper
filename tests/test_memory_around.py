@@ -18,6 +18,7 @@ from store import (
     init_schema,
     upsert_edge,
     upsert_node,
+    upsert_note,
     upsert_seam,
 )
 
@@ -77,6 +78,27 @@ class TestAround(unittest.TestCase):
                 outputs="b",
                 does="line1\nline2",
             )
+
+    def test_around_notes_exclude_seams(self) -> None:
+        upsert_seam(
+            self.conn,
+            node="worker",
+            symbol="Worker.handle",
+            path="worker.py",
+            inputs="payload",
+            outputs="status",
+            does="Run highlight; ack after handle",
+        )
+        upsert_note(
+            self.conn,
+            kind="decision",
+            node="worker",
+            body="must: ack after handle.",
+        )
+        out = around(self.conn, "worker")
+        self.assertEqual(len(out["seams"]), 1)
+        self.assertTrue(all(r["row_kind"] in ("decision", "note") for r in out["notes"]))
+        self.assertFalse(any(r.get("symbol") == "Worker.handle" for r in out["notes"]))
 
 
 if __name__ == "__main__":

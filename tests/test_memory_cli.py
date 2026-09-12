@@ -89,6 +89,44 @@ class TestCli(unittest.TestCase):
         self.assertIn("stopped", text)
         self.assertNotIn("\u2192", text)
 
+    def test_cli_around_unknown_node(self) -> None:
+        tmp = tempfile.NamedTemporaryFile(suffix=".sqlite", delete=False)
+        tmp.close()
+        db = Path(tmp.name)
+        conn = connect(db)
+        init_schema(conn)
+        conn.close()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(db), "around", "nosuch"])
+        self.assertEqual(rc, 2)
+        self.assertIn("unknown node", buf.getvalue())
+
+    def test_cli_around_no_duplicate_seam(self) -> None:
+        tmp = tempfile.NamedTemporaryFile(suffix=".sqlite", delete=False)
+        tmp.close()
+        db = Path(tmp.name)
+        conn = connect(db)
+        init_schema(conn)
+        upsert_node(conn, slug="worker", kind="part", title="Worker")
+        from store import upsert_seam
+
+        upsert_seam(
+            conn,
+            node="worker",
+            symbol="Worker.handle",
+            path="worker.py",
+            inputs="payload",
+            outputs="status",
+            does="Run highlight; ack after handle",
+        )
+        conn.close()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(db), "around", "worker"])
+        self.assertEqual(rc, 0)
+        self.assertEqual(buf.getvalue().count("Worker.handle"), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
