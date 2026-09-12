@@ -28,7 +28,7 @@ Detail: [references/tdd-loop.md](references/tdd-loop.md)
 Spec with `Done when:` (`.agent-workflow/specs/` or `.scratch/<ticket>/`).  
 No spec → **gsuper-write-spec**. Fuzzy → **gsuper-brainstorm**.
 
-If `.agent-workflow/learn/invariants.json` exists, **Read it** before coding.
+Do **not** treat a JSON conventions file as live law. `.agent-workflow/conventions.md` is user-owned — propose edits, write only after approval.
 
 Before Glob of `.agent-workflow/` specs/plans/packs or `docs/system`, run **`memory.py find`** (or `around <node>` if the ticket is unknown):
 

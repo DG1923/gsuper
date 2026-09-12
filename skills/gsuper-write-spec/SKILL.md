@@ -36,7 +36,7 @@ User reviews file. Approved → optional ask:
 
 > Unique learn pack Markdown (read + upload ChatGPT/Claude)? → **gsuper-learn-pack** (stage `after-spec`)
 
-After the user **approves** the spec: if `.agent-workflow/learn/invariants.json` exists, append must / must-not rules pointing at that spec path. Do not scan the repo.
+After the user **approves** the spec: do **not** append a JSON conventions store. Project conventions live in `.agent-workflow/conventions.md` (workflow root, not `learn/`). If that file should change, propose the exact bullets and **wait for user approval** before editing it.
 
 If `skills/gsuper-memory/scripts/memory.py` exists, lock the approved spec (path + summary + must/must-not only — do **not** ingest the markdown body). Same ticket a second time supersedes the live artifact:
 

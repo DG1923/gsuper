@@ -6,7 +6,7 @@ Implement never uses this file as AC. Spec `Done when` stays in Markdown.
 
 ```text
 .agent-workflow/learn/gsuper-pack-<repo>-<ticket-id>.md
-.agent-workflow/learn/invariants.json
+.agent-workflow/conventions.md
 ```
 
 Never name the pack `pack.md`. Helper: `scripts/names.py` `pack_filename`.

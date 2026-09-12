@@ -10,18 +10,18 @@ description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use o
 ```text
 .agent-workflow/
   README.md
+  conventions.md
   specs/
   plans/
   scratch/
   learning/
   learn/
-    invariants.json
     .gitignore
 ```
 
-Copy text from plugin `templates/agent-workflow/` when present, including `learn/`.
+Copy text from plugin `templates/agent-workflow/` when present, including `learn/` and root `conventions.md`.
 
-Each invariants rule (appended later, after a spec is approved) is `{ "id", "must", "must_not", "spec" }`. Init leaves `"rules": []`. Do not overwrite a non-empty `invariants.json`.
+`conventions.md` is user-owned project conventions. Create it if missing (from the template). Do not overwrite a non-empty `conventions.md`. Do not create a JSON conventions store.
 
 Do not scan the repo.
 

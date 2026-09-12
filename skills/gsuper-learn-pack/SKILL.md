@@ -34,7 +34,7 @@ Offer; user may decline. `/gsuper-workflow-learn` or `/gsuper-workflow-learn-pac
 | Reader | Artifact |
 |--------|----------|
 | Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
-| Agent | spec/plan/intent MD, `learn/invariants.json`, `memory.py find` |
+| Agent | spec/plan/intent MD, `memory.py find`. `.agent-workflow/conventions.md` is human-owned (edit only after user approval) |
 | Implement | spec `Done when` only |
 
 Do **not** write `need-to-know-*.md` or `self-report-*.md`. Do **not** copy quiz.html or overview.html. Do **not** write `gaps.json`.
