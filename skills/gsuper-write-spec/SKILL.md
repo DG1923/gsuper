@@ -38,5 +38,7 @@ User reviews file. Approved → optional ask:
 
 After the user **approves** the spec: if `.agent-workflow/learn/invariants.json` exists, append must / must-not rules pointing at that spec path. Do not scan the repo.
 
+If `skills/gsuper-memory/scripts/memory.py` exists, also **upsert_spec_lock** (via `memory.py` / store) for that spec: live artifact + one `decision` per must/must-not. Do **not** ingest the spec markdown body. Supersede the previous spec artifact when behavior is replaced.
+
 Then → **gsuper-write-plan**.  
 Do **not** offer **gsuper-learn-material** here.

@@ -1,3 +1,7 @@
+## 0.7.0 - 2026-09-12
+
+- **gsuper-memory**: `memory.py find|around|note` on gitignored `.agent-workflow/memory.sqlite`. Hooks: find-first on implement, spec-lock upsert, pack path only. `seed-xproject` for PGMQ trial. No embeddings, no spec-body ingest.
+
 ## 0.6.0 - 2026-08-30
 
 - **gsuper-learn-plan**: pack = spec + live-code excerpts (overview then detail). Mermaid required. Open quiz, no answer key. No need-to-know / self-report. No whole-file concat. Drift vs spec must be stated.

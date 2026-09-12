@@ -30,6 +30,14 @@ No spec → **gsuper-write-spec**. Fuzzy → **gsuper-brainstorm**.
 
 If `.agent-workflow/learn/invariants.json` exists, **Read it** before coding.
 
+Before Glob of `.agent-workflow/` specs/plans/packs or `docs/system`, run **`memory.py find`** (or `around <node>` if the ticket is unknown):
+
+```text
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite find --q <topic>
+```
+
+Then Codegraph / Read **one** matching path. Pack is not AC. After a useful run/bug/verify, `memory.py note --kind run|bug|verify --node … --body … --path …`.
+
 Plan present → read; gaps → ask. Do not guess.
 
 **Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **gsuper-brainstorm** ([symptom-gate](../gsuper-brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/spec.

@@ -32,9 +32,12 @@ Append if missing:
 ```gitignore
 # gsuper workflow artifacts (remove this line to commit specs/plans)
 .agent-workflow/
+.agent-workflow/memory.sqlite
 ```
 
-Tell the user they can delete that ignore line to version artifacts.
+`memory.sqlite` stays gitignored even if the rest of `.agent-workflow/` is committed. First `memory.py find` creates the schema. Optional trial: `memory.py seed-xproject`.
+
+Tell the user they can delete the `.agent-workflow/` ignore line to version artifacts (never commit `memory.sqlite`).
 
 ## Optional
 

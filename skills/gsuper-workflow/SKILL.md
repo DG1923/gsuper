@@ -49,6 +49,7 @@ Neither blocks the next ship step if declined.
 .agent-workflow/plans/
 .agent-workflow/scratch/<ticket>/
 .agent-workflow/learn/             # pack + material lessons + samples + invariants.json
+.agent-workflow/memory.sqlite      # local find index — gitignore; memory.py find first
 ```
 
 Missing -> **gsuper-init-project**.
