@@ -48,7 +48,8 @@ Neither blocks the next ship step if declined.
 .agent-workflow/specs/
 .agent-workflow/plans/
 .agent-workflow/scratch/<ticket>/
-.agent-workflow/learn/             # pack + material lessons + samples + invariants.json
+.agent-workflow/learn/             # pack + material lessons + samples
+.agent-workflow/conventions.md     # user-owned project conventions; edit only after approval
 .agent-workflow/memory.sqlite      # local find index — gitignore; memory.py find first
 ```
 

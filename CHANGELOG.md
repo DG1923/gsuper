@@ -1,6 +1,7 @@
 ## 0.7.0 - 2026-09-12
 
 - **gsuper-memory**: `memory.py init|node|lock|find|around|note` on gitignored `.agent-workflow/memory.sqlite`. `init` creates schema if missing. `lock` writes approved spec pointer + must/must-not (no body). No project-specific seed. Hooks: find-first on implement, lock after spec approve, pack path only. No embeddings.
+- **conventions**: `.agent-workflow/conventions.md` (workflow root) replaces the JSON conventions store. Agent edits only after user approval. Plugin `rules/*.mdc` unchanged.
 - **gsuper-review**: one pass — verified Bug hunt + Performance leaks (Now/Better/Bound). No mode menu. No finding without evidence.
 
 ## 0.6.0 - 2026-08-30
