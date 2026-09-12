@@ -12,8 +12,25 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "skills/gsuper-memory/scripts"))
 
-from memory import main
+from memory import _print_rows, main
 from store import connect, init_schema, upsert_node, upsert_note
+
+
+class _CharmapStdout:
+    """Windows console: encode fails on arrows (review P0)."""
+
+    encoding = "cp1258"
+
+    def __init__(self) -> None:
+        self.chunks: list[str] = []
+
+    def write(self, s: str) -> int:
+        s.encode("cp1258")
+        self.chunks.append(s)
+        return len(s)
+
+    def flush(self) -> None:
+        return None
 
 
 class TestCli(unittest.TestCase):
@@ -48,6 +65,29 @@ class TestCli(unittest.TestCase):
         out = buf.getvalue()
         self.assertIn("ack after handle", out)
         self.assertNotIn("Redis", out)
+
+    def test_print_rows_survives_cp1258(self) -> None:
+        fake = _CharmapStdout()
+        old = sys.stdout
+        sys.stdout = fake  # type: ignore[assignment]
+        try:
+            _print_rows(
+                [
+                    {
+                        "row_kind": "decision",
+                        "status": "live",
+                        "evidence": "spec",
+                        "path": "spec.md",
+                        "symbol": "",
+                        "body": "timeout/kill → stopped",
+                    }
+                ]
+            )
+        finally:
+            sys.stdout = old
+        text = "".join(fake.chunks)
+        self.assertIn("stopped", text)
+        self.assertNotIn("\u2192", text)
 
 
 if __name__ == "__main__":

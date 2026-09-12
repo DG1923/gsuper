@@ -13,11 +13,20 @@ def _default_db() -> Path:
     return Path.cwd() / ".agent-workflow" / "memory.sqlite"
 
 
+def _cli_text(s: str) -> str:
+    enc = getattr(sys.stdout, "encoding", None) or "utf-8"
+    return s.encode(enc, errors="replace").decode(enc)
+
+
+def _print_line(s: str) -> None:
+    print(_cli_text(s))
+
+
 def _print_rows(rows: list[dict]) -> None:
     for r in rows:
         symbol = r.get("symbol") or ""
         body = (r.get("body") or "").replace("\t", " ").replace("\n", " ")
-        print(
+        _print_line(
             f"{r.get('row_kind', '')}\t{r.get('status', '')}\t"
             f"{r.get('evidence', '')}\t{r.get('path', '')}\t{symbol}\t{body}"
         )
@@ -66,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.cmd == "around":
         out = around(conn, args.node)
         for n in out["neighbors"]:
-            print(f"neighbor\t{n['rel']}\t\t\t{n['slug']}\t")
+            _print_line(f"neighbor\t{n['rel']}\t\t\t{n['slug']}\t")
         _print_rows(out["seams"])
         _print_rows(out["notes"])
         _print_rows(out["artifacts"])
