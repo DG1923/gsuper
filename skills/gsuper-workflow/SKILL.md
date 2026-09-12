@@ -62,7 +62,7 @@ Missing -> **gsuper-init-project**.
 | gsuper-write-spec | `/specify` | `gsuper-write-spec` | Spec approved; optional **gsuper-learn-pack** |
 | gsuper-write-plan | SP plans + Matt slices | `gsuper-write-plan` | Plan saved; optional **gsuper-learn-pack** |
 | gsuper-implement | `/build` | `gsuper-implement` | Evidence; then pack + **gsuper-learn-material** (review not blocked) |
-| gsuper-review | `/review` | `gsuper-review` | Defect + Spec + Standards; read-only |
+| gsuper-review | `/review` | `gsuper-review` | Bug + Performance + Spec + Standards; one pass |
 
 | Side track | When | Skill |
 |------------|------|-------|

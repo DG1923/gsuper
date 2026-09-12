@@ -1,6 +1,7 @@
 ## 0.7.0 - 2026-09-12
 
 - **gsuper-memory**: `memory.py find|around|note` on gitignored `.agent-workflow/memory.sqlite`. Hooks: find-first on implement, spec-lock upsert, pack path only. `seed-xproject` for PGMQ trial. No embeddings, no spec-body ingest.
+- **gsuper-review**: one pass — verified Bug hunt + Performance leaks (Now/Better/Bound). No mode menu. No finding without evidence.
 
 ## 0.6.0 - 2026-08-30
 
