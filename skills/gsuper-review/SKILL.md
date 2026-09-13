@@ -44,6 +44,8 @@ Diff no map to spec -> **drift**. Stop. Ask which phase.
 
 Follow **bug-bar.md**. Walk all six boxes. Verify this turn. Absolute paths. Never modify.
 
+Each Issue must name the **Flow step** (from the spec, or a user-visible step if no Flow) and **Why a bug** in **plain language** (expected I/O vs what happened; why that breaks Purpose — no jargon-only sentence). Omit the finding if you cannot say that.
+
 ## 2b. Performance
 
 Follow **performance-bar.md**. No Bound → omit.
@@ -73,7 +75,7 @@ Prefer `.agent-workflow/scratch/<ticket>/review.md`, else `.scratch/<ticket>/rev
 Diff: <staged | unstaged | main...HEAD>
 
 ## Bug
-(Issue blocks, or: No significant issues found in the reviewed changes.)
+(Issue blocks with Step + Why a bug, or: No significant issues found in the reviewed changes.)
 
 ## Performance
 (Perf blocks, or: No performance leaks found in the diff.)

@@ -25,9 +25,10 @@ Risk if we patch now: <wrong layer / mask bug / fight design>
 Call next: **gsuper-brainstorm** (or diagnose facts first, then gsuper-brainstorm)
 ```
 
-3. **Facts first** — look up repo/logs/tests yourself; correct wrong assumptions gently with evidence.
-4. **Grill** — problem → success → whether they want root fix vs explicit temporary workaround.
-5. Only after user confirms direction → **gsuper-write-spec** (thin OK) → **gsuper-implement**.
+3. **Facts first** — look up repo/logs/tests yourself; correct wrong assumptions gently with evidence. Tell the user those facts.
+4. **Teach + Flow** — current mechanism; map the ask onto it; mermaid `flowchart` + table (step / input / uses / output). Extra steps vs their sentence **must** be on the chart. **Plain language**. Do **not** grill yet.
+5. **Grill** — problem → success → root fix vs explicit temporary workaround. Each Q: Why + If yes, extra steps (same [grilling.md](grilling.md) format).
+6. Only after user confirms direction → **gsuper-write-spec** (thin OK; same Flow). Do **not** skip to implement without Flow.
 
 ## Explicit workaround exception
 
