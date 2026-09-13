@@ -50,7 +50,7 @@ Do not implement, scaffold production code, or call **gsuper-implement** until d
 
 ## Checklist
 
-1. **Context** — enough repo/docs/commits to ask well (facts = you look up). **Tell the user those facts** — do not keep the mechanism only in your head.
+1. **Context** — enough repo/docs/commits to ask well (facts = you look up). Run `memory.py find --q <topic>` (or `around <node>`). Empty → index miss; Read `.agent-workflow/specs/` on disk. Do not assume the ticket was never locked. **Tell the user those facts** — do not keep the mechanism only in your head.
 2. **Scope** — multiple independent subsystems → decompose first; gsuper-brainstorm one slice.
 3. **Teach** — current mechanism; map the user’s idea onto it; **Flow** (mermaid `flowchart` + table: step / input / uses / output). User-visible steps only. Extra steps vs their sentence **must** be on the chart. **Plain language** (words the user already used; one short gloss if you keep a term). Do **not** grill yet.
 4. **Grill** — [grilling.md](references/grilling.md): frontier rounds until tree empty. Each Q: Why + If yes, extra steps. **Wait for answers** each round — do not invent decisions.

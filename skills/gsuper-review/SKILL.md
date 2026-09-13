@@ -20,7 +20,11 @@ Do not offer a mode menu. Do not start a second review pass.
 
 Style nits: still forbidden ([github-defect.md](references/github-defect.md) “NEVER Comment On”). Unsure on Bug or Standards → omit.
 
-## 0. Diff
+## 0. Memory then diff
+
+Run `memory.py find --ticket <id>` or `find --q <topic>` first. Empty → index miss; use the spec file on disk. Do not treat empty find as “no spec”.
+
+## 0b. Diff
 
 ```bash
 git --no-pager status

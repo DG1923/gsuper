@@ -13,8 +13,11 @@ from store import (
     find,
     init_schema,
     live_spec_id,
+    sync_spec_dir,
+    upsert_edge,
     upsert_node,
     upsert_note,
+    upsert_seam,
     upsert_spec_lock,
 )
 
@@ -53,7 +56,8 @@ def _print_rows(rows: list[dict]) -> None:
         body = (r.get("body") or "").replace("\t", " ").replace("\n", " ")
         _print_line(
             f"{r.get('row_kind', '')}\t{r.get('status', '')}\t"
-            f"{r.get('evidence', '')}\t{r.get('path', '')}\t{symbol}\t{body}"
+            f"{r.get('evidence', '')}\t{r.get('path', '')}\t{symbol}\t"
+            f"{r.get('ticket', '')}\t{r.get('node', '')}\t{body}"
         )
 
 
@@ -95,6 +99,26 @@ def main(argv: list[str] | None = None) -> int:
     p_note.add_argument("--body", required=True)
     p_note.add_argument("--path", default="")
     p_note.add_argument("--evidence", default="spec")
+
+    p_edge = sub.add_parser("edge")
+    p_edge.add_argument("--from", dest="src", required=True)
+    p_edge.add_argument("--to", dest="dst", required=True)
+    p_edge.add_argument("--rel", required=True)
+
+    p_seam = sub.add_parser("seam")
+    p_seam.add_argument("--node", required=True)
+    p_seam.add_argument("--symbol", required=True)
+    p_seam.add_argument("--path", required=True)
+    p_seam.add_argument("--inputs", default="")
+    p_seam.add_argument("--outputs", default="")
+    p_seam.add_argument("--does", required=True)
+
+    p_sync = sub.add_parser("sync")
+    p_sync.add_argument(
+        "--specs",
+        type=Path,
+        default=Path(".agent-workflow") / "specs",
+    )
 
     args = parser.parse_args(argv)
     existed = args.db.exists()
@@ -166,6 +190,29 @@ def main(argv: list[str] | None = None) -> int:
                 evidence=args.evidence,
             )
             print("ok")
+            return 0
+
+        if args.cmd == "edge":
+            upsert_edge(conn, args.src, args.dst, args.rel)
+            print("ok")
+            return 0
+
+        if args.cmd == "seam":
+            upsert_seam(
+                conn,
+                node=args.node,
+                symbol=args.symbol,
+                path=args.path,
+                inputs=args.inputs,
+                outputs=args.outputs,
+                does=args.does,
+            )
+            print("ok")
+            return 0
+
+        if args.cmd == "sync":
+            for row in sync_spec_dir(conn, args.specs):
+                _print_line(f"{row['action']}\t{row['ticket']}\t{row['path']}")
             return 0
     except ValueError as exc:
         _print_line(str(exc))

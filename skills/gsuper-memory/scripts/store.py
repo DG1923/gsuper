@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from pathlib import Path
 from typing import Any
+
+_SPEC_FILE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})-(.+)\.md$")
+_TICKET_BOUNDARY_RE = re.compile(r"[^A-Za-z0-9]")
 
 
 def connect(path: Path) -> sqlite3.Connection:
@@ -149,6 +153,58 @@ def _live_clause(old: bool) -> str:
     return "r.status = 'live' AND r.evidence != 'doc'"
 
 
+def ticket_matches(stored: str, query: str) -> bool:
+    """Exact or hyphen/underscore prefix: EL-6 matches EL-6-domain, not EL-60."""
+    if not query:
+        return True
+    if stored == query:
+        return True
+    return stored.startswith(f"{query}-") or stored.startswith(f"{query}_")
+
+
+def ticket_in_text(text: str, query: str) -> bool:
+    """True when query sits on a non-alnum boundary (avoids EL-6 matching EL-60)."""
+    if not query or not text:
+        return False
+    start = 0
+    while True:
+        i = text.find(query, start)
+        if i < 0:
+            return False
+        before_ok = i == 0 or _TICKET_BOUNDARY_RE.match(text[i - 1])
+        after = i + len(query)
+        after_ok = after == len(text) or _TICKET_BOUNDARY_RE.match(text[after])
+        if before_ok and after_ok:
+            return True
+        start = i + 1
+
+
+def _ids_for_ticket(
+    conn: sqlite3.Connection, ticket: str, old: bool
+) -> tuple[set[int], set[int]]:
+    live_a = _live_clause(old).replace("r.", "a.")
+    live_n = _live_clause(old).replace("r.", "n.")
+    artifacts: set[int] = set()
+    for r in conn.execute(
+        f"SELECT a.id, a.ticket FROM artifact a WHERE {live_a} AND a.kind = 'spec'"
+    ):
+        if ticket_matches(str(r["ticket"]), ticket):
+            artifacts.add(int(r["id"]))
+    notes: set[int] = set()
+    for r in conn.execute(
+        f"SELECT n.id, n.artifact_id, n.path, n.body FROM note n WHERE {live_n}"
+    ):
+        aid = r["artifact_id"]
+        if aid is not None and int(aid) in artifacts:
+            notes.add(int(r["id"]))
+        elif aid is None and (
+            ticket_in_text(r["path"] or "", ticket)
+            or ticket_in_text(r["body"] or "", ticket)
+        ):
+            notes.add(int(r["id"]))
+    return artifacts, notes
+
+
 def _fts_query(q: str) -> str:
     tokens = q.split()
     if not tokens:
@@ -197,15 +253,30 @@ def find(
     live = _live_clause(old)
     rows: list[dict[str, Any]] = []
 
+    ticket_art_ids: set[int] | None = None
+    ticket_note_ids: set[int] | None = None
+    if ticket:
+        ticket_art_ids, ticket_note_ids = _ids_for_ticket(conn, ticket, old)
+        if note_ids is not None:
+            note_ids = note_ids & ticket_note_ids
+        else:
+            note_ids = ticket_note_ids
+        if artifact_ids is not None:
+            artifact_ids = artifact_ids & ticket_art_ids
+        else:
+            artifact_ids = ticket_art_ids
+
     want_notes = kind in (None, "decision", "note")
     want_specs = kind in (None, "spec")
     want_seams = kind in (None, "seam")
 
     if want_notes:
         sql = f"""
-            SELECT n.id, n.kind, n.body, n.path, n.evidence, n.status, nd.slug AS node
+            SELECT n.id, n.kind, n.body, n.path, n.evidence, n.status, nd.slug AS node,
+                   COALESCE(a.ticket, '') AS ticket
             FROM note n
             JOIN node nd ON nd.id = n.node_id
+            LEFT JOIN artifact a ON a.id = n.artifact_id
             WHERE {live.replace('r.', 'n.')}
         """
         args: list[Any] = []
@@ -232,7 +303,7 @@ def find(
                     "path": r["path"],
                     "body": r["body"],
                     "symbol": "",
-                    "ticket": "",
+                    "ticket": r["ticket"] or "",
                     "node": r["node"],
                 }
             )
@@ -249,9 +320,6 @@ def find(
         if node_id is not None:
             sql += " AND a.node_id = ?"
             args.append(node_id)
-        if ticket:
-            sql += " AND a.ticket = ?"
-            args.append(ticket)
         if artifact_ids is not None:
             if artifact_ids:
                 placeholders = ",".join("?" * len(artifact_ids))
@@ -459,3 +527,54 @@ def around(conn: sqlite3.Connection, node_slug: str) -> dict[str, Any]:
         "notes": [r for r in rows if r["row_kind"] in ("decision", "note")],
         "artifacts": [r for r in rows if r["row_kind"] == "spec"],
     }
+
+
+def _first_heading(path: Path) -> str:
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            if stripped.startswith("# "):
+                return stripped[2:].strip()
+    except OSError:
+        return ""
+    return ""
+
+
+def sync_spec_dir(conn: sqlite3.Connection, specs_dir: Path) -> list[dict[str, str]]:
+    """Register missing spec pointers. Does not ingest must/body. Skips tickets already live."""
+    results: list[dict[str, str]] = []
+    if not specs_dir.is_dir():
+        raise ValueError(f"not a directory: {specs_dir}")
+    live_tickets: list[str] = []
+    for r in conn.execute(
+        "SELECT ticket FROM artifact WHERE kind = 'spec' AND status = 'live'"
+    ):
+        live_tickets.append(str(r["ticket"]))
+    for path in sorted(specs_dir.glob("*.md")):
+        matched = _SPEC_FILE_RE.match(path.name)
+        if not matched:
+            continue
+        ticket = matched.group(2)
+        if any(ticket_matches(existing, ticket) or ticket_matches(ticket, existing) for existing in live_tickets):
+            results.append({"action": "skip", "ticket": ticket, "path": str(path)})
+            continue
+        try:
+            _node_id(conn, ticket)
+        except ValueError:
+            upsert_node(conn, slug=ticket, kind="part", title=ticket, blurb="sync from spec")
+        summary = _first_heading(path) or ticket
+        try:
+            rel = path.resolve().relative_to(specs_dir.resolve().parent).as_posix()
+        except ValueError:
+            rel = path.as_posix()
+        upsert_spec_lock(
+            conn,
+            ticket=ticket,
+            node=ticket,
+            path=rel,
+            summary=summary,
+            decisions=[{"must": "spec pointer (sync)", "must_not": ""}],
+        )
+        live_tickets.append(ticket)
+        results.append({"action": "lock", "ticket": ticket, "path": rel})
+    return results

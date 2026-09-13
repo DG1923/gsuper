@@ -68,7 +68,7 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |
 | `gsuper-learn-material` | One-concept lesson + runnable sample after implement |
-| `gsuper-memory` | `memory.py init|node|lock|find|around|note` on gitignored `memory.sqlite` — before dumping specs |
+| `gsuper-memory` | `memory.py init|node|lock|find|around|note|edge|seam|sync` on gitignored `memory.sqlite` — before dumping specs |
 | `gsuper-workflow` | Orchestrator |
 | `gsuper-init-project` | `.agent-workflow/` + gitignore |
 | `gsuper-github-templates` | Parent / sub-issue / PR templates |

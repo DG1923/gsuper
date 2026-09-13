@@ -34,7 +34,7 @@ Missing dir → **gsuper-init-project**.
 
 ## Process
 
-1. Read approved spec (and intent if present).
+1. Run `memory.py find --ticket <id>` (empty → index miss; Read the spec file). Then read approved spec (and intent if present).
 2. Scope / file map / task breakdown per [plan-shape.md](references/plan-shape.md).
 3. If granularity unclear → short quiz (too coarse/fine? blocking edges?) then write.
 4. Write full plan — real code in steps, not outlines.

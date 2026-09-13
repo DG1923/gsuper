@@ -1,3 +1,9 @@
+## 0.7.1 - 2026-09-13
+
+- **memory find --ticket**: scopes notes via artifact + path boundary; prefix `EL-6` matches `EL-6-…` not `EL-60`; unknown ticket → empty.
+- **memory CLI** `edge`, `seam`, `sync` (pointer lock for specs missing from the index; does not ingest body).
+- **hooks**: brainstorm / write-plan / review run `find` first; write-spec locks in the same turn after approve (or `sync` then `lock`).
+
 ## 0.7.0 - 2026-09-12
 
 - **gsuper-memory**: `memory.py init|node|lock|find|around|note` on gitignored `.agent-workflow/memory.sqlite`. `init` creates schema if missing. `lock` writes approved spec pointer + must/must-not (no body). No project-specific seed. Hooks: find-first on implement, lock after spec approve, pack path only. No embeddings.

@@ -11,7 +11,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "skills/gsuper-memory/scripts"))
 
-from store import connect, find, init_schema, upsert_node, upsert_note
+from store import (
+    connect,
+    find,
+    init_schema,
+    ticket_in_text,
+    ticket_matches,
+    upsert_node,
+    upsert_note,
+    upsert_spec_lock,
+)
 
 
 def _db() -> sqlite3.Connection:
@@ -71,6 +80,37 @@ class TestFind(unittest.TestCase):
         self.assertEqual(rows, [])
         rows = find(self.conn, q="ack AND lease")
         self.assertIsInstance(rows, list)
+
+    def test_ticket_matches_prefix_not_el60(self) -> None:
+        self.assertTrue(ticket_matches("EL-6-domain-layer-refactor", "EL-6"))
+        self.assertFalse(ticket_matches("EL-60-foo", "EL-6"))
+        self.assertTrue(ticket_in_text("plans/2026-09-13-EL-6-domain.md", "EL-6"))
+        self.assertFalse(ticket_in_text("plans/2026-09-13-EL-60-foo.md", "EL-6"))
+
+    def test_find_ticket_scopes_notes_and_miss_is_empty(self) -> None:
+        upsert_node(self.conn, slug="other", kind="part", title="Other")
+        upsert_spec_lock(
+            self.conn,
+            ticket="EL-6-domain-layer-refactor",
+            node="worker",
+            path=".agent-workflow/specs/2026-09-13-EL-6-domain-layer-refactor.md",
+            summary="domain move",
+            decisions=[{"must": "thin application", "must_not": "domain import share.db"}],
+        )
+        upsert_note(
+            self.conn,
+            kind="verify",
+            node="other",
+            body="EL-0-stack verified",
+            path=".agent-workflow/plans/2026-09-13-EL-0-stack.md",
+        )
+        scoped = find(self.conn, ticket="EL-6")
+        kinds = {r["row_kind"] for r in scoped}
+        self.assertIn("spec", kinds)
+        self.assertIn("decision", kinds)
+        self.assertFalse(any("EL-0" in (r["body"] or "") for r in scoped))
+        self.assertEqual(find(self.conn, ticket="61"), [])
+        self.assertEqual(find(self.conn, ticket="EL-60"), [])
 
 
 if __name__ == "__main__":
