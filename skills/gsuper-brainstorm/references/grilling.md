@@ -23,8 +23,13 @@ A question that depends on another still-open answer belongs to a **later** roun
 ```text
 ❓ **Q1** - **<title>**: <body; prefer multiple choice>
 
+**Why:** <one line, plain language — what this changes vs the Flow just shown>
+**If yes, extra steps:** <boxes this adds> | none
+
 ➡️ <recommended answer>
 ```
+
+Do not ask Q1 until Teach + Flow are in the same turn (or already visible).
 
 Ask the **whole frontier** in one round (several Qs OK). Do not drip one Q when three independent ones are ready — that is slower than clarify’s grilling.
 

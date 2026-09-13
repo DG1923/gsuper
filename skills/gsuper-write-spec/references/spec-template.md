@@ -28,6 +28,20 @@
 |---------|----------------|
 | …       | …              |
 
+## Flow
+
+User-visible steps only. Mermaid **and** I/O table (one-step ticket: table only is OK). **Plain language** in the table (what goes in, what we do, what comes out) — not only symbol names.
+
+```mermaid
+flowchart LR
+  a[A] --> b[B]
+```
+
+| Step | Input | Uses | Output |
+|------|--------|------|--------|
+| A | … | … | … |
+| B | output of A | … | … |
+
 ## Seams & Testing
 **Seams under test (confirmed):**
 - `<Name>` — observe `<behavior>` via `<how>`

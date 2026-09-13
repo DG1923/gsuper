@@ -29,7 +29,9 @@ Detail: [references/grilling.md](references/grilling.md)
 
 ## What “clarify ý user” means here
 
-You must learn, by asking (not guessing):
+**Teach first, then ask.** Do not open a frontier round until the user has seen how it works now and what extra steps their idea would add.
+
+Then lock, by asking (not guessing):
 
 1. **Problem** — what hurts / who cares
 2. **Success** — how we’ll know it worked (observable)
@@ -40,7 +42,7 @@ Until those are settled with the user → no spec, no plan, no implement.
 
 ## Symptom / confusion gate
 
-If the ask is only a surface fix or the problem isn’t understood → follow [symptom-gate.md](references/symptom-gate.md): **pause, remind, grill**, then continue this checklist. Do not implement “just to unblock” unless they explicitly accept a temporary workaround.
+If the ask is only a surface fix or the problem isn’t understood → follow [symptom-gate.md](references/symptom-gate.md): **pause, remind, Teach + Flow, then grill**. Do not implement “just to unblock” unless they explicitly accept a temporary workaround.
 
 ## Hard gate
 
@@ -48,14 +50,15 @@ Do not implement, scaffold production code, or call **gsuper-implement** until d
 
 ## Checklist
 
-1. **Context** — enough repo/docs/commits to ask well (facts = you look up).
+1. **Context** — enough repo/docs/commits to ask well (facts = you look up). **Tell the user those facts** — do not keep the mechanism only in your head.
 2. **Scope** — multiple independent subsystems → decompose first; gsuper-brainstorm one slice.
-3. **Grill** — [grilling.md](references/grilling.md): frontier rounds until tree empty. **Wait for answers** each round — do not invent decisions.
-4. **Strategic gates** — multiple viable directions, YAGNI cuts, large trade-offs → stop; put options + recommendation; do not pick silently.
-5. **2–3 approaches** — trade-offs; recommend one with reasons; user picks / confirms.
-6. **Present design** — scale to complexity; prefer **short code samples** for seams/APIs; approve section-by-section if large.
-7. **Intent artifact** — write `.agent-workflow/scratch/<ticket>/intent.md` from [intent-template.md](references/intent-template.md) (ask ticket id once if missing). Tiny work: intent can be 5 lines.
-8. **Hand off** — on **user** approval → **gsuper-write-spec** (not plan, not implement).
+3. **Teach** — current mechanism; map the user’s idea onto it; **Flow** (mermaid `flowchart` + table: step / input / uses / output). User-visible steps only. Extra steps vs their sentence **must** be on the chart. **Plain language** (words the user already used; one short gloss if you keep a term). Do **not** grill yet.
+4. **Grill** — [grilling.md](references/grilling.md): frontier rounds until tree empty. Each Q: Why + If yes, extra steps. **Wait for answers** each round — do not invent decisions.
+5. **Strategic gates** — multiple viable directions, YAGNI cuts, large trade-offs → stop; put options + recommendation; do not pick silently.
+6. **2–3 approaches** — trade-offs; recommend one with reasons; user picks / confirms. Update Flow if the pick adds or drops steps.
+7. **Present design** — Flow already shown; adjust if answers changed. Prefer **short code samples** for seams/APIs; approve section-by-section if large.
+8. **Intent artifact** — write `.agent-workflow/scratch/<ticket>/intent.md` from [intent-template.md](references/intent-template.md) (ask ticket id once if missing). Tiny work: intent can be 5 lines.
+9. **Hand off** — on **user** approval → **gsuper-write-spec** (not plan, not implement). Spec must reuse the same Flow.
 
 Optional visual: only when a Q is clearer shown than told; own message; decline → don’t re-offer.
 

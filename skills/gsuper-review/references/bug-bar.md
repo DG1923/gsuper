@@ -24,13 +24,19 @@ Wrong result, crash, or OOM → Bug (not Performance).
 
 ## Output
 
+A reader who only has the idea / Flow must see **which step** broke and **why that is a bug** (expected I/O vs what happened). File:line alone is not enough.
+
 ```text
 ## Issue: [title]
+**Step:** <Flow box: input → uses → output> | (no Flow in spec — name the user-visible step)
+**Why a bug:** <plain language: that step should …; the diff does …; that breaks Purpose / Done when because …>
 **File:** abs/path.py:12
 **Severity:** Critical | High | Medium
 **Problem:** …
 **Evidence:** command + output, or fault line
 **Suggested fix:** … (do not implement)
 ```
+
+No **Step** / **Why a bug** → do not publish the finding (same as no evidence).
 
 None: `No significant issues found in the reviewed changes.`

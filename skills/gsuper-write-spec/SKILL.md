@@ -19,6 +19,7 @@ Missing dir -> **gsuper-init-project**. Thin ticket: same fields, short. Multi-p
 
 - Purpose, Constraints, Do / Do not / Out of scope
 - Impacted range
+- **Flow** (mermaid + input / uses / output table) — same chart as brainstorm Teach; **plain language** (not only file/API names)
 - Seams & Testing (or N/A — no app logic)
 - Quality: **Security** + **Perf** always one line each (AC/budget **or** N/A / Non-goal)
 - Done when (observable)
@@ -28,7 +29,7 @@ No file-path dump. No “code must be clean”. Ponytail: cut over-scope here.
 
 ## Self-review
 
-Placeholders, contradictions, two-way ambiguity -> fix before ask user.
+Placeholders, contradictions, two-way ambiguity, missing Flow, jargon without a gloss, or grill-before-teach leftover → fix before ask user.
 
 ## Exit
 

@@ -28,6 +28,8 @@ class TestReviewSkill(unittest.TestCase):
         self.assertIn("Bound", perf)
         self.assertIn("No Bound → omit", perf)
         self.assertIn("omit", bug.lower())
+        self.assertIn("**Step:**", bug)
+        self.assertIn("Why a bug", bug)
 
 
 if __name__ == "__main__":
