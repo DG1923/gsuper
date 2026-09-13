@@ -305,6 +305,143 @@ class TestCli(unittest.TestCase):
         self.assertEqual(rc, 2)
         self.assertIn("must", buf.getvalue())
 
+    def test_cli_find_ticket_does_not_dump_other_tickets(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        self.assertEqual(main(["--db", str(tmp), "init"]), 0)
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "node",
+                    "--slug",
+                    "worker",
+                    "--kind",
+                    "part",
+                    "--title",
+                    "Worker",
+                ]
+            ),
+            0,
+        )
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "lock",
+                    "--ticket",
+                    "EL-6-domain-layer-refactor",
+                    "--node",
+                    "worker",
+                    "--path",
+                    "specs/el6.md",
+                    "--summary",
+                    "domain",
+                    "--must",
+                    "thin app",
+                    "--must-not",
+                    "share in domain",
+                ]
+            ),
+            0,
+        )
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "note",
+                    "--kind",
+                    "verify",
+                    "--node",
+                    "worker",
+                    "--body",
+                    "EL-0-stack verified",
+                    "--path",
+                    "plans/2026-09-13-EL-0-stack.md",
+                ]
+            ),
+            0,
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(tmp), "find", "--ticket", "EL-6"])
+        self.assertEqual(rc, 0)
+        out = buf.getvalue()
+        self.assertIn("thin app", out)
+        self.assertNotIn("EL-0-stack", out)
+        miss = io.StringIO()
+        with redirect_stdout(miss):
+            main(["--db", str(tmp), "find", "--ticket", "61"])
+        self.assertEqual(miss.getvalue().strip(), "")
+
+    def test_cli_edge_then_around_prints_neighbor(self) -> None:
+        tmp = Path(tempfile.mkdtemp()) / "memory.sqlite"
+        self.assertEqual(main(["--db", str(tmp), "init"]), 0)
+        for slug, title in (("queue", "Queue"), ("worker", "Worker")):
+            self.assertEqual(
+                main(
+                    [
+                        "--db",
+                        str(tmp),
+                        "node",
+                        "--slug",
+                        slug,
+                        "--kind",
+                        "part",
+                        "--title",
+                        title,
+                    ]
+                ),
+                0,
+            )
+        self.assertEqual(
+            main(
+                [
+                    "--db",
+                    str(tmp),
+                    "edge",
+                    "--from",
+                    "queue",
+                    "--to",
+                    "worker",
+                    "--rel",
+                    "next",
+                ]
+            ),
+            0,
+        )
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(tmp), "around", "worker"])
+        self.assertEqual(rc, 0)
+        self.assertIn("neighbor\tnext", buf.getvalue())
+        self.assertIn("queue", buf.getvalue())
+
+    def test_cli_sync_locks_missing_spec_skips_live(self) -> None:
+        tmp = Path(tempfile.mkdtemp())
+        db = tmp / "memory.sqlite"
+        specs = tmp / "specs"
+        specs.mkdir()
+        (specs / "2026-09-13-EL-7-two-facades.md").write_text(
+            "# EL-7 two facades\n\nPurpose here.\n", encoding="utf-8"
+        )
+        self.assertEqual(main(["--db", str(db), "init"]), 0)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(db), "sync", "--specs", str(specs)])
+        self.assertEqual(rc, 0)
+        self.assertIn("lock\tEL-7-two-facades", buf.getvalue())
+        again = io.StringIO()
+        with redirect_stdout(again):
+            main(["--db", str(db), "sync", "--specs", str(specs)])
+        self.assertIn("skip\tEL-7-two-facades", again.getvalue())
+        found = io.StringIO()
+        with redirect_stdout(found):
+            main(["--db", str(db), "find", "--ticket", "EL-7"])
+        self.assertIn("two facades", found.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()

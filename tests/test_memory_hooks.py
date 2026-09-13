@@ -22,8 +22,16 @@ class TestHooks(unittest.TestCase):
         self.assertIn("memory.py", mem)
         self.assertRegex(mem, r"memory\.sqlite init")
         self.assertNotIn("seed-xproject", mem)
+        self.assertIn("sync", mem)
+        self.assertIn("edge", mem)
         pack = (ROOT / "skills/gsuper-learn-pack/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("memory.py", pack)
+        brain = (ROOT / "skills/gsuper-brainstorm/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("memory.py find", brain)
+        plan = (ROOT / "skills/gsuper-write-plan/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("memory.py find", plan)
+        review = (ROOT / "skills/gsuper-review/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("memory.py find", review)
 
 
 if __name__ == "__main__":

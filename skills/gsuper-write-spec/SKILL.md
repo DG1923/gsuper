@@ -39,7 +39,7 @@ User reviews file. Approved → optional ask:
 
 After the user **approves** the spec: do **not** append a JSON conventions store. Project conventions live in `.agent-workflow/conventions.md` (workflow root, not `learn/`). If that file should change, propose the exact bullets and **wait for user approval** before editing it.
 
-If `skills/gsuper-memory/scripts/memory.py` exists, lock the approved spec (path + summary + must/must-not only — do **not** ingest the markdown body). Same ticket a second time supersedes the live artifact:
+If `skills/gsuper-memory/scripts/memory.py` exists, **lock the approved spec in the same turn** (path + summary + must/must-not only — do **not** ingest the markdown body). Same ticket a second time supersedes the live artifact. If `lock` cannot run (unknown node), `node` first, or `sync --specs .agent-workflow/specs` then `lock` to replace the sync pointer with real must/must-not:
 
 ```text
 python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite lock --ticket <id> --node <node> --path .agent-workflow/specs/<file>.md --summary "..." --must "..." --must-not "..."
