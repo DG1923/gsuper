@@ -3,8 +3,10 @@
 Portable **code workflow** skills for Cursor, Claude Code, Codex, Pi, and other agents:
 
 ```text
-gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review
+gsuper-brainstorm → gsuper-write-plan → gsuper-implement → gsuper-review
 ```
+
+**gsuper-write-spec** writes project docs (algorithm / SRS / architecture / large feature) when you ask — it is not on the ship path.
 
 Side tracks: **gsuper-learn-pack** (ticket pack) · **gsuper-learn-material** (one-concept lesson + runnable sample after implement).
 
@@ -62,9 +64,9 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | Skill | Role |
 |-------|------|
 | `gsuper-brainstorm` | Clarify intent (grilling + symptom-gate) before any code |
-| `gsuper-write-spec` | Locked Done when / seams / Sec+Perf |
-| `gsuper-write-plan` | Bite-size TDD tasks (~500 LOC soft) |
-| `gsuper-implement` | test → RED → frame → fill → GREEN |
+| `gsuper-write-plan` | Ticket AC: Purpose, Flow, slices, files, testing approach, Done when (no code bodies) |
+| `gsuper-write-spec` | Project docs: algorithm / SRS / architecture / feature / system — on request |
+| `gsuper-implement` | test → RED → frame → fill → GREEN against the plan |
 | `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |
 | `gsuper-learn-material` | One-concept lesson + runnable sample after implement |

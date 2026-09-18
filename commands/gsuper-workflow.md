@@ -1,6 +1,6 @@
 ---
 name: gsuper-workflow
-description: Run gsuper workflow orchestrator (gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review)
+description: Run gsuper workflow orchestrator (gsuper-brainstorm → gsuper-write-plan → gsuper-implement → gsuper-review; spec-docs on request)
 ---
 
 Follow the **gsuper-workflow** skill in this plugin. Start at the correct phase for the user’s request; do not skip gates.

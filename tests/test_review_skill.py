@@ -20,6 +20,7 @@ class TestReviewSkill(unittest.TestCase):
         self.assertIn("performance-bar.md", SKILL)
         self.assertIn("Do not offer a mode menu", SKILL)
         self.assertIn("Do not start a second review pass", SKILL)
+        self.assertIn("Kết luận cho bạn", SKILL)
 
     def test_evidence_gate_in_bars(self) -> None:
         bug = BUG.read_text(encoding="utf-8")

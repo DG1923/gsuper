@@ -13,7 +13,10 @@ class TestLearnPackSkill(unittest.TestCase):
         self.assertIn("mermaid flow", skill)
         self.assertIn("Overview first", skill)
         self.assertIn("mermaid", skill)
+        self.assertIn("```mermaid", skill)
         self.assertIn("verbatim", skill.lower())
+        self.assertIn("plain language", skill.lower())
+        self.assertIn("Explain first", skill)
         self.assertIn("Quiz", skill)
         self.assertIn(".agent-workflow/learn/", skill)
         self.assertIn("gsuper-learn-material", skill)
@@ -31,6 +34,9 @@ class TestLearnPackSkill(unittest.TestCase):
         self.assertIn("Per-unit", shape)
         self.assertIn("Quiz", shape)
         self.assertIn("mermaid", shape)
+        self.assertIn("```mermaid", shape)
+        self.assertIn("plain language", shape.lower())
+        self.assertIn("after the explanation", shape.lower())
         self.assertNotIn("quiz.html", shape)
 
 

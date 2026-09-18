@@ -26,9 +26,9 @@ Call next: **gsuper-brainstorm** (or diagnose facts first, then gsuper-brainstor
 ```
 
 3. **Facts first** — look up repo/logs/tests yourself; correct wrong assumptions gently with evidence. Tell the user those facts.
-4. **Teach + Flow** — current mechanism; map the ask onto it; mermaid `flowchart` + table (step / input / uses / output). Extra steps vs their sentence **must** be on the chart. **Plain language**. Do **not** grill yet.
+4. **Teach + Flow** — current mechanism; map the ask onto it; mermaid in a ` ```mermaid ` fence (`flowchart` + table: step / input / uses / output). Never a bare chart without that fence. Extra steps vs their sentence **must** be on the chart. **Plain language**. Do **not** grill yet.
 5. **Grill** — problem → success → root fix vs explicit temporary workaround. Each Q: Why + If yes, extra steps (same [grilling.md](grilling.md) format).
-6. Only after user confirms direction → **gsuper-write-spec** (thin OK; same Flow). Do **not** skip to implement without Flow.
+6. Only after user confirms direction → **gsuper-write-plan** (thin OK; same Flow). Do **not** skip to implement without Flow.
 
 ## Explicit workaround exception
 
@@ -36,5 +36,5 @@ User says clearly: “temporary workaround only / accept debt / don’t dig root
 
 ## Not this gate
 
-- Clear bug with reproducible evidence + obvious one-line fix at the right seam → can go thin **gsuper-write-spec** → **gsuper-implement**.
-- Already approved spec/plan matching the ask → follow implement; use **Drift** if the new ask leaves the spec.
+- Clear bug with reproducible evidence + obvious one-line fix at the right seam → can go thin **gsuper-write-plan** → **gsuper-implement**.
+- Already approved plan matching the ask → follow implement; use **Drift** if the new ask leaves the plan. Legacy ticket spec is fallback only when there is no plan.

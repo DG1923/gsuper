@@ -28,6 +28,11 @@ class TestConventionsHooks(unittest.TestCase):
         )
         spec = (ROOT / "skills/gsuper-write-spec/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("approv", spec.lower())
+        conv_py = (ROOT / "skills/gsuper-memory/scripts/conventions.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("Not project law", conv_py)
+        self.assertNotIn("Must / must-not for **this** repo", conv_py)
 
 
 if __name__ == "__main__":

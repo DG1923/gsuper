@@ -59,9 +59,33 @@ class TestTeachFlow(unittest.TestCase):
     def test_spec_template_has_flow(self) -> None:
         self.assertIn("## Flow", TEMPLATE)
         self.assertIn("mermaid", TEMPLATE)
+        self.assertIn("```mermaid", TEMPLATE)
         self.assertIn("input", TEMPLATE.lower())
         self.assertIn("uses", TEMPLATE.lower())
         self.assertIn("output", TEMPLATE.lower())
+
+    def test_flow_skills_fence_mermaid_including_chat(self) -> None:
+        fence = "```mermaid"
+        for rel in (
+            "skills/gsuper-brainstorm/SKILL.md",
+            "skills/gsuper-brainstorm/references/symptom-gate.md",
+            "skills/gsuper-write-plan/SKILL.md",
+            "skills/gsuper-write-plan/references/plan-shape.md",
+            "skills/gsuper-write-spec/SKILL.md",
+            "skills/gsuper-learn-pack/SKILL.md",
+            "skills/gsuper-learn-pack/references/pack-shape.md",
+            "skills/gsuper-learn-material/SKILL.md",
+            "skills/gsuper-learn-material/references/material-shape.md",
+        ):
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn(fence, text, msg=rel)
+        for rel in (
+            "skills/gsuper-brainstorm/SKILL.md",
+            "skills/gsuper-write-plan/SKILL.md",
+            "skills/gsuper-write-spec/SKILL.md",
+        ):
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("chat", text.lower(), msg=rel)
 
 
 if __name__ == "__main__":

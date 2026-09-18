@@ -1,8 +1,9 @@
 ---
 name: gsuper-implement
 description: >
-  Implement against approved spec/plan — TDD at seams (test→RED→frame→fill→GREEN),
+  Implement against approved plan (Done when) — TDD at seams (test→RED→frame→fill→GREEN),
   Ponytail, Python objects. Use after gsuper-write-plan or /gsuper-workflow implement.
+  Legacy ticket spec is fallback only when no plan exists.
 ---
 
 # Implement (gsuper)
@@ -25,26 +26,27 @@ Detail: [references/tdd-loop.md](references/tdd-loop.md)
 
 ## 0. Gate
 
-Spec with `Done when:` (`.agent-workflow/specs/` or `.scratch/<ticket>/`).  
-No spec → **gsuper-write-spec**. Fuzzy → **gsuper-brainstorm**.
+Plan with `Done when:` (`.agent-workflow/plans/` or `.scratch/<ticket>/`).  
+No plan → **gsuper-write-plan**. Fuzzy → **gsuper-brainstorm**.  
+**Dual-read:** if `find --ticket` has a live **plan**, that is AC. A live legacy **spec** (dated file in `specs/` root) is AC only when there is no plan. Spec-docs in `specs/algorithm|srs|feature|architecture|system/` are project docs — follow them when the plan points at them; they are not ticket Done when.
 
-Do **not** treat a JSON conventions file as live law. `.agent-workflow/conventions.md` is user-owned — propose edits, write only after approval.
+Do **not** treat a JSON conventions file as live law. `.agent-workflow/conventions.md` is **not project law** (stub / JSON migrate only). Approved spec-docs hold must/must-not; do not write the same bullets into conventions.md.
 
 Before Glob of `.agent-workflow/` specs/plans/packs or `docs/system`, run **`memory.py find`** (or `around <node>` if the ticket is unknown):
 
 ```text
-python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite find --q <topic>
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite find --ticket <id>
 ```
 
-Then Codegraph / Read **one** matching path. Pack is not AC. After a useful run/bug/verify, `memory.py note --kind run|bug|verify --node … --body … --path …`.
+Empty → index miss; Read the plan file on disk (then legacy spec if no plan). Pack is not AC. After a useful run/bug/verify, `memory.py note --kind run|bug|verify --node … --body … --path …`.
 
-Plan present → read; gaps → ask. Do not guess.
+Write tests and production code from the plan's Testing + slices. **Do not** expect function bodies in the plan.
 
-**Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **gsuper-brainstorm** ([symptom-gate](../gsuper-brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/spec.
+**Symptom / confusion:** User pushes a local patch, wrong-layer fix, or “just make it work” while the problem/root is unclear (or contradicts repo facts) → **stop**. Remind + send to **gsuper-brainstorm** ([symptom-gate](../gsuper-brainstorm/references/symptom-gate.md)). Do not implement the ngọn fix first. Exception: user explicitly accepts a temporary workaround recorded in intent/plan.
 
 ## 1. While coding
 
-- Spec + plan only. No scope fat.
+- Plan only. Linked spec-docs if the plan names them. No scope fat.
 - Rules: **ponytail**, **python-objects**, **testing-seams**, **pep8-python**, **small-diffs**
 - Loop: [tdd-loop.md](references/tdd-loop.md) — **test → RED → frame → fill → GREEN**
 - Soft ~500 LOC / task
@@ -54,7 +56,7 @@ Plan present → read; gaps → ask. Do not guess.
 ## 2. Each plan task
 
 1. In progress
-2. Seam for this slice (from spec) — confirmed
+2. Seam for this slice (from plan Testing) — confirmed
 3. Write **one** failing test (sample API in the test)
 4. **Run** → confirm RED (right reason)
 5. Thin **frame** (stub / signatures) if needed
@@ -67,7 +69,7 @@ Infra-only: smoke at real boundary. No fake seams.
 
 ## 3. Drift
 
-Leaves spec → **stop**. Tell user. No silent adopt.
+Leaves plan → **stop**. Tell user. No silent adopt.
 
 ## 4. Blocked
 
@@ -82,7 +84,7 @@ Before claiming task/ticket done:
 2. **Run it now** (this turn)
 3. Claim only with that output (exit 0 / pass count)
 
-Every `Done when` has evidence.  
+Every `Done when` (on the **plan**) has evidence.  
 Call next: **gsuper-review** (read-only). Fix P0 later back in this skill.
 
 **After plan done** (all plan tasks verified):
