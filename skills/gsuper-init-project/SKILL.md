@@ -12,6 +12,12 @@ description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use o
   README.md
   conventions.md
   specs/
+    README.md
+    algorithm/
+    srs/
+    feature/
+    architecture/
+    system/
   plans/
   scratch/
   learning/
@@ -21,7 +27,7 @@ description: Initialize .agent-workflow/ storage and gitignore for gsuper. Use o
 
 Copy text from plugin `templates/agent-workflow/` when present, including `learn/` and root `conventions.md`.
 
-`conventions.md` is user-owned project conventions. Create it if missing (from the template). Do not overwrite a non-empty `conventions.md`. Do not create a JSON conventions store.
+`conventions.md` is **not project law**. Create it if missing (from the template — stub / JSON migrate). Do not overwrite a non-empty `conventions.md`. Do not create a JSON conventions store. Must/must-not belong in `specs/<kind>/`.
 
 Do not scan the repo.
 

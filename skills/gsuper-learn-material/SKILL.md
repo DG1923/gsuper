@@ -15,6 +15,8 @@ description: >
 
 Purpose: turn **verified implementation** into one lesson you can ôn: mental model + toy code that still does the same thing + quiz.
 
+**Voice (same as learn-pack):** natural language first; what the flow does in everyday words; mermaid in a ` ```mermaid ` fence after a short story; code sample **after** the explanation. The reader is the person ôn-ing, not a compiler.
+
 Shape: [references/material-shape.md](references/material-shape.md).
 
 ```text

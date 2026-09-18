@@ -3,7 +3,8 @@ name: gsuper-brainstorm
 description: >
   MUST use when the user wants a new feature, capability, behavior change, unclear
   product idea, or a symptom-only / confused “just fix it” ask — lock intent by grilling
-  before gsuper-write-spec or any code. Maps to phase clarify.
+  before gsuper-write-plan or any code. Maps to phase clarify. Spec-docs are a
+  separate ask (algorithm / SRS / architecture).
 ---
 
 # Brainstorm (gsuper) ≈ clarify
@@ -20,7 +21,7 @@ Self-contained. **No** runtime Matt/Superpowers/`clarify` skill.
 
 | Source | Kept |
 |--------|------|
-| Phase `clarify` | Intent lock; Decision needed on trade-offs; no silent pick; handoff to specify |
+| Phase `clarify` | Intent lock; Decision needed on trade-offs; no silent pick; handoff to plan |
 | Matt `grilling` | Design tree; **frontier rounds**; Q + recommended answer; facts≠decisions |
 | Superpowers `brainstorming` | Hard gate; scope decompose; 2–3 approaches; section approval; “too simple” still needs short approval |
 | Matt `prototype` | Optional throwaway **only** when one design Q needs a proof — then fold verdict back |
@@ -50,15 +51,15 @@ Do not implement, scaffold production code, or call **gsuper-implement** until d
 
 ## Checklist
 
-1. **Context** — enough repo/docs/commits to ask well (facts = you look up). Run `memory.py find --q <topic>` (or `around <node>`). Empty → index miss; Read `.agent-workflow/specs/` on disk. Do not assume the ticket was never locked. **Tell the user those facts** — do not keep the mechanism only in your head.
+1. **Context** — enough repo/docs/commits to ask well (facts = you look up). Run `memory.py find --q <topic>` (or `around <node>`). Empty → index miss; Read `.agent-workflow/plans/` and linked `.agent-workflow/specs/` on disk. Do not assume the ticket was never locked. **Tell the user those facts** — do not keep the mechanism only in your head.
 2. **Scope** — multiple independent subsystems → decompose first; gsuper-brainstorm one slice.
-3. **Teach** — current mechanism; map the user’s idea onto it; **Flow** (mermaid `flowchart` + table: step / input / uses / output). User-visible steps only. Extra steps vs their sentence **must** be on the chart. **Plain language** (words the user already used; one short gloss if you keep a term). Do **not** grill yet.
+3. **Teach** — current mechanism; map the user’s idea onto it; **Flow** (mermaid in a ` ```mermaid ` fence in **chat** and files + table: step / input / uses / output). Never a bare `flowchart` without that fence. User-visible steps only. Extra steps vs their sentence **must** be on the chart. **Plain language** (words the user already used; one short gloss if you keep a term). Do **not** grill yet.
 4. **Grill** — [grilling.md](references/grilling.md): frontier rounds until tree empty. Each Q: Why + If yes, extra steps. **Wait for answers** each round — do not invent decisions.
 5. **Strategic gates** — multiple viable directions, YAGNI cuts, large trade-offs → stop; put options + recommendation; do not pick silently.
 6. **2–3 approaches** — trade-offs; recommend one with reasons; user picks / confirms. Update Flow if the pick adds or drops steps.
 7. **Present design** — Flow already shown; adjust if answers changed. Prefer **short code samples** for seams/APIs; approve section-by-section if large.
 8. **Intent artifact** — write `.agent-workflow/scratch/<ticket>/intent.md` from [intent-template.md](references/intent-template.md) (ask ticket id once if missing). Tiny work: intent can be 5 lines.
-9. **Hand off** — on **user** approval → **gsuper-write-spec** (not plan, not implement). Spec must reuse the same Flow.
+9. **Hand off** — on **user** approval → **gsuper-write-plan** (not implement). Plan must reuse the same Flow. **gsuper-write-spec** only if the user asked for algorithm / SRS / feature / architecture / system docs.
 
 Optional visual: only when a Q is clearer shown than told; own message; decline → don’t re-offer.
 
@@ -92,7 +93,9 @@ Follow local patterns. Refactors only if they serve this goal.
 
 ## After approval
 
-→ **gsuper-write-spec** → `.agent-workflow/specs/…`  
-Do **not** jump to implement. Plan only after the written spec is approved.
+→ **gsuper-write-plan** → `.agent-workflow/plans/…`  
+Do **not** jump to implement.
+
+User asked for SRS / algorithm / architecture / large-feature docs → **gsuper-write-spec** (can run beside the ticket, not instead of the plan).
 
 Optional: uniquely named learn **pack** Markdown (read + upload ChatGPT/Claude)? → **gsuper-learn-pack** (stage `after-brainstorm`).

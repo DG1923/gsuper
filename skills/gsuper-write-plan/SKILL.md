@@ -1,28 +1,21 @@
 ---
 name: gsuper-write-plan
 description: >
-  Bite-sized implementation plan under .agent-workflow/plans/ after approved spec.
-  Vendors Superpowers writing-plans + Matt vertical slices. Soft ~500 LOC/task;
-  after save: offer gsuper-learn-pack Markdown. gsuper-learn-material is after plan done.
+  Ticket plan under .agent-workflow/plans/ after approved intent (spec-docs optional).
+  Same fields as the old ticket spec, plus impacted files, testing approach, and
+  a user-readable implementation story. No test/impl bodies. Soft ~500 LOC/slice.
 ---
 
 # Write plan (gsuper)
 
-Self-contained. **No** runtime Superpowers `writing-plans` or Matt `to-tickets`.
+Self-contained. **No** runtime Superpowers `writing-plans`.
 
-Gate: approved spec with `Done when:` (`.agent-workflow/specs/` or fallback `.scratch/`). Missing → **gsuper-write-spec**.
+Gate: approved **intent** (and this plan). Project **spec-docs** (`specs/algorithm|srs|feature|architecture|system/`) are optional — Read if the plan should follow them.  
+Legacy: if an old ticket spec exists and there is **no** plan yet, you may turn that spec into this plan shape (do not rewrite other EL-* files unless asked).
 
-## Vendored cores
+Missing `.agent-workflow/` → **gsuper-init-project**.
 
-| Source | Kept |
-|--------|------|
-| SP `writing-plans` | Header; file map; bite-size TDD steps; Interfaces; no placeholders; self-review; exact cmds |
-| Matt `to-tickets` | Vertical slices; Blocked by; expand–contract for wide refactors; quiz granularity if unclear |
-| gsuper | `.agent-workflow/plans/`; soft 500 LOC; offer **gsuper-learn-pack** only; handoff **gsuper-implement**; commits optional |
-
-Dropped: worktrees; REQUIRED SP subagent skills; “announce skill name”; forced commit every task.
-
-Detail: [references/plan-shape.md](references/plan-shape.md)
+If the user jumped here with a fuzzy feature and no intent → **gsuper-brainstorm** first.
 
 ## Output
 
@@ -30,27 +23,34 @@ Detail: [references/plan-shape.md](references/plan-shape.md)
 .agent-workflow/plans/YYYY-MM-DD-<feature>.md
 ```
 
-Missing dir → **gsuper-init-project**.
+Shape: [references/plan-shape.md](references/plan-shape.md). Layout **B**: each heading is plain language first, then a table/list for the agent.
 
 ## Process
 
-1. Run `memory.py find --ticket <id>` (empty → index miss; Read the spec file). Then read approved spec (and intent if present).
-2. Scope / file map / task breakdown per [plan-shape.md](references/plan-shape.md).
-3. If granularity unclear → short quiz (too coarse/fine? blocking edges?) then write.
-4. Write full plan — real code in steps, not outlines.
-5. Self-review (coverage / placeholders / types).
-6. Save file.
-7. **After save — learn pack Markdown** (stage `after-spec`), under `.agent-workflow/learn/`:
+1. Run `memory.py find --ticket <id>` (empty → index miss; Read intent / plan / linked spec-doc on disk). Prefer a live **plan** pointer over a legacy ticket spec.
+2. Write the plan for the **user who approves it**, in **natural language** they already used: Purpose, chuyện gì xảy ra, Flow, slices (việc rồi file), how we will test.
+3. **Do not** paste test function bodies or implementation bodies.
+4. Self-review per plan-shape.md.
+5. Save file. Ask the user to approve.
+6. After **approve**, lock (no body ingest):
 
-   > Unique learn pack (read + upload)? → **gsuper-learn-pack**
+```text
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite lock --kind plan --ticket <id> --node <node> --path .agent-workflow/plans/<file>.md --summary "..." --must "..." --must-not "..."
+```
 
-   Do **not** offer **gsuper-learn-material** here (that is after the plan is **done**).
+If `lock` cannot run (unknown node), `node` first, or `sync --plans .agent-workflow/plans` then `lock`.
 
-8. Exit → user runs **gsuper-implement** when ready.
+7. Offer learn pack → **gsuper-learn-pack**. Do **not** offer **gsuper-learn-material** here.
+8. Exit → **gsuper-implement** when the user is ready.
+
+Do **not** append a JSON conventions store. `.agent-workflow/conventions.md` is **not project law**. Project must/must-not live in the matching spec-doc. Propose spec edits; do not write the same bullets into conventions.md.
 
 ## Rules while writing
 
-- Samples readable; Python PEP 8
-- Align steps with implement loop: test → RED → fill → GREEN
-- Ponytail: don’t plan gold-plating the spec didn’t ask for
-- No silent scope expand — gap → ask or note Open in plan
+- Samples in the plan are **signatures or one-liners**, not full tests
+- Before mermaid: 2–4 sentences **chuyện gì xảy ra** in the user's words
+- Every chart (chat and `.md`) is a ` ```mermaid ` fence — never a bare `flowchart`
+- Each slice: what the user will see change, **then** files
+- I/O table columns in everyday words, not only function names
+- Ponytail: don’t plan gold-plating the intent didn’t ask for
+- No silent scope expand — gap → ask or Open questions

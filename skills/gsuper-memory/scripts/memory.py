@@ -12,7 +12,8 @@ from store import (
     connect,
     find,
     init_schema,
-    live_spec_id,
+    live_artifact_id,
+    sync_plan_dir,
     sync_spec_dir,
     upsert_edge,
     upsert_node,
@@ -75,7 +76,9 @@ def main(argv: list[str] | None = None) -> int:
     p_node.add_argument("--blurb", default="")
 
     p_lock = sub.add_parser("lock")
-    p_lock.add_argument("--ticket", required=True)
+    p_lock.add_argument("--kind", choices=("plan", "spec"), default="spec")
+    p_lock.add_argument("--ticket", default=None)
+    p_lock.add_argument("--id", dest="doc_id", default=None)
     p_lock.add_argument("--node", required=True)
     p_lock.add_argument("--path", required=True)
     p_lock.add_argument("--summary", required=True)
@@ -119,6 +122,11 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         default=Path(".agent-workflow") / "specs",
     )
+    p_sync.add_argument(
+        "--plans",
+        type=Path,
+        default=Path(".agent-workflow") / "plans",
+    )
 
     args = parser.parse_args(argv)
     existed = args.db.exists()
@@ -144,17 +152,21 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         if args.cmd == "lock":
+            ticket = args.ticket or args.doc_id
+            if not ticket:
+                raise ValueError("lock needs --ticket or --id")
             sid = args.supersede
             if sid is None:
-                sid = live_spec_id(conn, args.ticket)
+                sid = live_artifact_id(conn, ticket, args.kind)
             artifact_id = upsert_spec_lock(
                 conn,
-                ticket=args.ticket,
+                ticket=ticket,
                 node=args.node,
                 path=args.path,
                 summary=args.summary,
                 decisions=_lock_decisions(args.must, args.must_not),
                 supersede_id=sid,
+                kind=args.kind,
             )
             _print_line(f"ok\t{artifact_id}")
             return 0
@@ -211,8 +223,16 @@ def main(argv: list[str] | None = None) -> int:
             return 0
 
         if args.cmd == "sync":
-            for row in sync_spec_dir(conn, args.specs):
-                _print_line(f"{row['action']}\t{row['ticket']}\t{row['path']}")
+            if args.specs.is_dir():
+                for row in sync_spec_dir(conn, args.specs):
+                    _print_line(f"{row['action']}\t{row['ticket']}\t{row['path']}")
+            elif args.specs != Path(".agent-workflow") / "specs":
+                raise ValueError(f"not a directory: {args.specs}")
+            if args.plans.is_dir():
+                for row in sync_plan_dir(conn, args.plans):
+                    _print_line(f"{row['action']}\t{row['ticket']}\t{row['path']}")
+            elif args.plans != Path(".agent-workflow") / "plans":
+                raise ValueError(f"not a directory: {args.plans}")
             return 0
     except ValueError as exc:
         _print_line(str(exc))

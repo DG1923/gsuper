@@ -2,8 +2,9 @@
 name: gsuper-learn-pack
 description: >
   Human learn pack (Markdown) after brainstorm, spec, or implement. Unique
-  gsuper-pack-<repo>-<ticket>.md for reading and ChatGPT/Claude upload.
-  Overview then per-unit flows (both required). Open quiz in the pack, no answer key.
+  gsuper-pack-<repo>-<ticket>.md for the user to understand first (natural language,
+  then flow; optional ChatGPT/Claude upload). Overview then per-unit flows (both
+  required). Open quiz in the pack, no answer key.
   Path .agent-workflow/learn/. Not gsuper-learn-material. Not implement AC.
   Formerly gsuper-learn-plan.
 ---
@@ -12,7 +13,7 @@ description: >
 
 **Not** implement. **Not** `gsuper-learn-material` (one-concept lesson + sample).
 
-Pack is for the **human** (read + upload). Implement uses spec `Done when` only.
+Pack is for the **human to understand first** (read; optional upload). Implement uses **plan** `Done when` only.
 
 Shape: [references/pack-shape.md](references/pack-shape.md).
 
@@ -34,20 +35,20 @@ Offer; user may decline. `/gsuper-workflow-learn` or `/gsuper-workflow-learn-pac
 | Reader | Artifact |
 |--------|----------|
 | Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
-| Agent | spec/plan/intent MD, `memory.py find`. `.agent-workflow/conventions.md` is human-owned (edit only after user approval) |
-| Implement | spec `Done when` only |
+| Agent | plan/intent MD, optional spec-docs, `memory.py find`. `.agent-workflow/conventions.md` is **not project law** |
+| Implement | plan `Done when` only |
 
 Do **not** write `need-to-know-*.md` or `self-report-*.md`. Do **not** copy quiz.html or overview.html. Do **not** write `gaps.json`.
 
 ## Sources (required)
 
-Pack is compiled from **spec + live code**, not from memory.
+Pack is compiled from **plan + live code** (and spec-docs if the ticket used them), not from memory.
 
 | Input | How it enters the pack |
 |-------|------------------------|
-| Spec / intent / plan | Read. Quote `Done when` / must-must-not that still match code. |
-| Live code | **Verbatim excerpt** (path + fence, ~5–20 lines). Copy the function, do not paraphrase the algorithm. |
-| Doc that contradicts code | One **drift** row: spec said X, file:line does Y. |
+| Plan / intent / spec-docs | Read. Restate in **plain language**; quote `Done when` / must that still match code. |
+| Live code | **Explain first** (what it does in everyday words). Then a short excerpt (path + fence, ~5–20 lines) **after** the explanation. Paraphrase is allowed; if paraphrase fights the file → drift row. |
+| Doc that contradicts code | One **drift** row: doc said X, file:line does Y. |
 
 **Do not** `cat` / concat whole spec files or whole `.py` modules into the pack. That is a dump: stale SRS + 2k-line detectors, no map, no drift, ChatGPT hits context. Concat is allowed **only** for the short excerpts you chose.
 
@@ -55,16 +56,16 @@ Pack is compiled from **spec + live code**, not from memory.
 
 1. List source paths in the header (`sources:`). Read them. **Verify every spec claim against code.** User or doc wrong → drift table, not silence.
 2. Write **one** file: `gsuper-pack-<repo>-<ticket-id>.md` (overwrite same name). Header: repo, ticket, **stage**, date, sources.
-3. Body is **two layers in one file**:
-   - **Overview first** — purpose, **one mermaid E2E**, name table, must/must-not, jump links.
-   - **Then per-unit detail** — each live detector / stage / service: **mermaid flow** (`detect()` / queues), I/O, numbers, verbatim excerpt, failures.
-   - Overview-only = too thin. Detail-only = too thick. ASCII-only diagrams = rewrite as mermaid (you read the pack too).
-4. **Quiz** at the end: open questions, **no answer key**.
-5. Mid/senior voice. Self-contained. Hand the **full filename**.
+3. Body is **two layers in one file**, user-first:
+   - **Giải thích + Overview first** — chuyện gì xảy ra (lời thường) + **one mermaid E2E** in a ` ```mermaid ` fence + bảng bước vào/ra bằng lời thường, must/must-not, jump links.
+   - **Then per-unit** — mỗi luồng: câu chuyện ngắn + **mermaid flow** + giải thích bước; **verbatim** excerpt **sau**.
+   - Overview-only = too thin. Detail-only = too thick. Excerpt-only = failed. ASCII-only diagrams = rewrite as mermaid.
+4. **Quiz** at the end: open questions in plain language, **no answer key**.
+5. Voice: the person who reads and decides. Self-contained. Hand the **full filename**. Optional “use in another chat” **after** the explanation, never first.
 
 ## Guardrails
 
-Pack = the only full-ticket learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Spec `Done when` is unchanged.
+Pack = the only full-ticket learn upload. Quiz lives in the pack. Invariants JSON = Cursor agent one-pager. Plan `Done when` is unchanged.
 
 One-concept ôn + runnable sample → **gsuper-learn-material** (after implement).
 

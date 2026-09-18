@@ -23,14 +23,16 @@ One concept → one MD + one sample dir. Overwrite the same slug if regenerated.
 - run: python …
 ```
 
+The lesson is for the **person ôn-ing**. Same voice as the learn pack: natural language and the flow first; sample/code after.
+
 Then, in this order:
 
-1. How to use tonight (15 min)
+1. How to use tonight (15 min) — lời thường
 2. Sibling concepts listed, not written
-3. **Part A — mental model** (one mermaid, name table, must/must-not, drift)
+3. **Part A — mental model** (chuyện gì xảy ra bằng lời thường, then one mermaid in a ` ```mermaid ` fence, name table, must/must-not, drift)
 4. **Part B — sample** (I/O, numbers, run command)
-5. Production excerpts + **sample name → live name**
-6. Quiz (no answer key)
+5. Production excerpts + **sample name → live name** (after the story)
+6. Quiz (no answer key; plain language)
 7. **Validate** checklist (filled, not left blank)
 
 ## Part A

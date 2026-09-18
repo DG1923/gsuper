@@ -16,6 +16,7 @@ class TestLearnMaterialSkill(unittest.TestCase):
         self.assertIn("gsuper-material-", skill)
         self.assertIn("does not block review", skill.lower())
         self.assertIn("gsuper-learn-pack", skill)
+        self.assertIn("natural language first", skill.lower())
         self.assertIn("Never write `need-to-know", skill)
         self.assertNotIn("gsuper-learn-self", skill)
 

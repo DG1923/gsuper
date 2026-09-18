@@ -9,6 +9,10 @@ from typing import Any
 
 _SPEC_FILE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})-(.+)\.md$")
 _TICKET_BOUNDARY_RE = re.compile(r"[^A-Za-z0-9]")
+ARTIFACT_KINDS = frozenset({"plan", "spec"})
+SPEC_DOC_FOLDERS = frozenset(
+    {"algorithm", "srs", "feature", "architecture", "system"}
+)
 
 
 def connect(path: Path) -> sqlite3.Connection:
@@ -186,7 +190,8 @@ def _ids_for_ticket(
     live_n = _live_clause(old).replace("r.", "n.")
     artifacts: set[int] = set()
     for r in conn.execute(
-        f"SELECT a.id, a.ticket FROM artifact a WHERE {live_a} AND a.kind = 'spec'"
+        f"SELECT a.id, a.ticket FROM artifact a WHERE {live_a} "
+        f"AND a.kind IN ('spec', 'plan')"
     ):
         if ticket_matches(str(r["ticket"]), ticket):
             artifacts.add(int(r["id"]))
@@ -234,6 +239,49 @@ def _match_ids(conn: sqlite3.Connection, q: str) -> tuple[set[int], set[int], se
     return notes, artifacts, seams
 
 
+def _artifact_rows(
+    conn: sqlite3.Connection,
+    *,
+    artifact_kind: str,
+    live: str,
+    node_id: int | None,
+    artifact_ids: set[int] | None,
+) -> list[dict[str, Any]]:
+    sql = f"""
+        SELECT a.id, a.kind, a.summary, a.path, a.evidence, a.status, a.ticket,
+               nd.slug AS node
+        FROM artifact a
+        LEFT JOIN node nd ON nd.id = a.node_id
+        WHERE {live.replace('r.', 'a.')} AND a.kind = ?
+    """
+    args: list[Any] = [artifact_kind]
+    if node_id is not None:
+        sql += " AND a.node_id = ?"
+        args.append(node_id)
+    if artifact_ids is not None:
+        if artifact_ids:
+            placeholders = ",".join("?" * len(artifact_ids))
+            sql += f" AND a.id IN ({placeholders})"
+            args.extend(artifact_ids)
+        else:
+            sql += " AND 1=0"
+    rows: list[dict[str, Any]] = []
+    for r in conn.execute(sql, args):
+        rows.append(
+            {
+                "row_kind": artifact_kind,
+                "status": r["status"],
+                "evidence": r["evidence"],
+                "path": r["path"],
+                "body": r["summary"],
+                "symbol": "",
+                "ticket": r["ticket"],
+                "node": r["node"] or "",
+            }
+        )
+    return rows
+
+
 def find(
     conn: sqlite3.Connection,
     *,
@@ -267,6 +315,7 @@ def find(
             artifact_ids = ticket_art_ids
 
     want_notes = kind in (None, "decision", "note")
+    want_plans = kind in (None, "plan")
     want_specs = kind in (None, "spec")
     want_seams = kind in (None, "seam")
 
@@ -308,38 +357,26 @@ def find(
                 }
             )
 
-    if want_specs:
-        sql = f"""
-            SELECT a.id, a.kind, a.summary, a.path, a.evidence, a.status, a.ticket,
-                   nd.slug AS node
-            FROM artifact a
-            LEFT JOIN node nd ON nd.id = a.node_id
-            WHERE {live.replace('r.', 'a.')} AND a.kind = 'spec'
-        """
-        args = []
-        if node_id is not None:
-            sql += " AND a.node_id = ?"
-            args.append(node_id)
-        if artifact_ids is not None:
-            if artifact_ids:
-                placeholders = ",".join("?" * len(artifact_ids))
-                sql += f" AND a.id IN ({placeholders})"
-                args.extend(artifact_ids)
-            else:
-                sql += " AND 1=0"
-        for r in conn.execute(sql, args):
-            rows.append(
-                {
-                    "row_kind": "spec",
-                    "status": r["status"],
-                    "evidence": r["evidence"],
-                    "path": r["path"],
-                    "body": r["summary"],
-                    "symbol": "",
-                    "ticket": r["ticket"],
-                    "node": r["node"] or "",
-                }
+    if want_plans:
+        rows.extend(
+            _artifact_rows(
+                conn,
+                artifact_kind="plan",
+                live=live,
+                node_id=node_id,
+                artifact_ids=artifact_ids,
             )
+        )
+    if want_specs:
+        rows.extend(
+            _artifact_rows(
+                conn,
+                artifact_kind="spec",
+                live=live,
+                node_id=node_id,
+                artifact_ids=artifact_ids,
+            )
+        )
 
     if want_seams:
         sql = f"""
@@ -443,14 +480,20 @@ def upsert_seam(
     return seam_id
 
 
-def live_spec_id(conn: sqlite3.Connection, ticket: str) -> int | None:
+def live_artifact_id(
+    conn: sqlite3.Connection, ticket: str, kind: str
+) -> int | None:
     row = conn.execute(
-        "SELECT id FROM artifact WHERE kind = 'spec' AND ticket = ? AND status = 'live'",
-        (ticket,),
+        "SELECT id FROM artifact WHERE kind = ? AND ticket = ? AND status = 'live'",
+        (kind, ticket),
     ).fetchone()
     if row is None:
         return None
     return int(row["id"])
+
+
+def live_spec_id(conn: sqlite3.Connection, ticket: str) -> int | None:
+    return live_artifact_id(conn, ticket, "spec")
 
 
 def upsert_spec_lock(
@@ -462,14 +505,17 @@ def upsert_spec_lock(
     summary: str,
     decisions: list[dict[str, str]],
     supersede_id: int | None = None,
+    kind: str = "spec",
 ) -> int:
+    if kind not in ARTIFACT_KINDS:
+        raise ValueError(f"lock kind must be plan or spec, got {kind}")
     node_id = _node_id(conn, node)
     cur = conn.execute(
         """
         INSERT INTO artifact (kind, ticket, node_id, path, summary, status, evidence)
-        VALUES ('spec', ?, ?, ?, ?, 'live', 'spec')
+        VALUES (?, ?, ?, ?, ?, 'live', ?)
         """,
-        (ticket, node_id, path, summary),
+        (kind, ticket, node_id, path, summary, kind),
     )
     artifact_id = int(cur.lastrowid)
     _fts_add(conn, "artifact", artifact_id, f"{ticket} {summary}")
@@ -492,7 +538,7 @@ def upsert_spec_lock(
             node=node,
             body=body,
             path=path,
-            evidence="spec",
+            evidence=kind,
             artifact_id=artifact_id,
         )
     conn.commit()
@@ -525,7 +571,7 @@ def around(conn: sqlite3.Connection, node_slug: str) -> dict[str, Any]:
         "neighbors": neighbors,
         "seams": [r for r in rows if r["row_kind"] == "seam"],
         "notes": [r for r in rows if r["row_kind"] in ("decision", "note")],
-        "artifacts": [r for r in rows if r["row_kind"] == "spec"],
+        "artifacts": [r for r in rows if r["row_kind"] in ARTIFACT_KINDS],
     }
 
 
@@ -540,41 +586,134 @@ def _first_heading(path: Path) -> str:
     return ""
 
 
+def _rel_to_parent(path: Path, parent: Path) -> str:
+    try:
+        return path.resolve().relative_to(parent.resolve()).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def _live_tickets_of(conn: sqlite3.Connection, kind: str) -> list[str]:
+    rows = conn.execute(
+        "SELECT ticket FROM artifact WHERE kind = ? AND status = 'live'",
+        (kind,),
+    )
+    return [str(r["ticket"]) for r in rows]
+
+
+def _ticket_already_live(live_tickets: list[str], ticket: str) -> bool:
+    return any(
+        ticket_matches(existing, ticket) or ticket_matches(ticket, existing)
+        for existing in live_tickets
+    )
+
+
+def _ensure_sync_node(conn: sqlite3.Connection, ticket: str, blurb: str) -> None:
+    try:
+        _node_id(conn, ticket)
+    except ValueError:
+        upsert_node(conn, slug=ticket, kind="part", title=ticket, blurb=blurb)
+
+
+def _lock_sync_file(
+    conn: sqlite3.Connection,
+    *,
+    path: Path,
+    ticket: str,
+    kind: str,
+    parent: Path,
+    live_tickets: list[str],
+    pointer_must: str,
+) -> dict[str, str]:
+    rel = _rel_to_parent(path, parent)
+    if _ticket_already_live(live_tickets, ticket):
+        return {"action": "skip", "ticket": ticket, "path": str(path)}
+    _ensure_sync_node(conn, ticket, f"sync from {kind}")
+    summary = _first_heading(path) or ticket
+    upsert_spec_lock(
+        conn,
+        ticket=ticket,
+        node=ticket,
+        path=rel,
+        summary=summary,
+        decisions=[{"must": pointer_must, "must_not": ""}],
+        kind=kind,
+    )
+    live_tickets.append(ticket)
+    return {"action": "lock", "ticket": ticket, "path": rel}
+
+
 def sync_spec_dir(conn: sqlite3.Connection, specs_dir: Path) -> list[dict[str, str]]:
     """Register missing spec pointers. Does not ingest must/body. Skips tickets already live."""
     results: list[dict[str, str]] = []
     if not specs_dir.is_dir():
         raise ValueError(f"not a directory: {specs_dir}")
-    live_tickets: list[str] = []
-    for r in conn.execute(
-        "SELECT ticket FROM artifact WHERE kind = 'spec' AND status = 'live'"
-    ):
-        live_tickets.append(str(r["ticket"]))
+    live_tickets = _live_tickets_of(conn, "spec")
+    parent = specs_dir.resolve().parent
     for path in sorted(specs_dir.glob("*.md")):
         matched = _SPEC_FILE_RE.match(path.name)
         if not matched:
             continue
         ticket = matched.group(2)
-        if any(ticket_matches(existing, ticket) or ticket_matches(ticket, existing) for existing in live_tickets):
-            results.append({"action": "skip", "ticket": ticket, "path": str(path)})
-            continue
-        try:
-            _node_id(conn, ticket)
-        except ValueError:
-            upsert_node(conn, slug=ticket, kind="part", title=ticket, blurb="sync from spec")
-        summary = _first_heading(path) or ticket
-        try:
-            rel = path.resolve().relative_to(specs_dir.resolve().parent).as_posix()
-        except ValueError:
-            rel = path.as_posix()
-        upsert_spec_lock(
-            conn,
-            ticket=ticket,
-            node=ticket,
-            path=rel,
-            summary=summary,
-            decisions=[{"must": "spec pointer (sync)", "must_not": ""}],
+        results.append(
+            _lock_sync_file(
+                conn,
+                path=path,
+                ticket=ticket,
+                kind="spec",
+                parent=parent,
+                live_tickets=live_tickets,
+                pointer_must="spec pointer (sync)",
+            )
         )
-        live_tickets.append(ticket)
-        results.append({"action": "lock", "ticket": ticket, "path": rel})
+    for folder in sorted(SPEC_DOC_FOLDERS):
+        doc_dir = specs_dir / folder
+        if not doc_dir.is_dir():
+            continue
+        for path in sorted(doc_dir.glob("*.md")):
+            matched = _SPEC_FILE_RE.match(path.name)
+            ticket = matched.group(2) if matched else path.stem
+            results.append(
+                _lock_sync_file(
+                    conn,
+                    path=path,
+                    ticket=ticket,
+                    kind="spec",
+                    parent=parent,
+                    live_tickets=live_tickets,
+                    pointer_must="spec pointer (sync)",
+                )
+            )
+    for child in sorted(specs_dir.iterdir()):
+        if not child.is_dir() or child.name in SPEC_DOC_FOLDERS or child.name.startswith("."):
+            continue
+        for path in sorted(child.glob("*.md")):
+            rel = _rel_to_parent(path, parent)
+            results.append({"action": "skip-kind", "ticket": path.stem, "path": rel})
+    return results
+
+
+def sync_plan_dir(conn: sqlite3.Connection, plans_dir: Path) -> list[dict[str, str]]:
+    """Register missing plan pointers. Dated filenames only. No body ingest."""
+    results: list[dict[str, str]] = []
+    if not plans_dir.is_dir():
+        raise ValueError(f"not a directory: {plans_dir}")
+    live_tickets = _live_tickets_of(conn, "plan")
+    parent = plans_dir.resolve().parent
+    for path in sorted(plans_dir.glob("*.md")):
+        matched = _SPEC_FILE_RE.match(path.name)
+        if not matched:
+            continue
+        ticket = matched.group(2)
+        results.append(
+            _lock_sync_file(
+                conn,
+                path=path,
+                ticket=ticket,
+                kind="plan",
+                parent=parent,
+                live_tickets=live_tickets,
+                pointer_must="plan pointer (sync)",
+            )
+        )
     return results

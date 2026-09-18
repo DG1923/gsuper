@@ -1,107 +1,120 @@
-# Plan task shape (vendored)
+# Plan task shape (gsuper)
 
-**From Superpowers `writing-plans`:** bite-sized TDD steps, exact paths/commands, Interfaces consume/produce, no placeholders, self-review.  
-**From Matt `to-tickets`:** vertical tracer slices; blocking edges; expand–contract for wide refactors.  
-**gsuper:** soft ~500 LOC/task; path `.agent-workflow/plans/`; after save → ask learn; handoff → **gsuper-implement** (not SP subagents).
+Ticket AC lives here. User **approves** this file; agent **implements** from it.  
+Each heading: a few plain-language sentences (user), then a table or list (agent).
+
+**Not** a pre-written program: no test function bodies, no impl bodies, no pytest -v scripts.
 
 ---
 
 ## Header (required)
 
 ```markdown
-# <Feature> Implementation Plan
+# <Feature> — Plan
 
-> For agentic workers: execute task-by-task via gsuper **gsuper-implement**. Steps use `- [ ]`.
+**Date:** …
+**Status:** Draft for review | Approved
+**Ticket / parent:** …
 
-**Goal:** …
-**Architecture:** …
-**Tech Stack:** …
+## Purpose
+<One job — 1–3 sentences, words the user already used>
 
-## Global Constraints
+## Constraints
+- <Hard limits>
 
-- … (verbatim from spec: versions, naming, platform — one line each)
+## Do
+- …
+
+## Do not
+- …
+
+## Out of scope
+- …
 ```
 
-## Before tasks
+## Impacted range
 
-1. **Scope** — if spec spans independent subsystems, prefer separate plans (or say so and split).
-2. **File map** — list create/modify/test paths and one-line responsibility each. Lock decomposition here.
-3. Prefer small focused files; follow existing layout; only plan a split if a file is already unwieldy **and** this work needs it.
+Main files that change — not a dump of the repo.
 
-## Task sizing
+| Touches | Does not touch |
+|---------|----------------|
+| … | … |
 
-- Smallest unit with its **own** test cycle and reviewer gate.
-- Fold setup/scaffold/docs into the task that needs them.
-- Soft-cap **~<500 lines** intended diff — split if larger.
-- Prefer **vertical** slices (demoable path) over horizontal layers.
-- Give **Blocked by:** prior task ids, or `None`.
-- Wide mechanical blast radius → **expand → migrate batches → contract**, not one mega vertical ticket.
+## Flow
 
-## Task template
+**Chuyện gì xảy ra** (2–4 câu, lời user) — học viên / hệ thống làm gì, ra cái gì — **trước** mermaid. Chat and files: always a ` ```mermaid ` fence.
 
-````markdown
-### Task N: <name>
+User-visible steps. Mermaid **and** I/O table (one-step ticket: table only is OK). Table columns in **everyday words** (what goes in, what comes out), not only file/API names.
 
-**Blocked by:** None | Task K, …
-
-**Files:**
-- Create: `exact/path.py`
-- Modify: `exact/existing.py`
-- Test: `tests/exact/test.py`
-
-**Interfaces:**
-- Consumes: … (signatures from earlier tasks)
-- Produces: … (names/types later tasks rely on)
-
-- [ ] **Step 1: Write the failing test**
-
-```python
-def test_behavior() -> None:
-    assert port.do(x) == expected
+```mermaid
+flowchart LR
+  a[A] --> b[B]
 ```
 
-- [ ] **Step 2: Run — expect RED**
+| Step | Input | Uses | Output |
+|------|--------|------|--------|
+| A | … | … | … |
+| B | output of A | … | … |
 
-Run: `pytest tests/…::test_behavior -v`  
-Expected: FAIL (feature missing — not import typo)
+## Implementation
 
-- [ ] **Step 3: Minimal implementation**
+Numbered slices so the user can follow the order. Each slice: **one sentence of what changes**, then files, **Blocked by**.
 
-```python
-# only what GREEN needs
-```
+1. <việc gì, bằng lời thường> — `path/a.py`, `path/b.py` — Blocked by: None
+2. …
 
-- [ ] **Step 4: Run — expect GREEN**
+Soft-cap **~<500 lines** intended diff per slice. Vertical slices over horizontal layers. Wide refactor → expand → migrate → contract.
 
-Run: same command  
-Expected: PASS
+## Testing
 
-- [ ] **Step 5: Commit** (only if user asked for commits in this session)
+How we will prove each slice — **not** the test source.
 
-```bash
-git add …
-git commit -m "…"
-```
-````
+- TDD new seam: `<Name>` → `tests/exact/test.py` (behavior in one line)
+- Update existing: `tests/old.py` — what to change (imports / assertion); what stays (HTTP URL, …)
 
-Infra-only tasks: smoke command at real boundary instead of red-green.
+Infra-only: name the smoke command at the real boundary.
+
+## Quality
+
+**Security:** <trust + AC> | N/A  
+**Perf:** <metric> | Non-goal  
+
+**Ponytail:** smallest behavior that proves Purpose.
+
+## Done when
+
+Observable checkboxes. This is implement AC.
+
+- [ ] …
+- [ ] Security/Perf line satisfied (AC or N/A / Non-goal)
+
+## Open questions
+
+1. …
+
+---
 
 ## Plan failures (never ship)
 
-- TBD / TODO / “implement later” / “add validation” without how
-- “Write tests for the above” with no test code
-- “Similar to Task N” — repeat the needed code
-- Steps that say what without showing how (code steps need code)
-- Types/names in later tasks that don’t match earlier **Produces**
+- Test or impl **function bodies** in the plan
+- Copy-paste pytest commands as the plan's main content
+- TBD / “implement later” / “add tests” with no seam/file
+- “Similar to slice N” without repeating the files
+- File-path dump of the whole tree
+- Gold-plating the intent did not ask for
 
 ## Self-review (before ask user)
 
-1. **Spec coverage** — each Done when / requirement → a task (list gaps → fix)
-2. **Placeholder scan** — fix red flags above
-3. **Type consistency** — signatures match across tasks
+1. User can read Purpose + chuyện gì xảy ra + Flow + Implementation **without** opening the repo
+2. Agent can pick files + TDD vs update-test from Testing + slices
+3. Each Done when maps to a slice
+4. No code bodies
+5. I/O table is understandable without knowing internal function names
 
 ## After save
 
-1. Offer learn pack Markdown → **gsuper-learn-pack** (spec/plan stage)
-2. Offer execution: inline (**gsuper-implement**) vs later — no SP `subagent-driven` / `executing-plans` required
-3. Do **not** offer **gsuper-learn-material** until the plan work is done
+1. User approves this file
+2. `memory.py lock --kind plan --ticket <id> …` (path + summary + must/must-not; no body ingest)
+3. Offer learn pack Markdown → **gsuper-learn-pack**
+4. Offer **gsuper-implement**
+5. Do **not** offer **gsuper-learn-material** until the plan work is done

@@ -1,36 +1,28 @@
-# Spec template (locked)
+# Spec template (project document)
+
+Not a ticket. Not implement AC. Ticket AC is the **plan**.
+
+**Kind** must match the folder: `algorithm` | `srs` | `feature` | `architecture` | `system`.
+
+Write so a human can read it without the repo. Write or update only when the user asks. Sync = rewrite into this shape, not a verbatim copy.
 
 ```markdown
-# <Topic> — Spec
+# <Title> — Spec
 
+**Kind:** architecture
 **Date:** …
 **Status:** Draft for review | Approved
-**Ticket / parent:** #… (optional)
+**Id:** captions
 
 ## Purpose
-<One job — 1–3 sentences>
+What this document is (feature / algorithm / SRS / system design) — **plain language**.
 
-## Constraints
-- <Hard limits>
-
-## Do
-- …
-
-## Do not
-- …
-
-## Out of scope
-- …
-
-## Impacted range
-
-| Touches | Does not touch |
-|---------|----------------|
-| …       | …              |
+## Sources
+- `path` — what we took from it (one line)
 
 ## Flow
 
-User-visible steps only. Mermaid **and** I/O table (one-step ticket: table only is OK). **Plain language** in the table (what goes in, what we do, what comes out) — not only symbol names.
+User-visible steps when this area runs. Mermaid **and** I/O table when there is a flow. One-page algorithm: table only is OK.
 
 ```mermaid
 flowchart LR
@@ -40,32 +32,15 @@ flowchart LR
 | Step | Input | Uses | Output |
 |------|--------|------|--------|
 | A | … | … | … |
-| B | output of A | … | … |
 
-## Seams & Testing
-**Seams under test (confirmed):**
-- `<Name>` — observe `<behavior>` via `<how>`
+## Design
+The architecture, algorithm, or SRS body. Short sections. Real names. No ticket Do/Done when.
 
-**Out of test (intentional):**
-- …
+## Constraints
+- must / must-not for this area (product rules, not this sprint)
 
-**Testing decisions:**
-- External behavior only
-- Modules this ticket: …
-- Prior art: …
-
-Infra-only / no app logic -> `Seams: N/A — no app logic`
-
-## Quality
-
-**Security:** <trust boundaries + AC> | N/A — no auth/secrets/untrusted input
-**Perf:** <metric + how to measure> | Non-goal — no scale/latency claim
-
-**Ponytail:** smallest behavior that proves Purpose; no speculative API.
-
-## Done when
-- [ ] …
-- [ ] Security/Perf line satisfied (AC or explicit N/A / Non-goal)
+## Reflection
+Leftover risk after Apply (conventions stale, open product questions). **Do not** leave a Design sentence that contradicts live code.
 
 ## Open questions
 1. …

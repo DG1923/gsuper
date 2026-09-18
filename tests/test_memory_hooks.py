@@ -12,6 +12,9 @@ class TestHooks(unittest.TestCase):
     def test_skills_point_at_memory_cli(self) -> None:
         spec = (ROOT / "skills/gsuper-write-spec/SKILL.md").read_text(encoding="utf-8")
         self.assertRegex(spec, r"memory\.py\b.*\block\b")
+        plan = (ROOT / "skills/gsuper-write-plan/SKILL.md").read_text(encoding="utf-8")
+        self.assertRegex(plan, r"memory\.py\b.*\block\b")
+        self.assertIn("--kind plan", plan)
         impl = (ROOT / "skills/gsuper-implement/SKILL.md").read_text(encoding="utf-8")
         self.assertIn("memory.py find", impl)
         init = (ROOT / "skills/gsuper-init-project/SKILL.md").read_text(encoding="utf-8")

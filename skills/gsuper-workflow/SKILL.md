@@ -1,9 +1,10 @@
 ---
 name: gsuper-workflow
 description: >
-  Orchestrate gsuper phases gsuper-brainstorm → gsuper-write-spec →
-  gsuper-write-plan → gsuper-implement → gsuper-review. gsuper-learn-pack at
-  brainstorm/spec/plan/implement; gsuper-learn-material after implement.
+  Orchestrate gsuper phases gsuper-brainstorm → gsuper-write-plan →
+  gsuper-implement → gsuper-review. gsuper-write-spec is on-demand project
+  docs (algorithm / SRS / architecture / large feature). gsuper-learn-pack at
+  brainstorm/plan/implement; gsuper-learn-material after implement.
   Use when /gsuper-workflow, gsuper, or full code workflow.
 ---
 
@@ -12,32 +13,36 @@ description: >
 Hard order (ship only):
 
 ```text
-gsuper-brainstorm → gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review
+gsuper-brainstorm → gsuper-write-plan → gsuper-implement → gsuper-review
 ```
 
-No skip unless user skip.
+**gsuper-write-spec** is **not** on this path. Run it when the user asks to write or update algorithm / SRS / large feature / architecture / system design docs.
+
+No skip of brainstorm/plan unless user skip.
 
 ## Entry routing (feature requests)
 
-When the user wants a **new/changed product capability** and there is no approved intent/spec for it:
+When the user wants a **new/changed product capability** and there is no approved intent/plan for it:
 
 ```text
 → gsuper-brainstorm first (grill / lock intent)
-→ then gsuper-write-spec → gsuper-write-plan → gsuper-implement → gsuper-review
+→ then gsuper-write-plan → gsuper-implement → gsuper-review
 ```
 
 Do **not** start coding, scaffolding, or gsuper-write-plan from a vague “làm chức năng X”.  
-If they already point at an approved `.agent-workflow/specs/…` (or explicit skip clarify) → start at the matching later phase.
+If they already point at an approved `.agent-workflow/plans/…` (or explicit skip clarify) → start at the matching later phase.
 
-Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brainstorm** or **gsuper-write-spec**.
+Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brainstorm** or **gsuper-write-plan**.
 
 **Symptom / hallucination / chưa hiểu vấn đề:** User asks only to patch the surface (“sửa ngọn”) or their framing contradicts facts / doesn’t name the real problem → **stop**, remind them, run **gsuper-brainstorm** (see `skills/gsuper-brainstorm/references/symptom-gate.md`). Do **not** implement first. Explicit temporary workaround only if they accept the debt in intent.
+
+**Project docs:** “viết SRS / thuật toán / kiến trúc / update spec / **sync spec** / **phân tích docs** / **cải thiện spec**” → **gsuper-write-spec** (on demand only; not after every implement).
 
 ## Side tracks (timing locked)
 
 ```text
-spec / plan / after brainstorm     →  gsuper-learn-pack       # unique pack + quiz
-plan done (after implement)        →  gsuper-learn-material   # one-concept lesson + sample
+plan / after brainstorm          →  gsuper-learn-pack       # unique pack + quiz
+plan done (after implement)      →  gsuper-learn-material   # one-concept lesson + sample
 ```
 
 Neither blocks the next ship step if declined.
@@ -45,11 +50,12 @@ Neither blocks the next ship step if declined.
 ## Paths
 
 ```text
-.agent-workflow/specs/
-.agent-workflow/plans/
+.agent-workflow/plans/           # ticket AC (Done when)
+.agent-workflow/specs/           # project docs; subfolders algorithm|srs|feature|architecture|system
+.agent-workflow/specs/*.md       # legacy dated ticket specs — dual-read if no plan
 .agent-workflow/scratch/<ticket>/
 .agent-workflow/learn/             # pack + material lessons + samples
-.agent-workflow/conventions.md     # user-owned project conventions; edit only after approval
+.agent-workflow/conventions.md     # not project law (init/migrate stub); must/must-not live in specs/<kind>/
 .agent-workflow/memory.sqlite      # local find index — gitignore; memory.py find first
 ```
 
@@ -60,20 +66,20 @@ Missing -> **gsuper-init-project**.
 | gsuper | ≈ your phase | Skill | Gate |
 |--------|--------------|-------|------|
 | gsuper-brainstorm | `/clarify` | `gsuper-brainstorm` | Intent + design approved |
-| gsuper-write-spec | `/specify` | `gsuper-write-spec` | Spec approved; optional **gsuper-learn-pack** |
-| gsuper-write-plan | SP plans + Matt slices | `gsuper-write-plan` | Plan saved; optional **gsuper-learn-pack** |
-| gsuper-implement | `/build` | `gsuper-implement` | Evidence; then pack + **gsuper-learn-material** (review not blocked) |
-| gsuper-review | `/review` | `gsuper-review` | Bug + Performance + Spec + Standards; one pass |
+| gsuper-write-plan | ticket AC | `gsuper-write-plan` | Plan approved + `lock --kind plan`; optional **gsuper-learn-pack** |
+| gsuper-write-spec | project docs | `gsuper-write-spec` | User asked for algorithm/SRS/architecture/feature/system; `lock --kind spec` |
+| gsuper-implement | `/build` | `gsuper-implement` | Evidence vs plan Done when; then pack + **gsuper-learn-material** (review not blocked) |
+| gsuper-review | `/review` | `gsuper-review` | Bug + Performance + plan Done when + Standards; one pass |
 
 | Side track | When | Skill |
 |------------|------|-------|
-| Human learn pack | After brainstorm, spec/plan, or implement | `gsuper-learn-pack` |
+| Human learn pack | After brainstorm, plan, or implement | `gsuper-learn-pack` |
 | Lesson + sample | **After** implement verified | `gsuper-learn-material` |
 | Repo closure | Ticket end | phase `/learn` (optional later) |
 
 ## Offers
 
-After **gsuper-write-spec** / **gsuper-write-plan** (and after brainstorm intent):
+After **gsuper-write-plan** (and after brainstorm intent; after spec-docs if written):
 
 > Unique learn pack Markdown (read + upload ChatGPT/Claude)? → `gsuper-learn-pack`
 
@@ -85,7 +91,11 @@ Commands: `/gsuper-workflow-learn` (pack), `/gsuper-workflow-learn-pack`, `/gsup
 
 ## Review after implement
 
-`gsuper-review` skill. Three axes. No edit in review. P0 -> back to gsuper-implement.
+`gsuper-review` skill. Three axes (Spec axis = plan Done when). No edit in review. P0 -> back to gsuper-implement.
+
+## Migration (0.8)
+
+Do **not** rewrite existing `specs/YYYY-MM-DD-*.md` or old fat plans. New tickets: plan only. Implement/review: plan first; legacy dated spec if no plan. `memory.py sync --plans` and `sync --specs` (subfolders + dated root).
 
 ## GitHub
 

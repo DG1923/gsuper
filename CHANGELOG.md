@@ -1,3 +1,28 @@
+## 0.8.4 - 2026-09-19
+
+- **Mermaid:** every chart (chat and `.md`) uses a ` ```mermaid ` fence — no bare `flowchart`.
+- **One concept → one file:** project must/must-not live in the matching spec-doc. `conventions.md` is not project law (init/migrate stub only). Do not write the same bullets into both.
+- **Fix:** drop duplicate `sync_*` helpers in `store.py`; `memory.py init` writes the same “not project law” header as the template.
+
+## 0.8.3 - 2026-09-19
+
+- **User-first voice:** learn-pack explains in everyday words, then flow, then optional excerpt (paraphrase OK; drift if wrong vs code). Plan: “chuyện gì xảy ra” before mermaid; slices = việc rồi file. Review: **Kết luận cho bạn** before axes. learn-material: same voice.
+
+## 0.8.2 - 2026-09-19
+
+- **write-spec Apply check:** facts = live code/tests (conventions = target, may be stale). Happy path vs fallback; user Flow = real clicks; composition root vs router; HTTP fields vs domain types; FE+BE for system/feature. Overclaim → rewrite Design in the same pass; Reflection is leftover risk only.
+
+## 0.8.1 - 2026-09-19
+
+- **write-spec:** on user ask only — sync/analyze existing docs (propose map, rewrite, no verbatim copy) or bootstrap when structure is missing; **one** reflection pass (drift / Flow / readable / production) then wait for approve. Not on the ship path.
+
+## 0.8.0 - 2026-09-19
+
+- **Ship path:** brainstorm → plan → implement → review. Spec is no longer required per ticket.
+- **Plan** is ticket AC (old spec fields + impacted files + testing approach + user-readable slices). No test/impl bodies.
+- **Spec** is project docs under `specs/{algorithm,srs,feature,architecture,system}/`, written/updated when the user asks.
+- **Memory:** `lock --kind plan|spec`, `--id` for spec-docs, `find --ticket` prefers plan, `sync --plans` and recursive `sync --specs`. Pointer only (no body ingest). Legacy dated specs dual-read when no plan exists.
+
 ## 0.7.1 - 2026-09-13
 
 - **memory find --ticket**: scopes notes via artifact + path boundary; prefix `EL-6` matches `EL-6-…` not `EL-60`; unknown ticket → empty.
