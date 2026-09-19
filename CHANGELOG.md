@@ -1,3 +1,43 @@
+## 0.9.4 - 2026-09-19
+
+- **Feature-nested artifacts:** `specs/<kind>/<feature>/`, `plans/<feature>/`, `learn/<feature>/`. Feature always `index.md` in a folder. `sync --plans` walks nested dated files.
+
+## 0.9.3 - 2026-09-19
+
+- **feature layout:** parent + children = `feature/<parent>/index.md` + files in that folder (not the same level). Standalone feature stays `feature/<id>.md`. **`srs/` optional** — do not keep a single product.md that only repeats system Surfaces. `sync --specs` walks nested `*.md` (`index.md` ticket = folder name).
+
+## 0.9.2 - 2026-09-19
+
+- **write-spec:** new feature / one kind does **not** auto-update siblings. After the file: **suggest** drifted system / architecture / algorithm (one line + why), wait. Specs stay after implement until the user asks.
+
+## 0.9.1 - 2026-09-19
+
+- **Kind-specific shapes:** system (actors/context/apps), architecture (layers/stores), algorithm (happy/fallback), feature (shall). **gsuper-write-spec-sync** for large existing repos (specs present or not): inventory → map → wait → one kind.
+
+## 0.9.0 - 2026-09-19
+
+- **write-spec split:** router + `gsuper-write-spec-system` | `architecture` (core) | `algorithm` | `feature`. Doc flow: intent → system → architecture → algorithm → feature → plan. One kind per pass.
+
+## 0.8.9 - 2026-09-19
+
+- **write-spec:** ingest/retrieve for LLM must choose store (SQL / FTS / vector). Fail if vector is implied only because “có LLM”, or store left to a ticket.
+
+## 0.8.8 - 2026-09-19
+
+- **write-spec problem-first:** SRS starts with **Problem** (job, yếu/mạnh). Flow table = what + why per step. NFR must be **numbers** (concurrent, total, p95, security) or TBD + how to measure. Fail if the file is only structure / system plumbing.
+
+## 0.8.7 - 2026-09-19
+
+- **write-spec large-system bar:** parent + child features (do not override a locked child). SRS-lite must include **Views** (user/BE/AI/DB), **Standards** (named), **NFR** (load/security), LLM **guardrail + tracing + quality** (not “the model will do it”). Shall types include BE/AI/data. Technique does not hard-ban LangChain unless the user locked that.
+
+## 0.8.6 - 2026-09-19
+
+- **write-spec two faces (29148 / 1016):** `đích` = SRS-lite (`shall` + id + Verify, Contract, Model) — no code required. `live` = SDD-lite, Apply = files/tests. `algorithm/` only if How is still ambiguous. Mode B writes tailored SRS-lite for unimplemented increments (not a 29148 dump, not a fake SDD).
+
+## 0.8.5 - 2026-09-19
+
+- **write-spec is project technical context** (member + agent), not a workflow walkthrough. Required **Technique** (chọn / không dùng / vì sao / live|đích|suy ra), **Names**, **Boundaries**, **Seams**. Mode A explains why from code (mark **suy ra**). Mode B: 2–3 production options in the same pass; do not re-survey if intent already locked Technique.
+
 ## 0.8.4 - 2026-09-19
 
 - **Mermaid:** every chart (chat and `.md`) uses a ` ```mermaid ` fence — no bare `flowchart`.

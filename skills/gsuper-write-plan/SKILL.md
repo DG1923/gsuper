@@ -20,8 +20,10 @@ If the user jumped here with a fuzzy feature and no intent → **gsuper-brainsto
 ## Output
 
 ```text
-.agent-workflow/plans/YYYY-MM-DD-<feature>.md
+.agent-workflow/plans/<feature>/YYYY-MM-DD-<ticket>.md
 ```
+
+`<feature>` = cùng id folder với `specs/feature/<feature>/` (vd. `shadowing`, `custom-course`). Ticket plugin/workflow → `plans/gsuper/`. Không để mọi plan cùng cấp `plans/*.md`.
 
 Shape: [references/plan-shape.md](references/plan-shape.md). Layout **B**: each heading is plain language first, then a table/list for the agent.
 
@@ -35,7 +37,7 @@ Shape: [references/plan-shape.md](references/plan-shape.md). Layout **B**: each 
 6. After **approve**, lock (no body ingest):
 
 ```text
-python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite lock --kind plan --ticket <id> --node <node> --path .agent-workflow/plans/<file>.md --summary "..." --must "..." --must-not "..."
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite lock --kind plan --ticket <id> --node <node> --path .agent-workflow/plans/<feature>/<file>.md --summary "..." --must "..." --must-not "..."
 ```
 
 If `lock` cannot run (unknown node), `node` first, or `sync --plans .agent-workflow/plans` then `lock`.

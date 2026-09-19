@@ -36,7 +36,7 @@ Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brain
 
 **Symptom / hallucination / chưa hiểu vấn đề:** User asks only to patch the surface (“sửa ngọn”) or their framing contradicts facts / doesn’t name the real problem → **stop**, remind them, run **gsuper-brainstorm** (see `skills/gsuper-brainstorm/references/symptom-gate.md`). Do **not** implement first. Explicit temporary workaround only if they accept the debt in intent.
 
-**Project docs:** “viết SRS / thuật toán / kiến trúc / update spec / **sync spec** / **phân tích docs** / **cải thiện spec**” → **gsuper-write-spec** (on demand only; not after every implement).
+**Project docs:** “viết SRS / thuật toán / kiến trúc / core / update spec / **sync spec** / project có sẵn” → **gsuper-write-spec**. Large existing repo → **gsuper-write-spec-sync** then one kind. Each kind has its own shape (not one template). On demand; **not after every implement**. New feature: write that kind only; **suggest** sibling drift, never auto-update system/architecture/algorithm. Doc flow: system → architecture → algorithm → feature → plan.
 
 ## Side tracks (timing locked)
 
@@ -50,11 +50,11 @@ Neither blocks the next ship step if declined.
 ## Paths
 
 ```text
-.agent-workflow/plans/           # ticket AC (Done when)
-.agent-workflow/specs/           # project docs; subfolders algorithm|srs|feature|architecture|system
-.agent-workflow/specs/*.md       # legacy dated ticket specs — dual-read if no plan
+.agent-workflow/plans/<feature>/           # ticket AC (Done when)
+.agent-workflow/specs/<kind>/<feature>/    # algorithm|feature|architecture; system/ flat
+.agent-workflow/specs/_legacy/             # optional leftover dated ticket specs
 .agent-workflow/scratch/<ticket>/
-.agent-workflow/learn/             # pack + material lessons + samples
+.agent-workflow/learn/<feature>/           # pack + material + samples
 .agent-workflow/conventions.md     # not project law (init/migrate stub); must/must-not live in specs/<kind>/
 .agent-workflow/memory.sqlite      # local find index — gitignore; memory.py find first
 ```

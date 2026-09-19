@@ -1,47 +1,29 @@
-# Spec template (project document)
+# Spec shapes (by kind)
 
-Not a ticket. Not implement AC. Ticket AC is the **plan**.
+Not a ticket. Ticket AC is the **plan**.
 
-**Kind** must match the folder: `algorithm` | `srs` | `feature` | `architecture` | `system`.
+**Do not** use one outline for every file. Each kind has its own shape:
 
-Write so a human can read it without the repo. Write or update only when the user asks. Sync = rewrite into this shape, not a verbatim copy.
+| Kind | Shape | Skill |
+|------|--------|--------|
+| system | [system-shape.md](system-shape.md) | gsuper-write-spec-system |
+| architecture | [architecture-shape.md](architecture-shape.md) | gsuper-write-spec-architecture |
+| algorithm | [algorithm-shape.md](algorithm-shape.md) | gsuper-write-spec-algorithm |
+| feature / srs | [feature-shape.md](feature-shape.md) | gsuper-write-spec-feature |
 
-```markdown
-# <Title> — Spec
+Parent + children: `feature/<feature>/index.md`. Cùng slug: `algorithm|architecture|plans|learn /<feature>/`. `srs/` optional.
 
-**Kind:** architecture
-**Date:** …
-**Status:** Draft for review | Approved
-**Id:** captions
+Large existing repo (specs missing or stale): [sync.md](sync.md) → **gsuper-write-spec-sync**.
 
-## Purpose
-What this document is (feature / algorithm / SRS / system design) — **plain language**.
+After one kind: **suggest** sibling drift, never auto-update the others. See [spec-flow.md](spec-flow.md).
 
-## Sources
-- `path` — what we took from it (one line)
-
-## Flow
-
-User-visible steps when this area runs. Mermaid **and** I/O table when there is a flow. One-page algorithm: table only is OK.
+Shared only: **plain language**, Problem/Job first, mermaid in a ` ```mermaid ` fence in **chat** and files, ## Technique when the kind needs chọn/không dùng/vì sao (**đích** / live / suy ra). Sync = rewrite into the **kind** shape, not a verbatim copy.
 
 ```mermaid
 flowchart LR
-  a[A] --> b[B]
+  sys[system-shape] --> arch[architecture-shape]
+  arch --> alg[algorithm-shape]
+  alg --> feat[feature-shape]
 ```
 
-| Step | Input | Uses | Output |
-|------|--------|------|--------|
-| A | … | … | … |
-
-## Design
-The architecture, algorithm, or SRS body. Short sections. Real names. No ticket Do/Done when.
-
-## Constraints
-- must / must-not for this area (product rules, not this sprint)
-
-## Reflection
-Leftover risk after Apply (conventions stale, open product questions). **Do not** leave a Design sentence that contradicts live code.
-
-## Open questions
-1. …
-```
+Feature-shape still has ## Flow, ## Names, ## Boundaries, ## Requirements, ## Views, ## Standards, ## NFR, ## Problem, shall, SRS-lite, input / uses / output — do not copy those into system.

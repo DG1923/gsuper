@@ -7,7 +7,7 @@ The pack is for the **user to understand first**. Upload to another chat is opti
 ## Paths
 
 ```text
-.agent-workflow/learn/gsuper-pack-<repo>-<ticket-id>.md
+.agent-workflow/learn/<feature>/gsuper-pack-<repo>-<ticket-id>.md
 ```
 
 `conventions.md` is **not project law**. Do not copy must/must-not from the pack into that file.

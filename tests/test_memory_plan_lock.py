@@ -142,10 +142,25 @@ class TestPlanLock(unittest.TestCase):
         self.assertIn("lock\tEL-7-two-facades", out)
         self.assertIn("skip-kind\tnope", out)
 
+    def test_sync_specs_nested_feature_index(self) -> None:
+        specs = self.tmp / "specs"
+        pack = specs / "feature" / "custom-course"
+        pack.mkdir(parents=True)
+        (pack / "index.md").write_text("# Custom course\n", encoding="utf-8")
+        (pack / "doc-ingest.md").write_text("# Doc ingest\n", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main(["--db", str(self.db), "sync", "--specs", str(specs)])
+        self.assertEqual(rc, 0)
+        out = buf.getvalue()
+        self.assertIn("lock\tcustom-course", out)
+        self.assertIn("lock\tdoc-ingest", out)
+
     def test_sync_plans_dated_file(self) -> None:
         plans = self.tmp / "plans"
-        plans.mkdir()
-        (plans / "2026-09-19-gsuper-plan-as-ticket.md").write_text(
+        nested = plans / "gsuper"
+        nested.mkdir(parents=True)
+        (nested / "2026-09-19-gsuper-plan-as-ticket.md").write_text(
             "# gsuper-plan-as-ticket — Plan\n", encoding="utf-8"
         )
         buf = io.StringIO()

@@ -65,7 +65,9 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 |-------|------|
 | `gsuper-brainstorm` | Clarify intent (grilling + symptom-gate) before any code |
 | `gsuper-write-plan` | Ticket AC: Purpose, Flow, slices, files, testing approach, Done when (no code bodies) |
-| `gsuper-write-spec` | Project docs: algorithm / SRS / architecture / feature / system — on request |
+| `gsuper-write-spec` | Router: sync or system → architecture (core) → algorithm → feature |
+| `gsuper-write-spec-sync` | Large existing repo: inventory → map → wait → one kind |
+| `gsuper-write-spec-system` / `-architecture` / `-algorithm` / `-feature` | One kind per pass; feature parent = folder + `index.md` |
 | `gsuper-implement` | test → RED → frame → fill → GREEN against the plan |
 | `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |

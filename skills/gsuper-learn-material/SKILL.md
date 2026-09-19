@@ -80,8 +80,8 @@ Do not write the lesson until the user picks. One concept per file.
 ## Paths
 
 ```text
-.agent-workflow/learn/gsuper-material-<repo>-<ticket>-<concept>.md
-.agent-workflow/learn/samples/<concept>/          # python <file>.py
+.agent-workflow/learn/<feature>/gsuper-material-<repo>-<ticket>-<concept>.md
+.agent-workflow/learn/<feature>/samples/<concept>/          # python <file>.py
 ```
 
 Never `pack.md`. Never overwrite the pack. Never write `need-to-know-*.md`.

@@ -34,7 +34,7 @@ Offer; user may decline. `/gsuper-workflow-learn` or `/gsuper-workflow-learn-pac
 
 | Reader | Artifact |
 |--------|----------|
-| Human | `learn/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
+| Human | `learn/<feature>/gsuper-pack-<repo>-<ticket>.md` (full, upload) |
 | Agent | plan/intent MD, optional spec-docs, `memory.py find`. `.agent-workflow/conventions.md` is **not project law** |
 | Implement | plan `Done when` only |
 
@@ -55,7 +55,7 @@ Pack is compiled from **plan + live code** (and spec-docs if the ticket used the
 ## Pack steps (any stage)
 
 1. List source paths in the header (`sources:`). Read them. **Verify every spec claim against code.** User or doc wrong → drift table, not silence.
-2. Write **one** file: `gsuper-pack-<repo>-<ticket-id>.md` (overwrite same name). Header: repo, ticket, **stage**, date, sources.
+2. Write **one** file under `learn/<feature>/`: `gsuper-pack-<repo>-<ticket-id>.md` (overwrite same name). `<feature>` = cùng slug `specs/feature/<feature>/`. Header: repo, ticket, **stage**, date, sources.
 3. Body is **two layers in one file**, user-first:
    - **Giải thích + Overview first** — chuyện gì xảy ra (lời thường) + **one mermaid E2E** in a ` ```mermaid ` fence + bảng bước vào/ra bằng lời thường, must/must-not, jump links.
    - **Then per-unit** — mỗi luồng: câu chuyện ngắn + **mermaid flow** + giải thích bước; **verbatim** excerpt **sau**.
@@ -72,5 +72,5 @@ One-concept ôn + runnable sample → **gsuper-learn-material** (after implement
 After writing the pack file, if `memory.py` exists, record **path only** (no mermaid/body ingest):
 
 ```text
-python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite note --kind verify --node <node> --body "pack pointer" --path .agent-workflow/learn/<pack-filename>
+python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite note --kind verify --node <node> --body "pack pointer" --path .agent-workflow/learn/<feature>/<pack-filename>
 ```
