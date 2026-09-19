@@ -30,7 +30,7 @@ Do not invent a project map. Add nodes with `node` when the project names its pa
 
 `find --ticket` returns the live **plan** first, then a legacy ticket spec if both exist. Empty `find --ticket` means **index miss** → Read the plan (then dated spec) on disk; do not treat it as “ticket does not exist”.
 
-`sync --specs` locks dated files at `specs/` root (legacy tickets) and `*.md` under `algorithm/`, `srs/`, `feature/`, `architecture/`, `system/`. Other subfolders → `skip-kind` (do not invent a kind). `sync --plans` locks dated `plans/YYYY-MM-DD-<ticket>.md`. Neither ingest bodies.
+`sync --specs` locks dated files at `specs/` root (legacy) and nested `*.md` under kind folders (`index.md` ticket = folder name). `sync --plans` locks dated `plans/**/YYYY-MM-DD-<ticket>.md` (feature subfolder). Neither ingest bodies.
 
 `--ticket` matches exact or prefix at `-`/`_` (`EL-6` → `EL-6-domain-…`, not `EL-60`). Unknown ticket → **zero rows**. `--kind` for find is `decision|note|spec|plan|seam`.
 

@@ -13,6 +13,18 @@ GRILL = (ROOT / "skills/gsuper-brainstorm/references/grilling.md").read_text(
 TEMPLATE = (
     ROOT / "skills/gsuper-write-spec/references/spec-template.md"
 ).read_text(encoding="utf-8")
+FEATURE_SHAPE = (
+    ROOT / "skills/gsuper-write-spec/references/feature-shape.md"
+).read_text(encoding="utf-8")
+SYSTEM_SHAPE = (
+    ROOT / "skills/gsuper-write-spec/references/system-shape.md"
+).read_text(encoding="utf-8")
+ARCH_SHAPE = (
+    ROOT / "skills/gsuper-write-spec/references/architecture-shape.md"
+).read_text(encoding="utf-8")
+ALGO_SHAPE = (
+    ROOT / "skills/gsuper-write-spec/references/algorithm-shape.md"
+).read_text(encoding="utf-8")
 
 
 class TestTeachFlow(unittest.TestCase):
@@ -57,12 +69,26 @@ class TestTeachFlow(unittest.TestCase):
         self.assertIn("plain language", GRILL.lower())
 
     def test_spec_template_has_flow(self) -> None:
-        self.assertIn("## Flow", TEMPLATE)
         self.assertIn("mermaid", TEMPLATE)
         self.assertIn("```mermaid", TEMPLATE)
-        self.assertIn("input", TEMPLATE.lower())
-        self.assertIn("uses", TEMPLATE.lower())
-        self.assertIn("output", TEMPLATE.lower())
+        self.assertIn("system-shape", TEMPLATE)
+        self.assertIn("## Flow", FEATURE_SHAPE)
+        self.assertIn("## Requirements", FEATURE_SHAPE)
+        self.assertIn("shall", FEATURE_SHAPE.lower())
+        self.assertIn("## Problem", FEATURE_SHAPE)
+        self.assertIn("index.md", FEATURE_SHAPE)
+        self.assertIn("Why", FEATURE_SHAPE)
+        self.assertIn("## Actors", SYSTEM_SHAPE)
+        self.assertIn("## Context", SYSTEM_SHAPE)
+        self.assertNotIn("## Requirements", SYSTEM_SHAPE)
+        self.assertIn("## Stores", ARCH_SHAPE)
+        self.assertIn("## Layers", ARCH_SHAPE)
+        self.assertIn("## Happy", ALGO_SHAPE)
+        self.assertIn("## Fallback", ALGO_SHAPE)
+        self.assertIn("không dùng", TEMPLATE.lower())
+        self.assertIn("đích", TEMPLATE.lower())
+        self.assertIn("suy ra", TEMPLATE.lower())
+        self.assertIn("SRS-lite", TEMPLATE)
 
     def test_flow_skills_fence_mermaid_including_chat(self) -> None:
         fence = "```mermaid"

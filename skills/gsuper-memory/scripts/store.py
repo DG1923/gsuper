@@ -670,9 +670,16 @@ def sync_spec_dir(conn: sqlite3.Connection, specs_dir: Path) -> list[dict[str, s
         doc_dir = specs_dir / folder
         if not doc_dir.is_dir():
             continue
-        for path in sorted(doc_dir.glob("*.md")):
+        for path in sorted(doc_dir.rglob("*.md")):
+            if path.name.lower() == "readme.md":
+                continue
             matched = _SPEC_FILE_RE.match(path.name)
-            ticket = matched.group(2) if matched else path.stem
+            if matched:
+                ticket = matched.group(2)
+            elif path.name == "index.md":
+                ticket = path.parent.name
+            else:
+                ticket = path.stem
             results.append(
                 _lock_sync_file(
                     conn,
@@ -700,7 +707,9 @@ def sync_plan_dir(conn: sqlite3.Connection, plans_dir: Path) -> list[dict[str, s
         raise ValueError(f"not a directory: {plans_dir}")
     live_tickets = _live_tickets_of(conn, "plan")
     parent = plans_dir.resolve().parent
-    for path in sorted(plans_dir.glob("*.md")):
+    for path in sorted(plans_dir.rglob("*.md")):
+        if path.name.lower() == "readme.md":
+            continue
         matched = _SPEC_FILE_RE.match(path.name)
         if not matched:
             continue

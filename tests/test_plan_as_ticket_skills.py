@@ -42,6 +42,17 @@ class TestPlanAsTicketSkills(unittest.TestCase):
 
     def test_spec_is_project_docs(self) -> None:
         spec = (ROOT / "skills/gsuper-write-spec/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("gsuper-write-spec-feature", spec)
+        self.assertIn("gsuper-write-spec-algorithm", spec)
+        self.assertIn("gsuper-write-spec-architecture", spec)
+        self.assertIn("gsuper-write-spec-system", spec)
+        self.assertIn("gsuper-write-spec-sync", spec)
+        self.assertIn("system-shape", spec)
+        flow = (
+            ROOT / "skills/gsuper-write-spec/references/spec-flow.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("system", flow)
+        self.assertIn("algorithm", flow)
         self.assertIn("specs/<kind>/", spec)
         self.assertIn("architecture", spec)
         self.assertIn("--kind spec", spec)
@@ -53,6 +64,38 @@ class TestPlanAsTicketSkills(unittest.TestCase):
         self.assertIn("Apply check", spec)
         self.assertIn("rewrite Design", spec)
         self.assertIn("Happy path vs fallback", spec)
+        self.assertIn("## Technique", spec)
+        self.assertIn("live", spec.lower())
+        self.assertIn("suy ra", spec.lower())
+        self.assertIn("2–3", spec)
+        self.assertIn("Names", spec)
+        self.assertIn("Boundaries", spec)
+        self.assertIn("SRS-lite", spec)
+        self.assertIn("SDD-lite", spec)
+        self.assertIn("shall", spec)
+        self.assertIn("Contract", spec)
+        self.assertIn("đích", spec)
+        self.assertIn("Views", spec)
+        self.assertIn("Standards", spec)
+        self.assertIn("NFR", spec)
+        self.assertIn("guardrail", spec.lower())
+        self.assertIn("tracing", spec.lower())
+        self.assertIn("parent", spec.lower())
+        self.assertIn("OWASP", spec)
+        self.assertIn("Problem", spec)
+        self.assertIn("what + why", spec.lower())
+        self.assertIn("concurrent", spec.lower())
+        self.assertIn("vector", spec.lower())
+        self.assertIn("suggest", spec.lower())
+        self.assertIn("never auto", spec.lower())
+        self.assertIn("Suggest, then wait", flow)
+        self.assertIn("index.md", flow)
+        feat = (ROOT / "skills/gsuper-write-spec-feature/SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("index.md", feat)
+        self.assertIn("cùng folder", feat)
+        self.assertNotIn("Do not invent a full SRS for unimplemented", spec)
         skill_lower = spec.lower()
         self.assertIn("one concept", skill_lower)
         self.assertIn("conventions.md", skill_lower)
@@ -82,12 +125,17 @@ class TestPlanAsTicketSkills(unittest.TestCase):
         self.assertIn("not project law", conv.lower())
         self.assertIn("specs/", conv)
         self.assertIn("not project law", readme.lower())
-        self.assertIn("## 0.8.4", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
-        self.assertIn('"version": "0.8.4"', (ROOT / "plugin.json").read_text(encoding="utf-8"))
+        self.assertIn("## 0.9.4", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
+        self.assertIn('"version": "0.9.4"', (ROOT / "plugin.json").read_text(encoding="utf-8"))
         self.assertIn(
-            '"version": "0.8.4"',
+            '"version": "0.9.4"',
             (ROOT / ".cursor-plugin/plugin.json").read_text(encoding="utf-8"),
         )
+        plan = (ROOT / "skills/gsuper-write-plan/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("plans/<feature>/", plan)
+        self.assertIn("plans/<feature>/", spec)
+        pack = (ROOT / "skills/gsuper-learn-pack/SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("learn/<feature>/", pack)
 
 
 if __name__ == "__main__":

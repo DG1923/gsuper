@@ -5,8 +5,8 @@ Implement never uses this file as AC. Pack (`gsuper-learn-pack`) stays the syste
 ## Files
 
 ```text
-.agent-workflow/learn/gsuper-material-<repo>-<ticket-id>-<concept-slug>.md
-.agent-workflow/learn/samples/<concept-slug>/*.py
+.agent-workflow/learn/<feature>/gsuper-material-<repo>-<ticket-id>-<concept-slug>.md
+.agent-workflow/learn/<feature>/samples/<concept-slug>/*.py
 ```
 
 One concept → one MD + one sample dir. Overwrite the same slug if regenerated.
@@ -19,7 +19,7 @@ One concept → one MD + one sample dir. Overwrite the same slug if regenerated.
 - stage: after-implement
 - generated: YYYY-MM-DD
 - sources: path:line …
-- sample: .agent-workflow/learn/samples/<concept>/…
+- sample: .agent-workflow/learn/<feature>/samples/<concept>/…
 - run: python …
 ```
 
