@@ -22,7 +22,7 @@ Style nits: still forbidden ([github-defect.md](references/github-defect.md) “
 
 ## 0. Memory then diff
 
-Run `memory.py find --ticket <id>` or `find --q <topic>` first. Empty → index miss; use the **plan** file on disk (legacy ticket spec only if no plan). Do not treat empty find as “no plan”.
+Run `memory.py find --ticket <id>` or `find --q <topic>` first. Empty → index miss; use the **plan** file on disk (legacy ticket spec only if no plan). Do not treat empty find as “no plan”. **source-ladder:** **`So sánh:`** each finding to a Flow step / Done when / test, or omit (**`Raise:`** is not a Bug rank — skip the finding).
 
 ## 0b. Diff
 
@@ -84,6 +84,7 @@ Diff: <staged | unstaged | main...HEAD>
 
 ## Kết luận cho bạn
 <5–10 câu lời thường: ship được không; chỗ nào hỏng (bước user thấy); bạn cần quyết gì. Không mở đầu bằng P0/file:line.>
+So sánh: <Done when / test / seam> → khớp | lệch | thiếu (Raise, không bịa).
 
 ## Bug
 (Issue blocks with Step + Why a bug, or: No significant issues found in the reviewed changes.)

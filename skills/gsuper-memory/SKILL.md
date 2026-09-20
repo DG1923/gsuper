@@ -36,4 +36,12 @@ Do not invent a project map. Add nodes with `node` when the project names its pa
 
 `edge` / `seam` fill what `around` prints. Without `edge`, neighbors stay empty.
 
-`find` default hides `status=superseded` and `evidence=doc`. Then Codegraph one matching symbol. Do not ingest spec/plan/pack bodies into SQL.
+`find` default hides `status=superseded` and `evidence=doc`. Then Codegraph one matching symbol **if the question is inventory** (funcs / callers). Do not ingest spec/plan/pack bodies into SQL.
+
+## Source ladder (answers)
+
+Rule: `rules/source-ladder.mdc`. Technical replies: **`So sánh:`** (test / must / Done when / `seam.does`) or **`Raise:`**. Do not invent when Bên B is missing.
+
+**Do not run find with no** `--ticket`, `--q`, or `--node`. Bare `find` dumps the index (token waste). Empty find = index miss → Read the plan/spec on disk.
+
+`seam.does` is the only stored **meaning** (one line, public symbol). Do not store function lists, dependency lists, or file catalogs — Codegraph stays live for those. After an expensive explore that yields a new meaning **and** a Bên B exists, write `memory.py seam … --does "…"`. No Bên B → do not seam; Raise.

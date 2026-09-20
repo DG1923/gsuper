@@ -1,3 +1,7 @@
+## 0.9.5 - 2026-09-20
+
+- **Source ladder:** always-apply `rules/source-ladder.mdc` — technical answers need `So sánh:` (test / must / Done when / `seam.does`) or `Raise:`; do not invent. Ask / Edit / Drift hats. `find` must use `--ticket` / `--q` / `around`. Store one-line `seam.does` only (no file/func catalog, no `insights/`, no embeddings). Human lead: Kết luận + So sánh.
+
 ## 0.9.4 - 2026-09-19
 
 - **Feature-nested artifacts:** `specs/<kind>/<feature>/`, `plans/<feature>/`, `learn/<feature>/`. Feature always `index.md` in a folder. `sync --plans` walks nested dated files.

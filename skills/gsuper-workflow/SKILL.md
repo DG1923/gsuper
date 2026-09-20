@@ -103,7 +103,7 @@ Do **not** rewrite existing `specs/YYYY-MM-DD-*.md` or old fat plans. New ticket
 
 ## Related
 
-Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`.
+Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`, `source-ladder` (`So sánh:` / `Raise:`; `find --ticket` / `--q` / `around`; `seam.does` only).
 Review refs: `skills/gsuper-review/references/github-defect.md`, `standards-bar.md`.
 Learn pack: `skills/gsuper-learn-pack/` (mermaid; see `references/diagram-design.md`).
 Lesson + sample: `skills/gsuper-learn-material/`.
