@@ -5,7 +5,7 @@ Separate from Defect. Do not use Copilot Issue format here.
 Only report if all three hold:
 
 1. In the **diff** (no whole-repo audit)
-2. Cite **rule + rung** (`ponytail`, `python-objects`, `testing-seams`, `pep8-python`, `small-diffs`)
+2. Cite **rule + rung** (`ponytail`, `python-objects`, `testing-seams`, `pep8-python`, `small-diffs`, `source-ladder`)
 3. **Sure** — no "consider X"
 
 Skip: ruff/black/isort already catch · naming/format · nicer-to-have · spec Out of scope

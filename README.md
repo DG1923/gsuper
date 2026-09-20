@@ -77,7 +77,7 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-init-project` | `.agent-workflow/` + gitignore |
 | `gsuper-github-templates` | Parent / sub-issue / PR templates |
 
-Rules (Cursor): Ponytail, Python objects, testing seams, PEP 8, small diffs.
+Rules (Cursor): Ponytail, Python objects, testing seams, PEP 8, small diffs, **source ladder** (`So sánh` / `Raise`; no invented context).
 
 ---
 

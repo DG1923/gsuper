@@ -1,0 +1,71 @@
+---
+description: Source ladder — compare or raise; do not invent; store seam.does only.
+alwaysApply: true
+---
+
+# Source ladder (gsuper)
+
+Be stricter than the user about **facts**. Guessing APIs, flows, or “how the file works” is not allowed.
+
+Technical answers (ask about code, review, implement done): **`So sánh:`** or **`Raise:`**. Lead with a short **Kết luận** a human can read.
+
+## Three hats
+
+| Hat | When | Re-read files? |
+|-----|------|----------------|
+| **Ask** | What does this do / is X true | No, if must / Done when / named test / `seam.does` exists |
+| **Edit** | Changing that code | Only the seam you are changing; tests are Bên B |
+| **Drift** | Lock ≠ code, user ≠ lock, tests red | Only the mismatch; **code/test win** lock |
+
+Do not switch Ask → Edit silently.
+
+## Ladder
+
+```mermaid
+flowchart TD
+  q[Question]
+  find["find --ticket / find --q / around"]
+  hit{Bên B exists?}
+  cmp[Compare claim to Bên B]
+  ok[Kết luận + So sánh]
+  raise[Raise — do not invent]
+  q --> find --> hit
+  hit -->|yes| cmp --> ok
+  hit -->|no| raise
+```
+
+**Bên B** (any one): named **test**, plan/spec **must** or **Done when**, or **`seam.does`** (one line).  
+Codegraph = who-calls-whom **now**. Not Bên B for meaning. Docs/README/pack that fight tests → ignore (câu 17: test > `docs/ops`).
+
+Empty `find` = **index miss**. Read the plan/spec **on disk**. Do not treat as “never locked”.
+
+## Retrieval (tokens)
+
+- **Do not run find with no** `--ticket`, `--q`, or `--node` / `around`.
+- Stop when Bên B is enough. Do not Glob `.agent-workflow/` or ingest pack bodies.
+- Func list / deps: Codegraph **live**. Do not store them.
+
+## Store meaning only
+
+After an expensive explore that produced a **new** one-line meaning **and** Bên B exists:
+
+```text
+memory.py seam --node <slug> --symbol <Name> --path <file> --does "one line"
+```
+
+**Do not store** function lists, dependency graphs, file catalogs, or `insights/` markdown. No embeddings. No spec-body ingest.
+
+No Bên B → **do not write a seam**. Raise instead.
+
+## Reply shape
+
+```text
+Kết luận: <one or two sentences for the human>
+So sánh: <test name or Done when or seam.does> → khớp | lệch
+```
+
+```text
+Raise: no test / must / seam.does for <claim>. Will not invent. Allow opening <path> or lock a must.
+```
+
+Ask hat: trust Bên B. User says code changed or tests are red → Drift hat.

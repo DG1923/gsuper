@@ -29,7 +29,7 @@ Shape: [references/plan-shape.md](references/plan-shape.md). Layout **B**: each 
 
 ## Process
 
-1. Run `memory.py find --ticket <id>` (empty → index miss; Read intent / plan / linked spec-doc on disk). Prefer a live **plan** pointer over a legacy ticket spec.
+1. Run `memory.py find --ticket <id>` (empty → index miss; Read intent / plan / linked spec-doc on disk). Prefer a live **plan** pointer over a legacy ticket spec. **source-ladder:** **`So sánh:`** to that plan/intent or **`Raise:`** if none — do not invent AC.
 2. Write the plan for the **user who approves it**, in **natural language** they already used: Purpose, chuyện gì xảy ra, Flow, slices (việc rồi file), how we will test.
 3. **Do not** paste test function bodies or implementation bodies.
 4. Self-review per plan-shape.md.

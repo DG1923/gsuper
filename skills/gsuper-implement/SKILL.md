@@ -32,13 +32,17 @@ No plan → **gsuper-write-plan**. Fuzzy → **gsuper-brainstorm**.
 
 Do **not** treat a JSON conventions file as live law. `.agent-workflow/conventions.md` is **not project law** (stub / JSON migrate only). Approved spec-docs hold must/must-not; do not write the same bullets into conventions.md.
 
-Before Glob of `.agent-workflow/` specs/plans/packs or `docs/system`, run **`memory.py find`** (or `around <node>` if the ticket is unknown):
+Before Glob of `.agent-workflow/` specs/plans/packs or `docs/system`, run **`memory.py find --ticket <id>`** (or `find --q <topic>` / `around <node>` if the ticket is unknown). See **source-ladder** (`rules/source-ladder.mdc`): **`So sánh:`** or **`Raise:`**; do not invent.
 
 ```text
 python <gsuper>/skills/gsuper-memory/scripts/memory.py --db .agent-workflow/memory.sqlite find --ticket <id>
 ```
 
-Empty → index miss; Read the plan file on disk (then legacy spec if no plan). Pack is not AC. After a useful run/bug/verify, `memory.py note --kind run|bug|verify --node … --body … --path …`.
+Empty → index miss; Read the plan file on disk (then legacy spec if no plan). Pack is not AC. After a useful run/bug/verify, `memory.py note --kind run|bug|verify --node … --body … --path …`. After an expensive explore that yields a **new** one-line meaning and a Bên B (test / must / Done when) exists:
+
+```text
+memory.py seam --node <slug> --symbol <Name> --path <file> --does "one line"
+```
 
 Write tests and production code from the plan's Testing + slices. **Do not** expect function bodies in the plan.
 
@@ -47,7 +51,7 @@ Write tests and production code from the plan's Testing + slices. **Do not** exp
 ## 1. While coding
 
 - Plan only. Linked spec-docs if the plan names them. No scope fat.
-- Rules: **ponytail**, **python-objects**, **testing-seams**, **pep8-python**, **small-diffs**
+- Rules: **ponytail**, **python-objects**, **testing-seams**, **pep8-python**, **small-diffs**, **source-ladder**
 - Loop: [tdd-loop.md](references/tdd-loop.md) — **test → RED → frame → fill → GREEN**
 - Soft ~500 LOC / task
 - Typecheck / single test file often; full suite once at end
