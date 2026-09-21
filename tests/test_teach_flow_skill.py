@@ -102,6 +102,7 @@ class TestTeachFlow(unittest.TestCase):
             "skills/gsuper-learn-pack/references/pack-shape.md",
             "skills/gsuper-learn-material/SKILL.md",
             "skills/gsuper-learn-material/references/material-shape.md",
+            "skills/gsuper-explain/SKILL.md",
         ):
             text = (ROOT / rel).read_text(encoding="utf-8")
             self.assertIn(fence, text, msg=rel)

@@ -126,9 +126,9 @@ class TestPlanAsTicketSkills(unittest.TestCase):
         self.assertIn("specs/", conv)
         self.assertIn("not project law", readme.lower())
         self.assertIn("## 0.9.4", (ROOT / "CHANGELOG.md").read_text(encoding="utf-8"))
-        self.assertIn('"version": "0.9.4"', (ROOT / "plugin.json").read_text(encoding="utf-8"))
+        self.assertIn('"version": "0.9.6"', (ROOT / "plugin.json").read_text(encoding="utf-8"))
         self.assertIn(
-            '"version": "0.9.4"',
+            '"version": "0.9.6"',
             (ROOT / ".cursor-plugin/plugin.json").read_text(encoding="utf-8"),
         )
         plan = (ROOT / "skills/gsuper-write-plan/SKILL.md").read_text(encoding="utf-8")
