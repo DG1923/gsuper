@@ -8,7 +8,7 @@ gsuper-brainstorm → gsuper-write-plan → gsuper-implement → gsuper-review
 
 **gsuper-write-spec** writes project docs (algorithm / SRS / architecture / large feature) when you ask — it is not on the ship path.
 
-Side tracks: **gsuper-learn-pack** (ticket pack) · **gsuper-learn-material** (one-concept lesson + runnable sample after implement).
+Side tracks: **gsuper-explain** (arrow-chain for a mechanism) · **gsuper-learn-pack** (ticket pack) · **gsuper-learn-material** (one-concept lesson + runnable sample after implement).
 
 MIT · self-contained (no runtime Matt / Superpowers deps).
 
@@ -70,6 +70,7 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-write-spec-system` / `-architecture` / `-algorithm` / `-feature` | One kind per pass; feature parent = folder + `index.md` |
 | `gsuper-implement` | test → RED → frame → fill → GREEN against the plan |
 | `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
+| `gsuper-explain` | On-demand: giải thích / diễn giải a mechanism as a short arrow-chain (chat default) |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |
 | `gsuper-learn-material` | One-concept lesson + runnable sample after implement |
 | `gsuper-memory` | `memory.py init|node|lock|find|around|note|edge|seam|sync` on gitignored `memory.sqlite` — before dumping specs |

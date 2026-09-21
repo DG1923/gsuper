@@ -1,3 +1,7 @@
+## 0.9.6 - 2026-09-21
+
+- **gsuper-explain:** on-demand skill to giải thích / diễn giải a mechanism, formula, function, or pipeline as a short arrow-chain in plain language. Chat default; `.md` with mermaid only when the user asks to keep/share. Silent one-pass self-check. Not pack, not material, not algorithm spec, not brainstorm Teach. `/gsuper-explain`.
+
 ## 0.9.5 - 2026-09-20
 
 - **Source ladder:** always-apply `rules/source-ladder.mdc` — technical answers need `So sánh:` (test / must / Done when / `seam.does`) or `Raise:`; do not invent. Ask / Edit / Drift hats. `find` must use `--ticket` / `--q` / `around`. Store one-line `seam.does` only (no file/func catalog, no `insights/`, no embeddings). Human lead: Kết luận + So sánh.

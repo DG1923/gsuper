@@ -3,7 +3,8 @@ name: gsuper-workflow
 description: >
   Orchestrate gsuper phases gsuper-brainstorm → gsuper-write-plan →
   gsuper-implement → gsuper-review. gsuper-write-spec is on-demand project
-  docs (algorithm / SRS / architecture / large feature). gsuper-learn-pack at
+  docs (algorithm / SRS / architecture / large feature). gsuper-explain on
+  demand (giải thích / diễn giải a mechanism). gsuper-learn-pack at
   brainstorm/plan/implement; gsuper-learn-material after implement.
   Use when /gsuper-workflow, gsuper, or full code workflow.
 ---
@@ -36,11 +37,14 @@ Fuzzy mid-flight (implement without clear Done when) → stop → **gsuper-brain
 
 **Symptom / hallucination / chưa hiểu vấn đề:** User asks only to patch the surface (“sửa ngọn”) or their framing contradicts facts / doesn’t name the real problem → **stop**, remind them, run **gsuper-brainstorm** (see `skills/gsuper-brainstorm/references/symptom-gate.md`). Do **not** implement first. Explicit temporary workaround only if they accept the debt in intent.
 
+**Explain a mechanism:** “giải thích / diễn giải” a formula, function, pipeline, or existing algorithm for quick understanding → **gsuper-explain** (not Teach, not pack, not algorithm spec).
+
 **Project docs:** “viết SRS / thuật toán / kiến trúc / core / update spec / **sync spec** / project có sẵn” → **gsuper-write-spec**. Large existing repo → **gsuper-write-spec-sync** then one kind. Each kind has its own shape (not one template). On demand; **not after every implement**. New feature: write that kind only; **suggest** sibling drift, never auto-update system/architecture/algorithm. Doc flow: system → architecture → algorithm → feature → plan.
 
 ## Side tracks (timing locked)
 
 ```text
+on-demand (giải thích cơ chế)    →  gsuper-explain          # arrow-chain; chat default
 plan / after brainstorm          →  gsuper-learn-pack       # unique pack + quiz
 plan done (after implement)      →  gsuper-learn-material   # one-concept lesson + sample
 ```
@@ -73,6 +77,7 @@ Missing -> **gsuper-init-project**.
 
 | Side track | When | Skill |
 |------------|------|-------|
+| Explain a mechanism | User asks giải thích / diễn giải a formula, function, or pipeline | `gsuper-explain` |
 | Human learn pack | After brainstorm, plan, or implement | `gsuper-learn-pack` |
 | Lesson + sample | **After** implement verified | `gsuper-learn-material` |
 | Repo closure | Ticket end | phase `/learn` (optional later) |
@@ -87,7 +92,7 @@ After **gsuper-implement** (plan done):
 
 > Pack + quiz? → `gsuper-learn-pack` (after-implement). Lesson + sample? → `gsuper-learn-material`
 
-Commands: `/gsuper-workflow-learn` (pack), `/gsuper-workflow-learn-pack`, `/gsuper-workflow-learn-material`.
+Commands: `/gsuper-explain` (mechanism arrow-chain), `/gsuper-workflow-learn` (pack), `/gsuper-workflow-learn-pack`, `/gsuper-workflow-learn-material`.
 
 ## Review after implement
 
@@ -105,5 +110,6 @@ Do **not** rewrite existing `specs/YYYY-MM-DD-*.md` or old fat plans. New ticket
 
 Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`, `source-ladder` (`So sánh:` / `Raise:`; `find --ticket` / `--q` / `around`; `seam.does` only).
 Review refs: `skills/gsuper-review/references/github-defect.md`, `standards-bar.md`.
+Explain: `skills/gsuper-explain/`.
 Learn pack: `skills/gsuper-learn-pack/` (mermaid; see `references/diagram-design.md`).
 Lesson + sample: `skills/gsuper-learn-material/`.
