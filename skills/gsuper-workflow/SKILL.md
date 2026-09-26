@@ -73,7 +73,7 @@ Missing -> **gsuper-init-project**.
 | gsuper-write-plan | ticket AC | `gsuper-write-plan` | Plan approved + `lock --kind plan`; optional **gsuper-learn-pack** |
 | gsuper-write-spec | project docs | `gsuper-write-spec` | User asked for algorithm/SRS/architecture/feature/system; `lock --kind spec` |
 | gsuper-implement | `/build` | `gsuper-implement` | Evidence vs plan Done when; then pack + **gsuper-learn-material** (review not blocked) |
-| gsuper-review | `/review` | `gsuper-review` | Bug + Performance + plan Done when + Standards; one pass |
+| gsuper-review | `/review` | `gsuper-review` | Router: `verified-bug-hunt` + `code-review` in parallel, one `review.md` |
 
 | Side track | When | Skill |
 |------------|------|-------|
@@ -96,7 +96,7 @@ Commands: `/gsuper-explain` (mechanism arrow-chain), `/gsuper-workflow-learn` (p
 
 ## Review after implement
 
-`gsuper-review` skill. Three axes (Spec axis = plan Done when). No edit in review. P0 -> back to gsuper-implement.
+`gsuper-review` is a router. It runs `verified-bug-hunt` and `code-review` in parallel, unchanged, and writes one `review.md`. No edit in review. P0 -> back to gsuper-implement. Do not start a second review pass.
 
 ## Migration (0.8)
 
@@ -109,7 +109,7 @@ Do **not** rewrite existing `specs/YYYY-MM-DD-*.md` or old fat plans. New ticket
 ## Related
 
 Rules: `pep8-python`, `small-diffs`, `ponytail`, `python-objects`, `testing-seams`, `source-ladder` (`So sánh:` / `Raise:`; `find --ticket` / `--q` / `around`; `seam.does` only).
-Review refs: `skills/gsuper-review/references/github-defect.md`, `standards-bar.md`.
+Review: `gsuper-review` routes to bundled `skills/verified-bug-hunt/SKILL.md` and `skills/code-review/SKILL.md`. Do not edit those files. Do not apply `skills/gsuper-review/references/bug-bar.md`, `performance-bar.md`, or `standards-bar.md`.
 Explain: `skills/gsuper-explain/`.
 Learn pack: `skills/gsuper-learn-pack/` (mermaid; see `references/diagram-design.md`).
 Lesson + sample: `skills/gsuper-learn-material/`.

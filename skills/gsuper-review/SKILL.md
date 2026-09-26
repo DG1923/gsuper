@@ -1,30 +1,39 @@
 ---
 name: gsuper-review
 description: >
-  One-pass review — Bug (verified), Performance leaks (Now/Better/Bound),
-  Spec (Done when), Standards (gsuper rules). Read-only. After implement / before merge.
+  Router for one review. Runs verified-bug-hunt and code-review in parallel,
+  unchanged. Read-only. After implement / before merge. Does not hunt bugs,
+  measure performance, or judge standards itself.
 ---
 
 # Review (gsuper)
 
-Read-only. No edit, no commit, no fix. One pass, one `review.md`. Do not merge ranks.
+Read-only. No edit, no commit, no fix. One review, one `review.md`.
 
 Do not offer a mode menu. Do not start a second review pass.
 
-| Axis | Bar |
-|------|-----|
-| **Bug** | [references/bug-bar.md](references/bug-bar.md) — hunt + evidence |
-| **Performance** | [references/performance-bar.md](references/performance-bar.md) — leak + Bound |
-| **Spec** | Each plan `Done when` + OOS / Impacted (legacy ticket spec only if no plan) |
-| **Standards** | [references/standards-bar.md](references/standards-bar.md) — sure + in-diff |
+This skill is a router. It does not hunt bugs, measure performance, or judge spec/standards. Those skills already do that. Follow them as written. Do not paraphrase them. Do not edit them.
 
-Style nits: still forbidden ([github-defect.md](references/github-defect.md) “NEVER Comment On”). Unsure on Bug or Standards → omit.
+| Axis | Skill (shipped in this plugin, unchanged) |
+|------|-------------------|
+| **Bug + Performance** | [skills/verified-bug-hunt/SKILL.md](../verified-bug-hunt/SKILL.md) |
+| **Spec + Standards** | [skills/code-review/SKILL.md](../code-review/SKILL.md) |
+
+Read those two files and follow them. Spawn both in parallel. Neither waits on the other. Do not merge ranks. Do not add a finding either skill did not report.
+
+Do not apply [bug-bar.md](references/bug-bar.md), [performance-bar.md](references/performance-bar.md), or [standards-bar.md](references/standards-bar.md). If either skill file is missing, stop that axis and say so. Do not fall back to those bars.
+
+`diagnosing-bugs` is not this router. A bug that is already failing goes there, not into a second review pass.
 
 ## 0. Memory then diff
 
-Run `memory.py find --ticket <id>` or `find --q <topic>` first. Empty → index miss; use the **plan** file on disk (legacy ticket spec only if no plan). Do not treat empty find as “no plan”. **source-ladder:** **`So sánh:`** each finding to a Flow step / Done when / test, or omit (**`Raise:`** is not a Bug rank — skip the finding).
+Run `memory.py find --ticket <id>` or `find --q <topic>` first. Empty → index miss; use the **plan** file on disk (legacy ticket spec only if no plan). Do not treat empty find as “no plan”.
 
-## 0b. Diff
+**source-ladder:** you are not the reviewer. Spec rows that `code-review` reports already compare to the plan (`So sánh:` Done when → khớp | lệch | thiếu). Hunt rows compare to the command it ran. Do not drop a hunt finding because no `Done when` mentions it. Do not invent a finding.
+
+## 0b. Pin one diff
+
+Same diff for both skills.
 
 ```bash
 git --no-pager status
@@ -34,79 +43,62 @@ git --no-pager status
 git --no-pager log --oneline -10
 ```
 
-Empty diff -> blocked. Call next: implement / build.
+User named a ref → `git rev-parse` it, then `git diff <fixed-point>...HEAD` and `git log <fixed-point>..HEAD --oneline`.
 
-## 1. Plan file (AC)
+Empty diff → blocked. Call next: implement / build. Bad ref → stop. Do not spawn.
 
-Order: user path -> `.agent-workflow/plans/` + `scratch/<ticket>/` -> legacy `.agent-workflow/specs/YYYY-MM-DD-<ticket>.md` if **no** plan -> `.scratch/<ticket>/ac.md`.
+## 1. Plan path (hand to code-review only)
+
+Order: user path → `.agent-workflow/plans/` + `scratch/<ticket>/` → legacy `.agent-workflow/specs/YYYY-MM-DD-<ticket>.md` if **no** plan → `.scratch/<ticket>/ac.md`.
 
 Spec-docs under `specs/algorithm|srs|feature|architecture|system/` are not ticket AC.
 
-None + user says none -> Spec axis = `no plan available`. Do not invent AC.
+None + user says none → tell `code-review` there is no spec. Do not invent AC. The hunt still runs.
 
-Diff no map to plan -> **drift**. Stop. Ask which phase.
+Diff does not map to the plan → **drift**. Stop. Ask which phase. Do not spawn.
 
-## 2. Bug
+## 2. Spawn both
 
-Follow **bug-bar.md**. Walk all six boxes. Verify this turn. Absolute paths. Never modify.
+Give both the same diff command and commit list.
 
-Each Issue must name the **Flow step** (from the plan, or a user-visible step if no Flow) and **Why a bug** in **plain language** (expected I/O vs what happened; why that breaks Purpose — no jargon-only sentence). Omit the finding if you cannot say that.
+**verified-bug-hunt** — follow that skill. No extra bug rules from this file.
 
-## 2b. Performance
+**code-review** — follow that skill. Pass the plan path as the spec argument (its step “a path the user passed”). That is the ticket AC. Do not add gsuper standards-bar on top.
 
-Follow **performance-bar.md**. No Bound → omit.
-
-## 3. Spec axis
-
-Each `Done when` line -> **evidenced** | **missing** | **partial** | **unverified**.
-
-Scope creep vs Out of scope / Impacted. Implemented-but-wrong -> quote the line.
-
-No PEP8 / Ponytail on this axis.
-
-## 4. Standards
-
-Follow **standards-bar.md**. Cite rule + rung.
-
-## 5. Ask user
-
-Bug vs Spec conflict (ship vs fix). Bug Critical/High security may block merge.
-
-## 6. Write
+## 3. Write
 
 Prefer `.agent-workflow/scratch/<ticket>/review.md`, else `.scratch/<ticket>/review.md`.
 
-The user **reads and decides** this file. Lead with natural language. Axes stay; they do not replace the summary.
+Paste each report under its heading. `Kết luận cho bạn` only summarises what they returned: ship or not, what the user would see, what to decide. No new bug, no new smell.
 
 ```markdown
 # Review — <ticket>
-Diff: <staged | unstaged | main...HEAD>
+Diff: <staged | unstaged | main...HEAD | ref...HEAD>
 
 ## Kết luận cho bạn
-<5–10 câu lời thường: ship được không; chỗ nào hỏng (bước user thấy); bạn cần quyết gì. Không mở đầu bằng P0/file:line.>
-So sánh: <Done when / test / seam> → khớp | lệch | thiếu (Raise, không bịa).
+<5–10 câu từ hai báo cáo. Không mở đầu bằng P0/file:line.>
+So sánh: <hunt command output | Done when line> → khớp | lệch | thiếu
 
-## Bug
-(Issue blocks with Step + Why a bug, or: No significant issues found in the reviewed changes.)
+## Bugs
+(paste verified-bug-hunt)
 
 ## Performance
-(Perf blocks, or: No performance leaks found in the diff.)
+(paste verified-bug-hunt)
 
 ## Spec
-- [ ] <Done when> — evidenced | missing | partial | unverified
-- Impacted / OOS: none | …
+(paste code-review)
 
 ## Standards
-(Standard blocks, or: No significant standards findings.)
+(paste code-review)
 
 ## Decisions
-P0: Bug Critical/High or Spec missing/wrong
-P1: Performance leak with Bound / Standards / user accept?
+P0: hunt High, or Spec missing/wrong
+P1: hunt performance / standards judgement / user accept?
 ```
 
 Call next:
 
-- P0 open -> implement (or gsuper-write-plan if AC itself wrong)
-- else -> learn / done
+- P0 open → implement (or gsuper-write-plan if AC itself is wrong)
+- else → learn / done
 
 Do not apply P0 yourself in this skill.

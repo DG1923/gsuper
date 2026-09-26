@@ -69,7 +69,9 @@ Reload Cursor. See [DISTRIBUTE.md](DISTRIBUTE.md) for Team Marketplace / server 
 | `gsuper-write-spec-sync` | Large existing repo: inventory → map → wait → one kind |
 | `gsuper-write-spec-system` / `-architecture` / `-algorithm` / `-feature` | One kind per pass; feature parent = folder + `index.md` |
 | `gsuper-implement` | test → RED → frame → fill → GREEN against the plan |
-| `gsuper-review` | One pass: verified Bug + Performance leaks + Spec + Standards |
+| `gsuper-review` | Router: bundled `verified-bug-hunt` + `code-review` in parallel, one `review.md` |
+| `verified-bug-hunt` | Bugs and performance by running the changed code. Shipped as-is |
+| `code-review` | Spec and standards, two reading axes in parallel. Shipped as-is |
 | `gsuper-explain` | On-demand: giải thích / diễn giải a mechanism as a short arrow-chain (chat default) |
 | `gsuper-learn-pack` | Unique pack Markdown after brainstorm/spec/implement; per-unit flows + quiz (formerly `gsuper-learn-plan`) |
 | `gsuper-learn-material` | One-concept lesson + runnable sample after implement |
