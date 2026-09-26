@@ -67,8 +67,8 @@ class TestSourceLadder(unittest.TestCase):
         cursor = json.loads(
             (ROOT / ".cursor-plugin" / "plugin.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(plugin["version"], "0.9.6")
-        self.assertEqual(cursor["version"], "0.9.6")
+        self.assertEqual(plugin["version"], "0.9.7")
+        self.assertEqual(cursor["version"], "0.9.7")
         log = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
         self.assertIn("0.9.6", log)
         self.assertIn("gsuper-explain", log)

@@ -1,3 +1,8 @@
+## 0.9.7 - 2026-09-26
+
+- **gsuper-review** is a router. One review spawns `verified-bug-hunt` and `code-review` in parallel and pastes their reports into one `review.md`. It does not hunt, time, or judge standards itself. Local bug/performance/standards bars are not applied.
+- **Bundled:** `skills/verified-bug-hunt/SKILL.md` and `skills/code-review/SKILL.md` ship with the plugin, unchanged. Install and update copy them with the other skills.
+
 ## 0.9.6 - 2026-09-21
 
 - **gsuper-explain:** on-demand skill to giải thích / diễn giải a mechanism, formula, function, or pipeline as a short arrow-chain in plain language. Chat default; `.md` with mermaid only when the user asks to keep/share. Silent one-pass self-check. Not pack, not material, not algorithm spec, not brainstorm Teach. `/gsuper-explain`.

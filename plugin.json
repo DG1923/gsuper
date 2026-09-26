@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "gsuper",
   "description": "Portable gsuper workflow skills (gsuper-brainstorm → gsuper-write-plan → gsuper-implement → gsuper-review; spec-docs on request). Cursor-specific rules/commands live under .cursor-plugin/.",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "author": {
     "name": "odpai"
   },
